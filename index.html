@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>משפט פיתגורס — חוברת דיגיטלית</title>
+<style>
+:root{font-family:Arial,"Noto Sans Hebrew",sans-serif;color:#17223b;background:#eef2f7}*{box-sizing:border-box}body{margin:0}.top{position:sticky;top:0;z-index:20;display:flex;gap:10px;align-items:center;justify-content:center;padding:9px 12px;background:#fff;border-bottom:1px solid #d9e0ea}.top button{border:1px solid #cfd7e4;background:#fff;border-radius:10px;padding:8px 14px;font:inherit;cursor:pointer}.top button:disabled{opacity:.35}.counter{min-width:92px;text-align:center;font-weight:700}.stage{padding:18px 8px 36px}.paper{width:min(210mm,calc(100vw - 16px));min-height:297mm;margin:auto;background:#fff;box-shadow:0 12px 35px #26354d22;overflow:hidden}.loading{display:grid;place-items:center;min-height:75vh;text-align:center;padding:30px}.err{color:#9c1c1c;white-space:pre-wrap}.paper-inner{min-height:297mm}.fallback{padding:14mm;font-size:15px;line-height:1.55}@media(max-width:700px){.stage{padding:8px 4px}.paper{width:100%;min-height:auto;box-shadow:none}.top{padding:7px 6px}.top button{padding:7px 10px}}@media print{.top{display:none}.stage{padding:0}.paper{width:210mm;min-height:297mm;box-shadow:none}}
+</style>
+</head>
+<body>
+<nav class="top"><button id="prev">הקודם</button><span class="counter" id="counter">טוען…</span><button id="next">הבא</button></nav>
+<main class="stage"><section class="paper"><div id="app" class="loading">טוען את 53 דפי פיתגורס מהריפו החדש…</div></section></main>
+<script>
+(async()=>{
+ const app=document.getElementById('app'),counter=document.getElementById('counter'),prev=document.getElementById('prev'),next=document.getElementById('next');
+ try{
+  const base='https://raw.githubusercontent.com/yanivmizrachiy/pythagoras/main/.bootstrap/part-';
+  const parts=await Promise.all(['000','001','002'].map(async n=>{const r=await fetch(base+n,{cache:'no-store'});if(!r.ok)throw new Error('bootstrap part '+n+' HTTP '+r.status);return (await r.text()).trim()}));
+  const b64=parts.join('').replace(/\s+/g,'');
+  const bin=atob(b64), gz=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)gz[i]=bin.charCodeAt(i);
+  if(!('DecompressionStream' in window))throw new Error('הדפדפן אינו תומך ב-DecompressionStream');
+  const stream=new Blob([gz]).stream().pipeThrough(new DecompressionStream('gzip'));
+  const tar=new Uint8Array(await new Response(stream).arrayBuffer());
+  const dec=new TextDecoder('utf-8');
+  const files=new Map();
+  const text=(a,b)=>dec.decode(tar.subarray(a,b)).replace(/\0.*$/s,'').trim();
+  let p=0;
+  while(p+512<=tar.length){
+   let nonzero=false;for(let i=p;i<p+512;i++){if(tar[i]){nonzero=true;break}}if(!nonzero)break;
+   const name=text(p,p+100),prefix=text(p+345,p+500),full=(prefix?prefix+'/':'')+name;
+   const sizeRaw=text(p+124,p+136).replace(/\0/g,'').trim();const size=parseInt(sizeRaw||'0',8)||0;
+   const type=String.fromCharCode(tar[p+156]||48);
+   const start=p+512,end=start+size;
+   if(type==='0'||type==='\0')files.set(full,tar.slice(start,end));
+   p=start+Math.ceil(size/512)*512;
+  }
+  const keys=[...files.keys()];
+  const pages=keys.filter(k=>/^src\/pages\/\d{3}\/main\.html$/.test(k)).sort();
+  if(pages.length!==53)throw new Error('נמצאו '+pages.length+' דפים במקום 53');
+  const cssKeys=keys.filter(k=>/^src\/shared\/.*\.css$/.test(k)).sort((a,b)=>{
+    const rank=k=>/design-tokens/.test(k)?0:/textbook/.test(k)?1:/viewer/.test(k)?2:/print/.test(k)?3:4;return rank(a)-rank(b)
+  });
+  const css=cssKeys.map(k=>dec.decode(files.get(k))).join('\n');
+  let idx=Math.max(0,Math.min(52,(parseInt(location.hash.slice(1),10)||1)-1));
+  function bodyOnly(html){const m=html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);return m?m[1]:html.replace(/<!doctype[^>]*>/ig,'').replace(/<html[^>]*>|<\/html>|<head[\s\S]*?<\/head>/ig,'')}
+  function render(){
+   const raw=dec.decode(files.get(pages[idx]));
+   app.className='paper-inner';
+   app.innerHTML='<style>'+css+'\nbody{margin:0} .preview-nav{display:none!important}</style><div class="fallback" data-local-page-id="'+String(idx+1).padStart(3,'0')+'">'+bodyOnly(raw)+'</div>';
+   counter.textContent='עמוד '+(idx+1)+' / 53';prev.disabled=idx===0;next.disabled=idx===52;history.replaceState(null,'','#'+(idx+1));
+  }
+  prev.onclick=()=>{if(idx>0){idx--;render();scrollTo(0,0)}};next.onclick=()=>{if(idx<52){idx++;render();scrollTo(0,0)}};
+  addEventListener('keydown',e=>{if(e.key==='ArrowLeft'&&idx<52){idx++;render()}if(e.key==='ArrowRight'&&idx>0){idx--;render()}});
+  render();
+ }catch(e){app.className='loading err';app.textContent='שגיאה בטעינת החוברת:\n'+e.message;counter.textContent='שגיאה';console.error(e)}
+})();
+</script>
+</body></html>
