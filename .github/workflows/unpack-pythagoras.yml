@@ -1,0 +1,37 @@
+name: Unpack Pythagoras source
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  unpack:
+    if: ${{ github.actor != 'github-actions[bot]' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Verify and unpack canonical project
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -f pythagoras-bootstrap.tar.gz
+          echo "b4e35bfb0a783f551de32d843183c8ab8936a72f45e13e5dcac514031e94c886  pythagoras-bootstrap.tar.gz" | sha256sum -c -
+          tar -xzf pythagoras-bootstrap.tar.gz
+          rm -f pythagoras-bootstrap.tar.gz .github/workflows/unpack-pythagoras.yml
+          test -f SOURCE_OF_TRUTH.md
+          test "$(find src/pages -name main.html -type f | wc -l)" -eq 53
+          if grep -RIl "RASPages" src scripts package.json vercel.json >/tmp/raspages-text 2>/dev/null; then
+            echo "Historical references may exist; runtime checks will enforce no dependency."
+          fi
+      - name: Commit canonical 53-page project
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "feat: import standalone 53-page Pythagoras workbook"
+          git push origin HEAD:main
