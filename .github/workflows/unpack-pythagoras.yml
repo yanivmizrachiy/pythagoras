@@ -19,7 +19,7 @@ jobs:
           set -euo pipefail
           test -d .bootstrap
           cat .bootstrap/part-* | base64 --decode > pythagoras-bootstrap.tar.gz
-          echo "b4e35bfb0a783f551de32d843183c8ab8936a72f45e13e5dcac514031e94c886  pythagoras-bootstrap.tar.gz" | sha256sum -c -
+          echo "21bf79b073e9df21f9982c3c616a89fa974d07c080ef69bf7ce1187a6de78457  pythagoras-bootstrap.tar.gz" | sha256sum -c -
           tar -xzf pythagoras-bootstrap.tar.gz
           rm -rf .bootstrap pythagoras-bootstrap.tar.gz .github/workflows/unpack-pythagoras.yml
           test -f SOURCE_OF_TRUTH.md
