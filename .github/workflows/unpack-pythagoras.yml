@@ -28,7 +28,7 @@ jobs:
           set -euo pipefail
           cat .canonical/part-* > /tmp/pythagoras.b64
           base64 -d /tmp/pythagoras.b64 > /tmp/pythagoras.tar.gz
-          echo "27f5e0b2519bc2136a5d585ef8ad8c37dd2bb38e3e0721bf0c3ba537d81a88f7  /tmp/pythagoras.tar.gz" | sha256sum -c -
+          echo "1a5fff4b9c4c845eeb36c1f2d9a4743cd4e8a8bf7f45a27230abf50f3e06a8bb  /tmp/pythagoras.tar.gz" | sha256sum -c -
           find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
           tar -xzf /tmp/pythagoras.tar.gz
           test -f SOURCE_OF_TRUTH.md
