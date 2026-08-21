@@ -4,8 +4,9 @@ import os from 'node:os';
 import crypto from 'node:crypto';
 import { spawnSync } from 'node:child_process';
 
-const SOURCE = 'https://pythagoras-runtime-cache.vercel.app';
-const EXPECTED_SHA = '5c41e13b7d93fb63c138efa1b3508e5b6c2a5dbd2d122d2882a2aef7e1c38c2e';
+const CANONICAL_COMMIT = '405696a512417922e09eb7720400157782a13399';
+const BASE = `https://raw.githubusercontent.com/yanivmizrachiy/pythagoras/${CANONICAL_COMMIT}/.canonical`;
+const EXPECTED_SHA = '1a5fff4b9c4c845eeb36c1f2d9a4743cd4e8a8bf7f45a27230abf50f3e06a8bb';
 const repoRoot = process.cwd();
 
 function run(cmd, args, cwd = process.cwd()) {
@@ -19,71 +20,29 @@ async function fetchText(url) {
   return response.text();
 }
 
-function collectPackageRoots(root, current = root, depth = 0, out = []) {
-  if (depth > 5) return out;
-  if (fs.existsSync(path.join(current, 'package.json'))) out.push(current);
-  for (const entry of fs.readdirSync(current, { withFileTypes: true })) {
-    if (!entry.isDirectory() || entry.name === 'node_modules' || entry.name === '.git') continue;
-    collectPackageRoots(root, path.join(current, entry.name), depth + 1, out);
-  }
-  return out;
-}
-
-function chooseProjectRoot(root) {
-  const candidates = collectPackageRoots(root);
-  if (!candidates.length) throw new Error('No package.json found in verified runtime archive');
-  const scored = candidates.map((dir) => {
-    let pkg = {};
-    try { pkg = JSON.parse(fs.readFileSync(path.join(dir, 'package.json'), 'utf8')); } catch {}
-    let score = 0;
-    if (fs.existsSync(path.join(dir, 'src', 'pages'))) score += 100;
-    if (fs.existsSync(path.join(dir, 'SOURCE_OF_TRUTH.md'))) score += 50;
-    if (pkg?.scripts?.build) score += 25;
-    score -= path.relative(root, dir).split(path.sep).filter(Boolean).length;
-    return { dir, score, hasBuild: Boolean(pkg?.scripts?.build) };
-  }).sort((a, b) => b.score - a.score);
-  console.log('Runtime package candidates:', scored.map((x) => `${path.relative(root, x.dir) || '.'}:${x.score}`).join(', '));
-  const chosen = scored.find((x) => x.hasBuild) || scored[0];
-  console.log('Chosen runtime project root:', path.relative(root, chosen.dir) || '.');
-  return chosen.dir;
-}
-
-function walkHtml(root, current = root, out = []) {
+function walk(root, predicate, current = root, out = []) {
   for (const entry of fs.readdirSync(current, { withFileTypes: true })) {
     const full = path.join(current, entry.name);
-    if (entry.isDirectory()) walkHtml(root, full, out);
-    else if (entry.isFile() && entry.name.toLowerCase().endsWith('.html')) out.push(path.relative(root, full).replaceAll(path.sep, '/'));
+    if (entry.isDirectory()) walk(root, predicate, full, out);
+    else if (entry.isFile() && predicate(full, entry.name)) out.push(path.relative(root, full).replaceAll(path.sep, '/'));
   }
   return out;
 }
 
-function findBuiltDist(projectRoot) {
-  const direct = path.join(projectRoot, 'dist');
-  if (fs.existsSync(direct) && walkHtml(direct).length) return direct;
-  const queue = [{ dir: projectRoot, depth: 0 }];
-  while (queue.length) {
-    const { dir, depth } = queue.shift();
-    if (depth > 4) continue;
-    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-      if (!entry.isDirectory() || entry.name === 'node_modules' || entry.name === '.git') continue;
-      const full = path.join(dir, entry.name);
-      if ((entry.name === 'dist' || entry.name === 'build' || entry.name === 'out') && walkHtml(full).length) return full;
-      queue.push({ dir: full, depth: depth + 1 });
-    }
-  }
-  throw new Error('No built HTML output directory found after build');
+function htmlFiles(root) {
+  return walk(root, (_full, name) => name.toLowerCase().endsWith('.html'));
 }
 
 function ensureRootIndex(distDir) {
   const indexPath = path.join(distDir, 'index.html');
   if (fs.existsSync(indexPath)) return;
-  const html = walkHtml(distDir).filter((p) => p !== 'index.html');
+  const html = htmlFiles(distDir).filter((p) => p !== 'index.html');
   if (!html.length) throw new Error('Build produced no HTML files');
   const score = (p) => {
     const lower = p.toLowerCase();
-    if (lower.endsWith('/workbook.html') || lower === 'workbook.html') return 0;
+    if (lower === 'workbook.html' || lower.endsWith('/workbook.html')) return 0;
     if (/(^|\/)(page[-_ ]?0*1|0*1)(\/|$)/.test(lower)) return 1;
-    if (lower.endsWith('/main.html') || lower === 'main.html') return 2;
+    if (lower === 'main.html' || lower.endsWith('/main.html')) return 2;
     return 3;
   };
   html.sort((a, b) => score(a) - score(b) || a.localeCompare(b, 'en'));
@@ -93,39 +52,41 @@ function ensureRootIndex(distDir) {
   console.log(`Created root index redirect -> ${target}`);
 }
 
-const manifest = JSON.parse(await fetchText(`${SOURCE}/`));
-if (manifest.archiveSha256 !== EXPECTED_SHA) throw new Error(`Runtime source changed unexpectedly: ${manifest.archiveSha256}`);
-if (!Array.isArray(manifest.parts) || manifest.parts.length !== 51) throw new Error(`Expected 51 runtime source parts, got ${manifest.parts?.length ?? 'none'}`);
-
-let base64 = '';
-for (const part of manifest.parts) {
-  const text = (await fetchText(`${SOURCE}/${encodeURIComponent(part.name)}`)).trim();
-  if (text.length !== part.length) throw new Error(`${part.name}: expected ${part.length} chars, got ${text.length}`);
-  base64 += text;
+let encoded = '';
+for (let i = 0; i < 4; i++) {
+  const name = `part-${String(i).padStart(3, '0')}`;
+  const part = await fetchText(`${BASE}/${name}`);
+  if (!part.trim()) throw new Error(`Canonical ${name} is empty`);
+  encoded += part.trim();
+  console.log(`Fetched ${name}: ${part.trim().length} chars`);
 }
-if (base64.length !== manifest.base64Length) throw new Error(`Base64 length mismatch: ${base64.length} != ${manifest.base64Length}`);
 
-const archive = Buffer.from(base64, 'base64');
-if (archive.length !== manifest.archiveBytes) throw new Error(`Archive size mismatch: ${archive.length} != ${manifest.archiveBytes}`);
+const archive = Buffer.from(encoded.replace(/\s+/g, ''), 'base64');
 const sha = crypto.createHash('sha256').update(archive).digest('hex');
-if (sha !== EXPECTED_SHA) throw new Error(`Archive SHA mismatch: ${sha}`);
-console.log(`Verified runtime archive SHA-256 ${sha}`);
+if (sha !== EXPECTED_SHA) throw new Error(`Canonical SHA mismatch: ${sha}`);
+console.log(`Verified canonical Pythagoras SHA-256 ${sha}`);
 
-const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'pythagoras-src-'));
-const archivePath = path.join(tempRoot, 'source.tar.xz');
+const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'pythagoras-canonical-'));
 const sourceDir = path.join(tempRoot, 'source');
+const archivePath = path.join(tempRoot, 'pythagoras.tar.gz');
 fs.mkdirSync(sourceDir);
 fs.writeFileSync(archivePath, archive);
-run('tar', ['-xJf', archivePath, '-C', sourceDir]);
+run('tar', ['-xzf', archivePath, '-C', sourceDir]);
 
-const projectRoot = chooseProjectRoot(sourceDir);
-run('npm', ['install', '--no-audit', '--no-fund'], projectRoot);
-run('npm', ['run', 'build'], projectRoot);
+for (const required of ['SOURCE_OF_TRUTH.md', 'package.json']) {
+  if (!fs.existsSync(path.join(sourceDir, required))) throw new Error(`${required} missing from canonical source`);
+}
+const pageFiles = walk(path.join(sourceDir, 'src', 'pages'), (_full, name) => name === 'main.html');
+if (pageFiles.length !== 53) throw new Error(`Expected 53 Pythagoras pages, found ${pageFiles.length}`);
+console.log('Verified canonical workbook page count: 53');
 
-const builtDist = findBuiltDist(projectRoot);
-console.log('Using built output:', path.relative(projectRoot, builtDist) || '.');
+run('npm', ['install', '--no-audit', '--no-fund'], sourceDir);
+run('npm', ['run', 'build'], sourceDir);
+
+const builtDist = path.join(sourceDir, 'dist');
+if (!fs.existsSync(builtDist) || !htmlFiles(builtDist).length) throw new Error('dist HTML output missing after build');
 const targetDist = path.join(repoRoot, 'dist');
 fs.rmSync(targetDist, { recursive: true, force: true });
 fs.cpSync(builtDist, targetDist, { recursive: true });
 ensureRootIndex(targetDist);
-console.log(`Pythagoras production build ready from ${EXPECTED_SHA}`);
+console.log(`Pythagoras production build ready: ${htmlFiles(targetDist).length} HTML files`);
