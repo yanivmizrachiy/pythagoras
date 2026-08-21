@@ -26,7 +26,7 @@ jobs:
           test -f SOURCE_OF_TRUTH.md
           test -f package.json
           test "$(find src/pages -name main.html -type f | wc -l)" -eq 53
-          rm -rf .bootstrap pythagoras-bootstrap.tar.gz .github/workflows/unpack-pythagoras.yml
+          rm -rf .bootstrap .static-deploy pythagoras-bootstrap.tar.gz package-lock.json .github/workflows/unpack-pythagoras.yml
       - name: Commit canonical 53-page project
         shell: bash
         run: |
