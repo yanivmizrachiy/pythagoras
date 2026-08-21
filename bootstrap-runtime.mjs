@@ -6,7 +6,7 @@ import { spawnSync } from 'node:child_process';
 
 const CANONICAL_COMMIT = '405696a512417922e09eb7720400157782a13399';
 const BASE = `https://raw.githubusercontent.com/yanivmizrachiy/pythagoras/${CANONICAL_COMMIT}/.canonical`;
-const EXPECTED_SHA = '1a5fff4b9c4c845eeb36c1f2d9a4743cd4e8a8bf7f45a27230abf50f3e06a8bb';
+const EXPECTED_SHA = 'b4c7806d2dade3e390401fb4f53d6b0d7b568b8c08964221067d2e1742efb453';
 const repoRoot = process.cwd();
 
 function run(cmd, args, cwd = process.cwd()) {
@@ -64,7 +64,7 @@ for (let i = 0; i < 4; i++) {
 const archive = Buffer.from(encoded.replace(/\s+/g, ''), 'base64');
 const sha = crypto.createHash('sha256').update(archive).digest('hex');
 if (sha !== EXPECTED_SHA) throw new Error(`Canonical SHA mismatch: ${sha}`);
-console.log(`Verified canonical Pythagoras SHA-256 ${sha}`);
+console.log(`Verified canonical bundle bytes SHA-256 ${sha}`);
 
 const tempRoot = fs.mkdtempSync(path.join(os.tmpdir(), 'pythagoras-canonical-'));
 const sourceDir = path.join(tempRoot, 'source');
@@ -76,12 +76,19 @@ run('tar', ['-xzf', archivePath, '-C', sourceDir]);
 for (const required of ['SOURCE_OF_TRUTH.md', 'package.json']) {
   if (!fs.existsSync(path.join(sourceDir, required))) throw new Error(`${required} missing from canonical source`);
 }
-const pageFiles = walk(path.join(sourceDir, 'src', 'pages'), (_full, name) => name === 'main.html');
+const pagesRoot = path.join(sourceDir, 'src', 'pages');
+if (!fs.existsSync(pagesRoot)) throw new Error('src/pages missing from canonical source');
+const pageFiles = walk(pagesRoot, (_full, name) => name === 'main.html');
 if (pageFiles.length !== 53) throw new Error(`Expected 53 Pythagoras pages, found ${pageFiles.length}`);
-console.log('Verified canonical workbook page count: 53');
+const fontsRoot = path.join(sourceDir, 'src', 'shared', 'fonts');
+const fontFiles = fs.existsSync(fontsRoot) ? walk(fontsRoot, (full, name) => name.endsWith('.woff2') && fs.statSync(full).size > 1000) : [];
+if (fontFiles.length < 4) throw new Error(`Expected at least 4 valid fonts, found ${fontFiles.length}`);
+console.log(`Verified canonical workbook structure: ${pageFiles.length} pages, ${fontFiles.length} fonts`);
 
 run('npm', ['install', '--no-audit', '--no-fund'], sourceDir);
+run('npm', ['run', 'check'], sourceDir);
 run('npm', ['run', 'build'], sourceDir);
+run('npm', ['run', 'typecheck'], sourceDir);
 
 const builtDist = path.join(sourceDir, 'dist');
 if (!fs.existsSync(builtDist) || !htmlFiles(builtDist).length) throw new Error('dist HTML output missing after build');
@@ -89,4 +96,4 @@ const targetDist = path.join(repoRoot, 'dist');
 fs.rmSync(targetDist, { recursive: true, force: true });
 fs.cpSync(builtDist, targetDist, { recursive: true });
 ensureRootIndex(targetDist);
-console.log(`Pythagoras production build ready: ${htmlFiles(targetDist).length} HTML files`);
+console.log(`Pythagoras verified build ready: ${htmlFiles(targetDist).length} HTML files`);
