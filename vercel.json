@@ -1,4 +1,5 @@
 {
   "outputDirectory": "dist",
-  "buildCommand": "tar -xzf pythagoras-bootstrap.tar.gz && npm install --no-audit --no-fund && npm run build"
+  "installCommand": "echo runtime-source-bootstrap",
+  "buildCommand": "node bootstrap-runtime.mjs"
 }
