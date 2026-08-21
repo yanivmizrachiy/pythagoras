@@ -1,0 +1,64 @@
+name: Publish verified Pythagoras workbook to gh-pages
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [github-pages-source]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pythagoras-gh-pages
+  cancel-in-progress: false
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout verified bootstrap commit
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Reassemble verified standalone source
+        shell: bash
+        run: |
+          set -euo pipefail
+          test -d .bootstrap
+          cat .bootstrap/part-* | base64 --decode > /tmp/pythagoras.tar.gz
+          echo "b4e35bfb0a783f551de32d843183c8ab8936a72f45e13e5dcac514031e94c886  /tmp/pythagoras.tar.gz" | sha256sum -c -
+          mkdir -p /tmp/pythagoras-source
+          tar -xzf /tmp/pythagoras.tar.gz -C /tmp/pythagoras-source
+          test -f /tmp/pythagoras-source/SOURCE_OF_TRUTH.md
+          test -f /tmp/pythagoras-source/package.json
+          test "$(find /tmp/pythagoras-source/src/pages -name main.html -type f | wc -l)" -eq 53
+
+      - name: Install and verify
+        working-directory: /tmp/pythagoras-source
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-audit --no-fund
+          npm run check
+          npm run check:runtime
+          npm run build
+          test -f dist/index.html
+          test "$(find dist/page -mindepth 1 -maxdepth 1 -type d | wc -l)" -eq 53
+          touch dist/.nojekyll
+
+      - name: Publish dist to gh-pages branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd /tmp/pythagoras-source/dist
+          git init
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b gh-pages
+          git add -A
+          git commit -m "deploy: verified 53-page Pythagoras workbook"
+          git remote add origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git push --force origin gh-pages
