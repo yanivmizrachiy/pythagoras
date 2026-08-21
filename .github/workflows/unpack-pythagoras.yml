@@ -1,4 +1,4 @@
-name: Unpack Pythagoras source
+name: Unpack canonical Pythagoras source
 on:
   workflow_dispatch:
   push:
@@ -13,26 +13,43 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - name: Unpack canonical standalone project
+      - name: Wait for complete canonical bundle
         shell: bash
         run: |
           set -euo pipefail
-          test -f pythagoras-bootstrap.tar.gz
-          tar -xzf pythagoras-bootstrap.tar.gz
-          if [ ! -f package.json ] && [ -f pythagoras/package.json ]; then
-            cp -a pythagoras/. .
-            rm -rf pythagoras
+          if [ ! -f .canonical/READY ]; then
+            echo "Canonical bundle not complete yet; skipping unpack."
+            exit 0
           fi
+      - name: Unpack canonical standalone project
+        if: ${{ hashFiles('.canonical/READY') != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat .canonical/part-* > /tmp/pythagoras.b64
+          base64 -d /tmp/pythagoras.b64 > /tmp/pythagoras.tar.gz
+          echo "6223e2d95223e0549032fc775081e7118d419c2802417e496f3e509c06f32ae1  /tmp/pythagoras.tar.gz" | sha256sum -c -
+          rm -rf src scripts tests types .github/workflows/checks.yml .github/workflows/pages.yml README.md SOURCE_OF_TRUTH.md package.json playwright.config.js tsconfig.json vercel.json vivliostyle.config.js
+          tar -xzf /tmp/pythagoras.tar.gz
           test -f SOURCE_OF_TRUTH.md
           test -f package.json
           test "$(find src/pages -name main.html -type f | wc -l)" -eq 53
-          rm -rf .bootstrap .static-deploy pythagoras-bootstrap.tar.gz package-lock.json .github/workflows/unpack-pythagoras.yml
+          rm -rf .bootstrap .static-deploy .canonical pythagoras-bootstrap.tar.gz package-lock.json .github/workflows/unpack-pythagoras.yml
+      - name: Verify canonical project
+        if: ${{ hashFiles('.canonical/READY') != '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm run check
+          npm run build
+          npm run typecheck
       - name: Commit canonical 53-page project
+        if: ${{ hashFiles('.canonical/READY') != '' }}
         shell: bash
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A
-          git commit -m "feat: unpack canonical standalone 53-page Pythagoras project"
+          git commit -m "feat: publish canonical standalone 53-page Pythagoras project"
           git push origin HEAD:main
