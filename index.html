@@ -32,6 +32,7 @@ body{margin:0;background:#eef2f7;color:var(--book-ink)}
 .top button:hover{transform:translateY(-1px);box-shadow:0 4px 12px #17223b18}
 .top button:active{transform:translateY(0)}
 .top button:disabled{opacity:.35;cursor:default;transform:none;box-shadow:none}
+.top .print-original{background:#fff;border-color:#8d99aa;color:#17223b}
 .top .print-color{background:var(--book-blue);border-color:var(--book-blue);color:#fff}
 .top .print-mono{background:#202020;border-color:#202020;color:#fff}
 .counter{min-width:92px;text-align:center;font-weight:700}
@@ -44,7 +45,10 @@ body{margin:0;background:#eef2f7;color:var(--book-ink)}
 .fallback{padding:14mm;font-size:15px;line-height:1.55}
 #printHost{display:none}
 
-/* שכבת עיצוב אחידה שאינה משנה תוכן */
+/* מצב מקורי: אין דריסת עיצוב כלל. ה-CSS המקורי של 53 הדפים נשמר כפי שהוא. */
+.book-theme-original .fallback{}
+
+/* שכבת עיצוב צבעונית אחידה שאינה משנה תוכן */
 .book-theme-color .fallback{background:#fff;color:var(--book-ink)}
 .book-theme-color .fallback h1,
 .book-theme-color .fallback h2,
@@ -90,7 +94,7 @@ body{margin:0;background:#eef2f7;color:var(--book-ink)}
   .top{padding:7px 6px;gap:6px}
   .top button{padding:7px 9px;font-size:13px}
   .counter{min-width:78px;font-size:13px}
-  .print-actions{width:100%;justify-content:center;margin:2px 0 0;padding:7px 0 0;border-inline-start:0;border-top:1px solid #edf0f5}
+  .print-actions{width:100%;justify-content:center;flex-wrap:wrap;margin:2px 0 0;padding:7px 0 0;border-inline-start:0;border-top:1px solid #edf0f5}
 }
 
 @media print{
@@ -101,7 +105,8 @@ body{margin:0;background:#eef2f7;color:var(--book-ink)}
   .print-page{width:210mm;min-height:297mm;margin:0!important;padding:0!important;background:#fff!important;overflow:hidden;break-after:page;page-break-after:always;-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .print-page:last-child{break-after:auto;page-break-after:auto}
   .print-page .fallback{min-height:297mm;margin:0!important}
-  .book-theme-color .fallback{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .book-theme-original .fallback,
+  .book-theme-color .fallback,
   .book-theme-mono .fallback{-webkit-print-color-adjust:exact;print-color-adjust:exact}
 }
 </style>
@@ -112,6 +117,7 @@ body{margin:0;background:#eef2f7;color:var(--book-ink)}
   <span class="counter" id="counter">טוען…</span>
   <button id="next">הבא</button>
   <div class="print-actions" aria-label="אפשרויות הדפסה">
+    <button id="printOriginal" class="print-original">הדפסה בעיצוב המקורי</button>
     <button id="printColor" class="print-color">הדפסה בצבע</button>
     <button id="printMono" class="print-mono">הדפסה בשחור־לבן</button>
   </div>
@@ -121,7 +127,7 @@ body{margin:0;background:#eef2f7;color:var(--book-ink)}
 <script>
 (async()=>{
  const app=document.getElementById('app'),counter=document.getElementById('counter'),prev=document.getElementById('prev'),next=document.getElementById('next');
- const printColor=document.getElementById('printColor'),printMono=document.getElementById('printMono'),printHost=document.getElementById('printHost');
+ const printOriginal=document.getElementById('printOriginal'),printColor=document.getElementById('printColor'),printMono=document.getElementById('printMono'),printHost=document.getElementById('printHost');
  try{
   const base='https://raw.githubusercontent.com/yanivmizrachiy/pythagoras/main/.bootstrap/part-';
   const parts=await Promise.all(['000','001','002'].map(async n=>{const r=await fetch(base+n,{cache:'no-store'});if(!r.ok)throw new Error('bootstrap part '+n+' HTTP '+r.status);return (await r.text()).trim()}));
@@ -157,12 +163,14 @@ body{margin:0;background:#eef2f7;color:var(--book-ink)}
    return '<style>'+css+'\nbody{margin:0}.preview-nav{display:none!important}</style><div class="fallback" data-local-page-id="'+String(pageIndex+1).padStart(3,'0')+'">'+bodyOnly(raw)+'</div>';
   }
   function render(){
-   app.className='paper-inner book-theme-color';
+   app.className='paper-inner book-theme-original';
    app.innerHTML=pageMarkup(idx);
    counter.textContent='עמוד '+(idx+1)+' / 53';prev.disabled=idx===0;next.disabled=idx===52;history.replaceState(null,'','#'+(idx+1));
   }
   function prepareWorkbook(theme){
-   printHost.className=theme==='mono'?'book-theme-mono':'book-theme-color';
+   if(theme==='mono') printHost.className='book-theme-mono';
+   else if(theme==='color') printHost.className='book-theme-color';
+   else printHost.className='book-theme-original';
    printHost.innerHTML=pages.map((_,i)=>'<article class="print-page">'+pageMarkup(i)+'</article>').join('');
    document.documentElement.dataset.printTheme=theme;
   }
@@ -173,11 +181,12 @@ body{margin:0;background:#eef2f7;color:var(--book-ink)}
   addEventListener('afterprint',()=>{printHost.innerHTML='';printHost.className='';delete document.documentElement.dataset.printTheme});
   prev.onclick=()=>{if(idx>0){idx--;render();scrollTo(0,0)}};
   next.onclick=()=>{if(idx<52){idx++;render();scrollTo(0,0)}};
+  printOriginal.onclick=()=>printWorkbook('original');
   printColor.onclick=()=>printWorkbook('color');
   printMono.onclick=()=>printWorkbook('mono');
   addEventListener('keydown',e=>{if(e.key==='ArrowLeft'&&idx<52){idx++;render()}if(e.key==='ArrowRight'&&idx>0){idx--;render()}});
   render();
- }catch(e){app.className='loading err';app.textContent='שגיאה בטעינת החוברת:\n'+e.message;counter.textContent='שגיאה';printColor.disabled=true;printMono.disabled=true;console.error(e)}
+ }catch(e){app.className='loading err';app.textContent='שגיאה בטעינת החוברת:\n'+e.message;counter.textContent='שגיאה';printOriginal.disabled=true;printColor.disabled=true;printMono.disabled=true;console.error(e)}
 })();
 </script>
 </body></html>
