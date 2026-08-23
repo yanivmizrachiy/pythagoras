@@ -4,11 +4,19 @@
 :is(.book-theme-color,.book-theme-mono) .fallback *{box-sizing:border-box}
 :is(.book-theme-color,.book-theme-mono) .fallback :where(h1,h2,h3,h4,h5,h6){page-break-after:avoid;break-after:avoid}
 :is(.book-theme-color,.book-theme-mono) .fallback :where(table,figure,svg,.ped-question,.ped-example,.ped-hint,.ped-solution,.ped-formula,.ped-answer){page-break-inside:avoid;break-inside:avoid}
+:is(.book-theme-color,.book-theme-mono) .fallback :where(strong,b){font-weight:800}
+:is(.book-theme-color,.book-theme-mono) .fallback :where(ul,ol){padding-inline-start:1.35em}
+:is(.book-theme-color,.book-theme-mono) .fallback :where(input,textarea,select){font:inherit;border-width:1px;border-style:solid;border-radius:6px}
+:is(.book-theme-color,.book-theme-mono) .fallback :where([class*="card" i],[class*="box" i],[class*="panel" i]){border-radius:10px}
 .book-theme-color .fallback{color:var(--ped-ink)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .book-theme-color .fallback :where(h1,.ped-page-title){color:var(--ped-blue-deep)!important}
 .book-theme-color .fallback :where(h2,.ped-section-title){color:var(--ped-blue)!important}
 .book-theme-color .fallback :where(h3,h4,h5,h6,.ped-subtitle){color:#315d84!important}
 .book-theme-color .fallback :where(p,li,dd,dt,label){color:var(--ped-ink)}
+.book-theme-color .fallback :where(strong,b){color:var(--ped-blue-deep)}
+.book-theme-color .fallback :where(mark){background:var(--ped-amber-soft)!important;color:var(--ped-ink)!important}
+.book-theme-color .fallback :where(code,pre){color:var(--ped-blue-deep);background:#f7fafc;border-color:var(--ped-line)}
+.book-theme-color .fallback :where(ul li::marker,ol li::marker){color:var(--ped-blue)}
 .book-theme-color .fallback :where(.ped-question,[class*="question" i],[class*="exercise" i],[class*="task" i]){border-inline-start:3px solid var(--ped-blue);padding-inline-start:.7rem}
 .book-theme-color .fallback :where(.ped-example,[class*="example" i],[class*="worked" i]){background:var(--ped-blue-soft)!important;border:1px solid #b9cde2!important;border-radius:10px}
 .book-theme-color .fallback :where(.ped-hint,[class*="hint" i],[class*="tip" i],[class*="note" i],aside,blockquote){background:var(--ped-teal-soft)!important;border:1px solid #a7d0ca!important;border-inline-start:4px solid var(--ped-teal)!important;color:var(--ped-ink)!important}
@@ -16,6 +24,8 @@
 .book-theme-color .fallback :where(.ped-formula,[class*="formula" i],[class*="equation" i],[class*="math-box" i]){color:var(--ped-blue-deep)!important;background:#f8fbfe!important;border:1px solid #d7e4ef!important;border-radius:8px}
 .book-theme-color .fallback :where(.ped-answer,[class*="answer" i],[class*="response" i],[class*="blank" i]){background:#fff!important;border-color:#8091a5!important}
 .book-theme-color .fallback :where(.ped-solution,[class*="solution" i]){background:#f8fafc!important;border:1px solid var(--ped-line)!important}
+.book-theme-color .fallback :where([class*="card" i],[class*="box" i],[class*="panel" i]):not(.ped-example):not(.ped-hint):not(.ped-formula){border-color:var(--ped-line)!important}
+.book-theme-color .fallback :where([class*="badge" i],[class*="chip" i],[class*="tag" i]){background:var(--ped-blue-soft)!important;color:var(--ped-blue-deep)!important;border-color:#c5d6e6!important}
 .book-theme-color .fallback table{border-collapse:collapse;border-color:var(--ped-line)!important}
 .book-theme-color .fallback :where(th,thead td){background:var(--ped-blue-soft)!important;color:var(--ped-blue-deep)!important;border-color:var(--ped-line)!important}
 .book-theme-color .fallback td{border-color:var(--ped-line)!important}
@@ -31,6 +41,10 @@
 .book-theme-mono .fallback :where(h2,.ped-section-title){color:var(--mono-ink)!important}
 .book-theme-mono .fallback :where(h3,h4,h5,h6,.ped-subtitle){color:var(--mono-dark)!important}
 .book-theme-mono .fallback :where(p,li,dd,dt,label){color:var(--mono-black)!important}
+.book-theme-mono .fallback :where(strong,b){color:#000!important}
+.book-theme-mono .fallback :where(mark){background:#e6e6e6!important;color:#000!important}
+.book-theme-mono .fallback :where(code,pre){color:#000!important;background:#f6f6f6!important;border-color:var(--mono-line)!important}
+.book-theme-mono .fallback :where(ul li::marker,ol li::marker){color:var(--mono-dark)!important}
 .book-theme-mono .fallback :where(.ped-question,[class*="question" i],[class*="exercise" i],[class*="task" i]){border-inline-start:3px solid var(--mono-black)!important;padding-inline-start:.7rem}
 .book-theme-mono .fallback :where(.ped-example,[class*="example" i],[class*="worked" i]){background:var(--mono-faint)!important;border:1px solid var(--mono-line)!important;border-radius:10px}
 .book-theme-mono .fallback :where(.ped-hint,[class*="hint" i],[class*="tip" i],[class*="note" i],aside,blockquote){background:var(--mono-soft)!important;border:1px solid var(--mono-line)!important;border-inline-start:4px solid var(--mono-dark)!important;color:var(--mono-black)!important}
@@ -38,6 +52,8 @@
 .book-theme-mono .fallback :where(.ped-formula,[class*="formula" i],[class*="equation" i],[class*="math-box" i]){color:var(--mono-black)!important;background:#fafafa!important;border:1.4px solid var(--mono-dark)!important;border-radius:8px}
 .book-theme-mono .fallback :where(.ped-answer,[class*="answer" i],[class*="response" i],[class*="blank" i]){background:#fff!important;color:#000!important;border-color:#4c4c4c!important}
 .book-theme-mono .fallback :where(.ped-solution,[class*="solution" i]){background:#f3f3f3!important;border:1px solid #858585!important}
+.book-theme-mono .fallback :where([class*="card" i],[class*="box" i],[class*="panel" i]):not(.ped-example):not(.ped-hint):not(.ped-formula){border-color:var(--mono-line)!important}
+.book-theme-mono .fallback :where([class*="badge" i],[class*="chip" i],[class*="tag" i]){background:var(--mono-soft)!important;color:#111!important;border-color:var(--mono-line)!important}
 .book-theme-mono .fallback table{border-collapse:collapse;border-color:var(--mono-line)!important}
 .book-theme-mono .fallback :where(th,thead td){background:var(--mono-soft)!important;color:#111!important;border-color:var(--mono-line)!important}
 .book-theme-mono .fallback td{border-color:var(--mono-line)!important}
