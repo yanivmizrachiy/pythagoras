@@ -5,20 +5,128 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>משפט פיתגורס — חוברת דיגיטלית</title>
 <style>
-:root{font-family:Arial,"Noto Sans Hebrew",sans-serif;color:#17223b;background:#eef2f7}*{box-sizing:border-box}body{margin:0}.top{position:sticky;top:0;z-index:20;display:flex;gap:10px;align-items:center;justify-content:center;padding:9px 12px;background:#fff;border-bottom:1px solid #d9e0ea}.top button{border:1px solid #cfd7e4;background:#fff;border-radius:10px;padding:8px 14px;font:inherit;cursor:pointer}.top button:disabled{opacity:.35}.counter{min-width:92px;text-align:center;font-weight:700}.stage{padding:18px 8px 36px}.paper{width:min(210mm,calc(100vw - 16px));min-height:297mm;margin:auto;background:#fff;box-shadow:0 12px 35px #26354d22;overflow:hidden}.loading{display:grid;place-items:center;min-height:75vh;text-align:center;padding:30px}.err{color:#9c1c1c;white-space:pre-wrap}.paper-inner{min-height:297mm}.fallback{padding:14mm;font-size:15px;line-height:1.55}@media(max-width:700px){.stage{padding:8px 4px}.paper{width:100%;min-height:auto;box-shadow:none}.top{padding:7px 6px}.top button{padding:7px 10px}}@media print{.top{display:none}.stage{padding:0}.paper{width:210mm;min-height:297mm;box-shadow:none}}
+:root{
+  font-family:Arial,"Noto Sans Hebrew",sans-serif;
+  color:#17223b;
+  background:#eef2f7;
+  --book-ink:#111827;
+  --book-blue:#173f7a;
+  --book-blue-soft:#edf3fb;
+  --book-teal:#287a70;
+  --book-teal-soft:#edf7f5;
+  --book-amber:#a86100;
+  --book-amber-soft:#fff6e8;
+  --book-line:#cfd7e4;
+  --book-muted:#667085;
+  --mono-ink:#000;
+  --mono-dark:#3f3f3f;
+  --mono-mid:#777;
+  --mono-line:#a8a8a8;
+  --mono-soft:#e8e8e8;
+  --mono-faint:#f4f4f4;
+}
+*{box-sizing:border-box}
+body{margin:0;background:#eef2f7;color:var(--book-ink)}
+.top{position:sticky;top:0;z-index:20;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center;padding:9px 12px;background:#fff;border-bottom:1px solid #d9e0ea;box-shadow:0 2px 14px #17223b0d}
+.top button{border:1px solid #cfd7e4;background:#fff;color:#17223b;border-radius:10px;padding:8px 14px;font:inherit;font-weight:700;cursor:pointer;transition:transform .14s ease,box-shadow .14s ease,background .14s ease}
+.top button:hover{transform:translateY(-1px);box-shadow:0 4px 12px #17223b18}
+.top button:active{transform:translateY(0)}
+.top button:disabled{opacity:.35;cursor:default;transform:none;box-shadow:none}
+.top .print-color{background:var(--book-blue);border-color:var(--book-blue);color:#fff}
+.top .print-mono{background:#202020;border-color:#202020;color:#fff}
+.counter{min-width:92px;text-align:center;font-weight:700}
+.print-actions{display:flex;gap:8px;margin-inline-start:8px;padding-inline-start:8px;border-inline-start:1px solid #e2e7ef}
+.stage{padding:18px 8px 36px}
+.paper{width:min(210mm,calc(100vw - 16px));min-height:297mm;margin:auto;background:#fff;box-shadow:0 12px 35px #26354d22;overflow:hidden}
+.loading{display:grid;place-items:center;min-height:75vh;text-align:center;padding:30px}
+.err{color:#9c1c1c;white-space:pre-wrap}
+.paper-inner{min-height:297mm}
+.fallback{padding:14mm;font-size:15px;line-height:1.55}
+#printHost{display:none}
+
+/* שכבת עיצוב אחידה שאינה משנה תוכן */
+.book-theme-color .fallback{background:#fff;color:var(--book-ink)}
+.book-theme-color .fallback h1,
+.book-theme-color .fallback h2,
+.book-theme-color .fallback h3{color:var(--book-blue)}
+.book-theme-color .fallback h4,
+.book-theme-color .fallback h5,
+.book-theme-color .fallback h6{color:#274f78}
+.book-theme-color .fallback table{border-color:var(--book-line)}
+.book-theme-color .fallback th{background:var(--book-blue-soft);color:var(--book-blue)}
+.book-theme-color .fallback hr{border-color:var(--book-line)}
+.book-theme-color .fallback blockquote,
+.book-theme-color .fallback aside{background:var(--book-teal-soft);border-color:#9bc9c2}
+
+/* שחור-לבן מתוכנן: היררכיה של שחור, אפור ולבן; לא שינוי תוכן */
+.book-theme-mono .fallback{
+  background:#fff!important;
+  color:var(--mono-ink)!important;
+  filter:grayscale(1) contrast(1.06);
+}
+.book-theme-mono .fallback h1,
+.book-theme-mono .fallback h2,
+.book-theme-mono .fallback h3{color:#111!important}
+.book-theme-mono .fallback h4,
+.book-theme-mono .fallback h5,
+.book-theme-mono .fallback h6{color:var(--mono-dark)!important}
+.book-theme-mono .fallback p,
+.book-theme-mono .fallback li,
+.book-theme-mono .fallback dd,
+.book-theme-mono .fallback dt{color:#000}
+.book-theme-mono .fallback table{border-color:var(--mono-line)!important}
+.book-theme-mono .fallback th{background:var(--mono-soft)!important;color:#111!important;border-color:var(--mono-line)!important}
+.book-theme-mono .fallback td{border-color:var(--mono-line)!important}
+.book-theme-mono .fallback blockquote,
+.book-theme-mono .fallback aside{background:var(--mono-faint)!important;border-color:var(--mono-line)!important;color:#111!important}
+.book-theme-mono .fallback hr{border-color:var(--mono-line)!important}
+.book-theme-mono .fallback input,
+.book-theme-mono .fallback textarea{background:#fff!important;color:#000!important;border-color:#555!important}
+.book-theme-mono .fallback svg{filter:grayscale(1) contrast(1.12)}
+
+@media(max-width:700px){
+  .stage{padding:8px 4px}
+  .paper{width:100%;min-height:auto;box-shadow:none}
+  .top{padding:7px 6px;gap:6px}
+  .top button{padding:7px 9px;font-size:13px}
+  .counter{min-width:78px;font-size:13px}
+  .print-actions{width:100%;justify-content:center;margin:2px 0 0;padding:7px 0 0;border-inline-start:0;border-top:1px solid #edf0f5}
+}
+
+@media print{
+  @page{size:A4;margin:0}
+  html,body{margin:0!important;padding:0!important;background:#fff!important}
+  .top,.stage{display:none!important}
+  #printHost{display:block!important;width:210mm;margin:0!important;padding:0!important;background:#fff!important}
+  .print-page{width:210mm;min-height:297mm;margin:0!important;padding:0!important;background:#fff!important;overflow:hidden;break-after:page;page-break-after:always;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .print-page:last-child{break-after:auto;page-break-after:auto}
+  .print-page .fallback{min-height:297mm;margin:0!important}
+  .book-theme-color .fallback{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .book-theme-mono .fallback{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
 </style>
 </head>
 <body>
-<nav class="top"><button id="prev">הקודם</button><span class="counter" id="counter">טוען…</span><button id="next">הבא</button></nav>
+<nav class="top" aria-label="ניווט והדפסה">
+  <button id="prev">הקודם</button>
+  <span class="counter" id="counter">טוען…</span>
+  <button id="next">הבא</button>
+  <div class="print-actions" aria-label="אפשרויות הדפסה">
+    <button id="printColor" class="print-color">הדפסה בצבע</button>
+    <button id="printMono" class="print-mono">הדפסה בשחור־לבן</button>
+  </div>
+</nav>
 <main class="stage"><section class="paper"><div id="app" class="loading">טוען את 53 דפי פיתגורס מהריפו החדש…</div></section></main>
+<section id="printHost" aria-hidden="true"></section>
 <script>
 (async()=>{
  const app=document.getElementById('app'),counter=document.getElementById('counter'),prev=document.getElementById('prev'),next=document.getElementById('next');
+ const printColor=document.getElementById('printColor'),printMono=document.getElementById('printMono'),printHost=document.getElementById('printHost');
  try{
   const base='https://raw.githubusercontent.com/yanivmizrachiy/pythagoras/main/.bootstrap/part-';
   const parts=await Promise.all(['000','001','002'].map(async n=>{const r=await fetch(base+n,{cache:'no-store'});if(!r.ok)throw new Error('bootstrap part '+n+' HTTP '+r.status);return (await r.text()).trim()}));
   const b64=parts.join('').replace(/\s+/g,'');
-  const bin=atob(b64), gz=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)gz[i]=bin.charCodeAt(i);
+  const bin=atob(b64),gz=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)gz[i]=bin.charCodeAt(i);
   if(!('DecompressionStream' in window))throw new Error('הדפדפן אינו תומך ב-DecompressionStream');
   const stream=new Blob([gz]).stream().pipeThrough(new DecompressionStream('gzip'));
   const tar=new Uint8Array(await new Response(stream).arrayBuffer());
@@ -44,16 +152,32 @@
   const css=cssKeys.map(k=>dec.decode(files.get(k))).join('\n');
   let idx=Math.max(0,Math.min(52,(parseInt(location.hash.slice(1),10)||1)-1));
   function bodyOnly(html){const m=html.match(/<body[^>]*>([\s\S]*?)<\/body>/i);return m?m[1]:html.replace(/<!doctype[^>]*>/ig,'').replace(/<html[^>]*>|<\/html>|<head[\s\S]*?<\/head>/ig,'')}
+  function pageMarkup(pageIndex){
+   const raw=dec.decode(files.get(pages[pageIndex]));
+   return '<style>'+css+'\nbody{margin:0}.preview-nav{display:none!important}</style><div class="fallback" data-local-page-id="'+String(pageIndex+1).padStart(3,'0')+'">'+bodyOnly(raw)+'</div>';
+  }
   function render(){
-   const raw=dec.decode(files.get(pages[idx]));
-   app.className='paper-inner';
-   app.innerHTML='<style>'+css+'\nbody{margin:0} .preview-nav{display:none!important}</style><div class="fallback" data-local-page-id="'+String(idx+1).padStart(3,'0')+'">'+bodyOnly(raw)+'</div>';
+   app.className='paper-inner book-theme-color';
+   app.innerHTML=pageMarkup(idx);
    counter.textContent='עמוד '+(idx+1)+' / 53';prev.disabled=idx===0;next.disabled=idx===52;history.replaceState(null,'','#'+(idx+1));
   }
-  prev.onclick=()=>{if(idx>0){idx--;render();scrollTo(0,0)}};next.onclick=()=>{if(idx<52){idx++;render();scrollTo(0,0)}};
+  function prepareWorkbook(theme){
+   printHost.className=theme==='mono'?'book-theme-mono':'book-theme-color';
+   printHost.innerHTML=pages.map((_,i)=>'<article class="print-page">'+pageMarkup(i)+'</article>').join('');
+   document.documentElement.dataset.printTheme=theme;
+  }
+  function printWorkbook(theme){
+   prepareWorkbook(theme);
+   requestAnimationFrame(()=>requestAnimationFrame(()=>window.print()));
+  }
+  addEventListener('afterprint',()=>{printHost.innerHTML='';printHost.className='';delete document.documentElement.dataset.printTheme});
+  prev.onclick=()=>{if(idx>0){idx--;render();scrollTo(0,0)}};
+  next.onclick=()=>{if(idx<52){idx++;render();scrollTo(0,0)}};
+  printColor.onclick=()=>printWorkbook('color');
+  printMono.onclick=()=>printWorkbook('mono');
   addEventListener('keydown',e=>{if(e.key==='ArrowLeft'&&idx<52){idx++;render()}if(e.key==='ArrowRight'&&idx>0){idx--;render()}});
   render();
- }catch(e){app.className='loading err';app.textContent='שגיאה בטעינת החוברת:\n'+e.message;counter.textContent='שגיאה';console.error(e)}
+ }catch(e){app.className='loading err';app.textContent='שגיאה בטעינת החוברת:\n'+e.message;counter.textContent='שגיאה';printColor.disabled=true;printMono.disabled=true;console.error(e)}
 })();
 </script>
 </body></html>
