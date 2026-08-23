@@ -1,0 +1,67 @@
+/* Pythagoras workbook design system — styling only; original content/design is preserved. */
+:root{--ped-ink:#172033;--ped-soft-ink:#48566a;--ped-blue:#1f4e79;--ped-blue-deep:#163a5d;--ped-blue-soft:#eef4fa;--ped-teal:#2e716c;--ped-teal-soft:#eef8f6;--ped-amber:#965a0a;--ped-amber-soft:#fff6e8;--ped-line:#cbd5e1;--ped-line-soft:#e8edf3;--ped-surface:#f7f9fc;--ped-white:#fff;--mono-black:#000;--mono-ink:#171717;--mono-dark:#3f3f3f;--mono-mid:#707070;--mono-line:#a8a8a8;--mono-light:#d8d8d8;--mono-soft:#eeeeee;--mono-faint:#f7f7f7}
+
+/* shared print-safe structure */
+:is(.book-theme-color,.book-theme-mono) .fallback{background:#fff!important;box-shadow:none!important}
+:is(.book-theme-color,.book-theme-mono) .fallback *{box-sizing:border-box}
+:is(.book-theme-color,.book-theme-mono) .fallback :where(h1,h2,h3,h4,h5,h6){page-break-after:avoid;break-after:avoid}
+:is(.book-theme-color,.book-theme-mono) .fallback :where(table,figure,svg,.ped-question,.ped-example,.ped-hint,.ped-solution,.ped-formula,.ped-answer){page-break-inside:avoid;break-inside:avoid}
+
+/* COLOR — fixed textbook language */
+.book-theme-color .fallback{color:var(--ped-ink)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.book-theme-color .fallback :where(h1,.ped-page-title){color:var(--ped-blue-deep)!important}
+.book-theme-color .fallback :where(h2,.ped-section-title){color:var(--ped-blue)!important}
+.book-theme-color .fallback :where(h3,h4,h5,h6,.ped-subtitle){color:#315d84!important}
+.book-theme-color .fallback :where(p,li,dd,dt,label){color:var(--ped-ink)}
+.book-theme-color .fallback :where(.ped-question,[class*="question" i],[class*="exercise" i],[class*="task" i]){border-inline-start:3px solid var(--ped-blue);padding-inline-start:.7rem}
+.book-theme-color .fallback :where(.ped-example,[class*="example" i],[class*="worked" i]){background:var(--ped-blue-soft)!important;border:1px solid #b9cde2!important;border-radius:10px}
+.book-theme-color .fallback :where(.ped-hint,[class*="hint" i],[class*="tip" i],[class*="note" i],aside,blockquote){background:var(--ped-teal-soft)!important;border:1px solid #a7d0ca!important;border-inline-start:4px solid var(--ped-teal)!important;color:var(--ped-ink)!important}
+.book-theme-color .fallback :where(.ped-action,[class*="attention" i],[class*="important" i],[class*="focus" i]){background:var(--ped-amber-soft)!important;border-color:#dfbf8a!important}
+.book-theme-color .fallback :where(.ped-formula,[class*="formula" i],[class*="equation" i],[class*="math-box" i]){color:var(--ped-blue-deep)!important;background:#f8fbfe!important;border:1px solid #d7e4ef!important;border-radius:8px}
+.book-theme-color .fallback :where(.ped-answer,[class*="answer" i],[class*="response" i],[class*="blank" i]){background:#fff!important;border-color:#8091a5!important}
+.book-theme-color .fallback :where(.ped-solution,[class*="solution" i]){background:#f8fafc!important;border:1px solid var(--ped-line)!important}
+.book-theme-color .fallback table{border-collapse:collapse;border-color:var(--ped-line)!important}
+.book-theme-color .fallback :where(th,thead td){background:var(--ped-blue-soft)!important;color:var(--ped-blue-deep)!important;border-color:var(--ped-line)!important}
+.book-theme-color .fallback td{border-color:var(--ped-line)!important}
+.book-theme-color .fallback hr{border-color:var(--ped-line)!important}
+.book-theme-color .fallback :where(input,textarea,select){background:#fff!important;color:var(--ped-ink)!important;border-color:#7d8ea2!important}
+.book-theme-color .fallback :where(.ped-helper-line,[class*="helper" i],[class*="guide-line" i]){color:var(--ped-soft-ink)!important;border-color:#9ba8b7!important}
+.book-theme-color .fallback svg{overflow:visible}
+.book-theme-color .fallback svg :where(text,tspan){fill:var(--ped-ink)}
+.book-theme-color .fallback svg :where(line,path,polyline,polygon,circle,rect){vector-effect:non-scaling-stroke}
+.book-theme-color .fallback .ped-diagram svg :where(line,path,polyline,polygon,circle,rect){stroke-linecap:round;stroke-linejoin:round}
+
+/* MONO — designed grayscale system, not a global grayscale filter */
+.book-theme-mono .fallback{color:var(--mono-black)!important;background:#fff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.book-theme-mono .fallback :where(h1,.ped-page-title){color:var(--mono-black)!important}
+.book-theme-mono .fallback :where(h2,.ped-section-title){color:var(--mono-ink)!important}
+.book-theme-mono .fallback :where(h3,h4,h5,h6,.ped-subtitle){color:var(--mono-dark)!important}
+.book-theme-mono .fallback :where(p,li,dd,dt,label){color:var(--mono-black)!important}
+.book-theme-mono .fallback :where(.ped-question,[class*="question" i],[class*="exercise" i],[class*="task" i]){border-inline-start:3px solid var(--mono-black)!important;padding-inline-start:.7rem}
+.book-theme-mono .fallback :where(.ped-example,[class*="example" i],[class*="worked" i]){background:var(--mono-faint)!important;border:1px solid var(--mono-line)!important;border-radius:10px}
+.book-theme-mono .fallback :where(.ped-hint,[class*="hint" i],[class*="tip" i],[class*="note" i],aside,blockquote){background:var(--mono-soft)!important;border:1px solid var(--mono-line)!important;border-inline-start:4px solid var(--mono-dark)!important;color:var(--mono-black)!important}
+.book-theme-mono .fallback :where(.ped-action,[class*="attention" i],[class*="important" i],[class*="focus" i]){background:#e5e5e5!important;border:1.4px solid #555!important}
+.book-theme-mono .fallback :where(.ped-formula,[class*="formula" i],[class*="equation" i],[class*="math-box" i]){color:var(--mono-black)!important;background:#fafafa!important;border:1.4px solid var(--mono-dark)!important;border-radius:8px}
+.book-theme-mono .fallback :where(.ped-answer,[class*="answer" i],[class*="response" i],[class*="blank" i]){background:#fff!important;color:#000!important;border-color:#4c4c4c!important}
+.book-theme-mono .fallback :where(.ped-solution,[class*="solution" i]){background:#f3f3f3!important;border:1px solid #858585!important}
+.book-theme-mono .fallback table{border-collapse:collapse;border-color:var(--mono-line)!important}
+.book-theme-mono .fallback :where(th,thead td){background:var(--mono-soft)!important;color:#111!important;border-color:var(--mono-line)!important}
+.book-theme-mono .fallback td{border-color:var(--mono-line)!important}
+.book-theme-mono .fallback hr{border-color:var(--mono-line)!important}
+.book-theme-mono .fallback :where(input,textarea,select){background:#fff!important;color:#000!important;border-color:#555!important}
+.book-theme-mono .fallback :where(.ped-helper-line,[class*="helper" i],[class*="guide-line" i]){color:var(--mono-mid)!important;border-color:var(--mono-mid)!important}
+.book-theme-mono .fallback :where(img,canvas){filter:grayscale(1) contrast(1.08)}
+.book-theme-mono .fallback svg :where(text,tspan){fill:#000!important}
+.book-theme-mono .fallback svg :where(line,path,polyline,polygon,circle,rect){vector-effect:non-scaling-stroke}
+.book-theme-mono .fallback .ped-diagram svg :where(line,path,polyline,polygon,circle,rect){stroke:#111;stroke-linecap:round;stroke-linejoin:round}
+.book-theme-mono .fallback .ped-diagram :where([class*="helper" i],[class*="guide" i]){stroke:#777!important;stroke-dasharray:5 4}
+
+/* semantic layout helpers — only when auto-classifier identifies an existing element */
+:is(.book-theme-color,.book-theme-mono) .fallback .ped-example,:is(.book-theme-color,.book-theme-mono) .fallback .ped-hint,:is(.book-theme-color,.book-theme-mono) .fallback .ped-solution,:is(.book-theme-color,.book-theme-mono) .fallback .ped-formula{padding:.55rem .75rem}
+:is(.book-theme-color,.book-theme-mono) .fallback .ped-answer{min-height:1.6em}
+:is(.book-theme-color,.book-theme-mono) .fallback .ped-diagram{isolation:isolate}
+
+@media print{
+  :is(.book-theme-color,.book-theme-mono) .fallback{orphans:3;widows:3}
+  :is(.book-theme-color,.book-theme-mono) .fallback a{color:inherit!important;text-decoration:none!important}
+}
