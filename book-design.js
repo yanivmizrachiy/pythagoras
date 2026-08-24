@@ -44,3 +44,15 @@ const observer=new MutationObserver(ms=>{if(ms.some(m=>[...m.addedNodes].some(n=
 function start(){apply(document);observer.observe(document.documentElement,{childList:true,subtree:true})}
 window.PythagorasBookDesign={apply,audit,coverage,observer,start};if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
 })();
+
+(()=>{'use strict';
+let selectedMode='color',modeObserver=null;
+function getApp(){return document.getElementById('app')}
+function markButtons(){const color=document.getElementById('colorMode'),mono=document.getElementById('monoMode');if(color){color.classList.toggle('is-active',selectedMode==='color');color.setAttribute('aria-pressed',String(selectedMode==='color'));color.dataset.state=selectedMode==='color'?'on':'off'}if(mono){mono.classList.toggle('is-active',selectedMode==='mono');mono.setAttribute('aria-pressed',String(selectedMode==='mono'));mono.dataset.state=selectedMode==='mono'?'on':'off'}}
+function enforceMode(){const app=getApp();if(app){const wanted=selectedMode==='mono'?'book-theme-mono':'book-theme-color';const other=selectedMode==='mono'?'book-theme-color':'book-theme-mono';if(!app.classList.contains(wanted)||app.classList.contains(other)||app.classList.contains('book-theme-original')){app.classList.remove('book-theme-original','book-theme-color','book-theme-mono');app.classList.add(wanted)}}markButtons();window.__PYTHAGORAS_VIEW_MODE__=selectedMode}
+function choose(mode){if(mode!=='color'&&mode!=='mono')return;selectedMode=mode;try{sessionStorage.setItem('pythagoras-view-mode',mode)}catch{}enforceMode()}
+function prepareDownloadButtons(){for(const id of ['downloadColor','downloadMono']){const b=document.getElementById(id);if(!b)continue;const s=b.querySelector('span');if(s)s.textContent='Download';b.setAttribute('aria-label',id==='downloadColor'?'Download PDF color':'Download PDF black and white');b.title=id==='downloadColor'?'Download PDF color':'Download PDF black and white'}}
+function wire(){try{const saved=sessionStorage.getItem('pythagoras-view-mode');if(saved==='mono'||saved==='color')selectedMode=saved}catch{}const color=document.getElementById('colorMode'),mono=document.getElementById('monoMode');if(color&&!color.dataset.fastModeBound){color.dataset.fastModeBound='1';color.addEventListener('click',()=>choose('color'),true);color.addEventListener('pointerdown',()=>choose('color'),{passive:true})}if(mono&&!mono.dataset.fastModeBound){mono.dataset.fastModeBound='1';mono.addEventListener('click',()=>choose('mono'),true);mono.addEventListener('pointerdown',()=>choose('mono'),{passive:true})}prepareDownloadButtons();enforceMode();const app=getApp();if(app&&'MutationObserver'in window){modeObserver?.disconnect();modeObserver=new MutationObserver(()=>queueMicrotask(enforceMode));modeObserver.observe(app,{attributes:true,attributeFilter:['class'],childList:true})}}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',wire,{once:true});else wire();
+window.PythagorasViewMode={set:choose,get:()=>selectedMode};
+})();
