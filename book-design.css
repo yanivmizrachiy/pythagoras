@@ -99,3 +99,23 @@
 .book-theme-mono .fallback svg :where([class*="helper" i],[class*="guide" i],.ped-helper-line){stroke:#777!important;stroke-dasharray:5 4}
 .book-theme-mono .fallback svg :where(line,path,polyline,polygon,circle,rect){vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-linejoin:round}
 @media print{:is(.book-theme-color,.book-theme-mono) .fallback a{color:inherit!important;text-decoration:none!important}}
+
+/* ---------- APP CONTROLS: selected mode + premium 3D Download ---------- */
+#colorMode,#monoMode{position:relative!important;isolation:isolate;transition:transform .11s ease,box-shadow .11s ease,filter .11s ease,opacity .11s ease!important}
+#colorMode:not(.is-active),#monoMode:not(.is-active){opacity:.70!important;filter:saturate(.68) contrast(.96)!important;transform:scale(.985)!important}
+#colorMode.is-active,#monoMode.is-active{opacity:1!important;filter:none!important;transform:translateY(-1px) scale(1.01)!important}
+#colorMode.is-active{border-color:#6fb7ee!important;box-shadow:0 0 0 3px rgba(56,151,220,.20),0 12px 30px rgba(16,64,101,.32),inset 0 1px 0 rgba(255,255,255,.35)!important}
+#monoMode.is-active{border-color:#5b626b!important;box-shadow:0 0 0 3px rgba(52,58,65,.15),0 12px 27px rgba(30,35,41,.18),inset 0 1px 0 #fff!important}
+#colorMode.is-active::after,#monoMode.is-active::after{content:'✓';position:absolute;inset-inline-start:10px;top:50%;translate:0 -50%;width:22px;height:22px;border-radius:999px;display:grid;place-items:center;font-size:13px;font-weight:950;line-height:1;z-index:2;pointer-events:none}
+#colorMode.is-active::after{background:#fff;color:#125180;box-shadow:0 2px 8px rgba(0,0,0,.18)}
+#monoMode.is-active::after{background:#17191c;color:#fff;box-shadow:0 2px 7px rgba(0,0,0,.16)}
+#downloadColor,#downloadMono{border-radius:999px!important;min-height:48px!important;padding:9px 16px!important;font-weight:900!important;letter-spacing:.015em!important;transform:translateY(-2px)!important;transition:transform .075s ease,box-shadow .075s ease,filter .075s ease!important;will-change:transform;touch-action:manipulation;user-select:none}
+#downloadColor{background:linear-gradient(180deg,#2c83c2 0%,#175684 52%,#103b5c 100%)!important;color:#fff!important;border:1px solid #0d3554!important;box-shadow:inset 0 2px 0 rgba(255,255,255,.32),inset 0 -2px 0 rgba(0,0,0,.13),0 5px 0 #082d48,0 9px 18px rgba(13,53,84,.28)!important;text-shadow:0 1px 1px rgba(0,0,0,.28)}
+#downloadMono{background:linear-gradient(180deg,#fff 0%,#eceef0 48%,#d7dadd 100%)!important;color:#15181b!important;border:1px solid #9fa5ac!important;box-shadow:inset 0 2px 0 #fff,inset 0 -2px 0 rgba(0,0,0,.08),0 5px 0 #818890,0 9px 17px rgba(31,36,41,.18)!important;text-shadow:0 1px 0 #fff}
+#downloadColor:hover:not(:disabled),#downloadMono:hover:not(:disabled){filter:brightness(1.045)!important;transform:translateY(-3px)!important}
+#downloadColor:active:not(:disabled),#downloadMono:active:not(:disabled){transform:translateY(3px)!important;box-shadow:inset 0 2px 4px rgba(0,0,0,.16),0 1px 0 rgba(0,0,0,.22)!important}
+#downloadColor svg,#downloadMono svg{width:19px!important;height:19px!important;stroke-width:2.35!important}
+#downloadColor span,#downloadMono span{direction:ltr;unicode-bidi:isolate;font-family:Arial,Helvetica,sans-serif;font-weight:900!important}
+@media(max-width:430px){#colorMode.is-active::after,#monoMode.is-active::after{width:19px;height:19px;font-size:11px;inset-inline-start:7px}#downloadColor,#downloadMono{min-height:44px!important;padding:8px 11px!important;font-size:11px!important}}
+@media(max-width:340px){#colorMode.is-active::after,#monoMode.is-active::after{width:17px;height:17px;font-size:10px;inset-inline-start:5px}#downloadColor,#downloadMono{min-height:42px!important;padding:7px 9px!important}}
+@media(prefers-reduced-motion:reduce){#colorMode,#monoMode,#downloadColor,#downloadMono{transition:none!important}}
