@@ -12,6 +12,7 @@
 </style>
 <link rel="stylesheet" href="book-design.css?v=3">
 <script src="book-design.js?v=2"></script>
+<script src="https://cdn.jsdelivr.net/npm/xz-decompress@0.2.3/dist/package/xz-decompress.min.js"></script>
 </head>
 <body>
 <nav class="top" aria-label="ניווט והדפסה">
@@ -20,7 +21,7 @@
 </nav>
 <main class="stage"><section class="paper"><div id="app" class="loading">טוען את דפי פיתגורס המעודכנים…</div></section></main>
 <section id="printHost" aria-hidden="true"></section>
-<script type="module">
+<script>
 const app=document.getElementById('app'),counter=document.getElementById('counter'),prev=document.getElementById('prev'),next=document.getElementById('next'),syncStatus=document.getElementById('syncStatus');
 const printOriginal=document.getElementById('printOriginal'),printColor=document.getElementById('printColor'),printMono=document.getElementById('printMono'),printHost=document.getElementById('printHost');
 const RUNTIME='https://pythagoras-runtime-cache.vercel.app';
@@ -40,8 +41,9 @@ async function loadLatestRuntime(){
  let b64='';for(const part of manifest.parts){const r=await fetch(RUNTIME+'/'+encodeURIComponent(part.name)+'?v='+encodeURIComponent(manifest.archiveSha256),{cache:'no-store'});if(!r.ok)throw new Error(part.name+' HTTP '+r.status);const t=(await r.text()).trim();if(part.length&&t.length!==part.length)throw new Error(part.name+' length mismatch');b64+=t}
  if(manifest.base64Length&&b64.length!==manifest.base64Length)throw new Error('runtime base64 length mismatch');
  const bin=atob(b64),xz=new Uint8Array(bin.length);for(let i=0;i<bin.length;i++)xz[i]=bin.charCodeAt(i);
- const mod=await import('https://esm.sh/xz-decompress@0.2.3');
- const tarBuffer=await new Response(new mod.XzReadableStream(new Blob([xz]).stream())).arrayBuffer();
+ const XzReadableStream=globalThis['xz-decompress']&&globalThis['xz-decompress'].XzReadableStream;
+ if(!XzReadableStream)throw new Error('מנוע XZ לא נטען');
+ const tarBuffer=await new Response(new XzReadableStream(new Blob([xz]).stream())).arrayBuffer();
  sourceSha=manifest.archiveSha256||String(manifest.version||Date.now());sourceName='מקור עדכני';return parseTar(new Uint8Array(tarBuffer));
 }
 
@@ -67,7 +69,7 @@ function prepareWorkbook(theme){printHost.className=theme==='mono'?'book-theme-m
 function printWorkbook(theme){prepareWorkbook(theme);requestAnimationFrame(()=>requestAnimationFrame(()=>window.print()))}
 async function checkForUpdate(){try{const r=await fetch(RUNTIME+'/?t='+Date.now(),{cache:'no-store'});if(!r.ok)return;const m=await r.json();if(m.archiveSha256&&sourceSha&&sourceSha!=='fallback-main'&&m.archiveSha256!==sourceSha){syncStatus.textContent='פורסמה גרסה חדשה — מעדכן…';location.reload()}}catch(e){console.debug('sync check skipped',e)}}
 
-try{files=await loadSource();prepareFiles(files);render();setInterval(checkForUpdate,60000)}catch(e){app.className='loading err';app.textContent='שגיאה בטעינת החוברת:\n'+e.message;counter.textContent='שגיאה';syncStatus.textContent='סנכרון נכשל';printOriginal.disabled=true;printColor.disabled=true;printMono.disabled=true;console.error(e)}
+(async()=>{try{files=await loadSource();prepareFiles(files);render();setInterval(checkForUpdate,60000)}catch(e){app.className='loading err';app.textContent='שגיאה בטעינת החוברת:\n'+e.message;counter.textContent='שגיאה';syncStatus.textContent='סנכרון נכשל';printOriginal.disabled=true;printColor.disabled=true;printMono.disabled=true;console.error(e)}})();
 addEventListener('afterprint',()=>{printHost.innerHTML='';printHost.className='';delete document.documentElement.dataset.printTheme});prev.onclick=()=>{if(idx>0){idx--;render();scrollTo(0,0)}};next.onclick=()=>{if(idx<52){idx++;render();scrollTo(0,0)}};printOriginal.onclick=()=>printWorkbook('original');printColor.onclick=()=>printWorkbook('color');printMono.onclick=()=>printWorkbook('mono');addEventListener('keydown',e=>{if(e.key==='ArrowLeft'&&idx<52){idx++;render()}if(e.key==='ArrowRight'&&idx>0){idx--;render()}});
 </script>
 </body></html>
