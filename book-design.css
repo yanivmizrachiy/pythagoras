@@ -1,41 +1,71 @@
-/* Central design system for the live Pythagoras workbook. Visual overrides only: no content or layout changes. */
-:root{--ped-ink:#172033;--ped-soft-ink:#526175;--ped-blue:#1f4e79;--ped-blue-deep:#163a5d;--ped-blue-soft:#eef4fa;--ped-teal:#2e716c;--ped-teal-soft:#eef8f6;--ped-amber:#965a0a;--ped-amber-soft:#fff6e8;--ped-line:#cbd5e1;--ped-faint:#f7f9fc;--mono-black:#000;--mono-ink:#171717;--mono-dark:#3f3f3f;--mono-mid:#707070;--mono-line:#a8a8a8;--mono-light:#d8d8d8;--mono-soft:#ededed;--mono-faint:#f7f7f7}
+/* Central design system for the live Pythagoras workbook. Visual overrides only: no content, sizing, spacing or geometry changes. */
+:root{--ped-ink:#172033;--ped-soft-ink:#526175;--ped-blue:#1f4e79;--ped-blue-deep:#163a5d;--ped-blue-strong:#245d91;--ped-blue-soft:#eef4fa;--ped-blue-faint:#f7fbff;--ped-teal:#2e716c;--ped-teal-soft:#eef8f6;--ped-amber:#965a0a;--ped-amber-soft:#fff6e8;--ped-rose:#8f3f49;--ped-rose-soft:#fff3f4;--ped-line:#cbd5e1;--ped-line-soft:#e7edf3;--ped-surface:#f7f9fc;--mono-black:#000;--mono-ink:#171717;--mono-dark:#3f3f3f;--mono-mid:#707070;--mono-line:#a8a8a8;--mono-light:#d8d8d8;--mono-soft:#ededed;--mono-faint:#f7f7f7}
 :is(.book-theme-color,.book-theme-mono) .fallback{background:#fff!important;box-shadow:none!important}
 :is(.book-theme-color,.book-theme-mono) .fallback *{box-sizing:border-box}
 :is(.book-theme-color,.book-theme-mono) .fallback :where(h1,h2,h3,h4,h5,h6){break-after:avoid;page-break-after:avoid}
 :is(.book-theme-color,.book-theme-mono) .fallback :where(svg,figure,table,.ped-card){break-inside:avoid;page-break-inside:avoid}
 :is(.book-theme-color,.book-theme-mono) .fallback :where(strong,b){font-weight:800}
 
-/* COLOR: one semantic textbook language. No spacing or geometry is changed. */
+/* ---------- COLOR: semantic textbook language ---------- */
 .book-theme-color .fallback{color:var(--ped-ink)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .book-theme-color .fallback :where(.page-title,h1,.ped-page-title){color:var(--ped-blue-deep)!important}
 .book-theme-color .fallback :where(.page-subtitle,h2,.chapter-bar,.ped-section-title){color:var(--ped-blue)!important}
 .book-theme-color .fallback :where(h3,h4,h5,h6,.ped-subtitle){color:#315d84!important}
 .book-theme-color .fallback :where(p,li,dd,dt,label,.q-text,.qbody,.subt,.pc-item){color:var(--ped-ink)!important}
 .book-theme-color .fallback :where(strong,b){color:var(--ped-blue-deep)!important}
+
+/* question/action hierarchy */
 .book-theme-color .fallback .ped-question{box-shadow:inset -3px 0 0 var(--ped-blue)}
-.book-theme-color .fallback :where(.ped-concept,.foundation-note,.defcard,.pyt-solve-note){background:var(--ped-teal-soft)!important;color:var(--ped-ink)!important;box-shadow:inset -4px 0 0 var(--ped-teal),inset 0 0 0 1px #b8d8d3}
-.book-theme-color .fallback :where(.ped-hint,aside,blockquote){background:var(--ped-teal-soft)!important;color:var(--ped-ink)!important;box-shadow:inset -4px 0 0 var(--ped-teal)}
-.book-theme-color .fallback :where(.ped-example){background:var(--ped-blue-soft)!important;box-shadow:inset 0 0 0 1px #c0d3e6}
-.book-theme-color .fallback :where(.ped-action){background:var(--ped-amber-soft)!important;box-shadow:inset 0 0 0 1px #dfbf8a}
-.book-theme-color .fallback :where(.ped-formula){color:var(--ped-blue-deep)!important;background:#f8fbfe!important;box-shadow:inset 0 0 0 1px #d7e4ef}
-.book-theme-color .fallback :where(.ped-card,.foundation-card,.tri-cell,.figure,.pyt-diagram-frame,.cur-fig){border-color:var(--ped-line)!important}
-.book-theme-color .fallback :where(.ped-answer,.foundation-fill,.pyt-final-answer,.wline,.mcbox,.tri-check,.check,.work-lines,.solution-space,.final-build-area){border-color:#768aa0!important;color:var(--ped-ink)!important}
-.book-theme-color .fallback :where(.ped-solution,.pyt-solutions,.pyt-solution){color:var(--ped-blue-deep)!important;background:var(--ped-blue-soft)!important}
+.book-theme-color .fallback .ped-question-group{box-shadow:inset 0 0 0 1px rgba(31,78,121,.08)}
+.book-theme-color .fallback :where(.q-main,.qrow,.q-sub){color:var(--ped-ink)!important}
 .book-theme-color .fallback :where(.ped-bullet,.bullet-large,.bullet-small){background:var(--ped-blue)!important;border-color:var(--ped-blue)!important}
+
+/* concept / instruction */
+.book-theme-color .fallback :where(.ped-concept,.foundation-note,.defcard,.pyt-solve-note,.page7-summary,.final-observation){background:var(--ped-teal-soft)!important;color:var(--ped-ink)!important;box-shadow:inset -4px 0 0 var(--ped-teal),inset 0 0 0 1px #b8d8d3}
+.book-theme-color .fallback :where(.ped-hint,aside,blockquote){background:var(--ped-teal-soft)!important;color:var(--ped-ink)!important;box-shadow:inset -4px 0 0 var(--ped-teal)}
+.book-theme-color .fallback :where(.chapter-bar){background:linear-gradient(90deg,#f5f9fd,#eef5fb)!important;color:var(--ped-blue-deep)!important;border-color:#c6d7e7!important}
+
+/* structured practice and mathematical relationships */
+.book-theme-color .fallback :where(.ped-example){background:var(--ped-blue-soft)!important;box-shadow:inset 0 0 0 1px #c0d3e6}
+.book-theme-color .fallback :where(.ped-formula,.inverse-pair-card,.mixed-card,.final-pair-row,.root-slot,.pairs-col,.cur-final){color:var(--ped-blue-deep)!important;background:var(--ped-blue-faint)!important;box-shadow:inset 0 0 0 1px #d7e4ef}
+.book-theme-color .fallback :where(.pair-arrow,.ped-relation){color:var(--ped-teal)!important}
+.book-theme-color .fallback :where(.inverse-pair-card,.mixed-card,.final-pair-row) strong{color:var(--ped-blue-deep)!important}
+
+/* error checking / attention */
+.book-theme-color .fallback :where(.ped-action,.error-card,.error-response){background:var(--ped-amber-soft)!important;color:var(--ped-ink)!important;box-shadow:inset 0 0 0 1px #e5c995}
+.book-theme-color .fallback :where(.error-card) .check{border-color:var(--ped-amber)!important}
+.book-theme-color .fallback :where(.important,.warning,[class*="warning" i]){background:var(--ped-rose-soft)!important;color:var(--ped-rose)!important}
+
+/* cards / choices / answer spaces */
+.book-theme-color .fallback :where(.ped-card,.foundation-card,.tri-cell,.figure,.pyt-diagram-frame,.cur-fig,.inverse-pair-card,.mixed-card,.error-card,.final-pair-row,.classification-card,.drawing-card){border-color:var(--ped-line)!important}
+.book-theme-color .fallback :where(.foundation-card,.tri-cell,.drawing-card,.classification-card){background:#fff!important;box-shadow:inset 0 0 0 1px rgba(203,213,225,.45)}
+.book-theme-color .fallback :where(.ped-answer,.foundation-fill,.pyt-final-answer,.wline,.mcbox,.tri-check,.check,.work-lines,.solution-space,.final-build-area,.response-line,.cls-fill){border-color:#768aa0!important;color:var(--ped-ink)!important;background-color:#fff!important}
+.book-theme-color .fallback :where(.work-lines,.solution-space,.final-build-area){background-image:linear-gradient(to bottom,transparent calc(100% - 1px),rgba(82,97,117,.13) 1px)!important}
+.book-theme-color .fallback :where(.ped-solution,.pyt-solutions,.pyt-solution){color:var(--ped-blue-deep)!important;background:var(--ped-blue-soft)!important}
 .book-theme-color .fallback :where(.ped-footer,.gz-footer){color:var(--ped-soft-ink)!important;border-color:var(--ped-line)!important}
+
+/* tables */
 .book-theme-color .fallback table{border-color:var(--ped-line)!important}
 .book-theme-color .fallback :where(th,thead td){background:var(--ped-blue-soft)!important;color:var(--ped-blue-deep)!important;border-color:var(--ped-line)!important}
 .book-theme-color .fallback td{border-color:var(--ped-line)!important}
+
+/* diagrams: color by mathematical role, never hue-only */
 .book-theme-color .fallback svg{filter:none!important;overflow:visible}
 .book-theme-color .fallback svg :where(text,tspan){fill:var(--ped-ink)}
 .book-theme-color .fallback svg :where(.edge,.pyt-edge,.guide-ray,.cax){stroke:var(--ped-blue-deep)!important}
-.book-theme-color .fallback svg :where(.cg){stroke:#d8e0e8!important}
+.book-theme-color .fallback svg :where(.cg,.ped-grid-line){stroke:#d8e0e8!important}
 .book-theme-color .fallback svg :where(.pyt-right,.mark){stroke:var(--ped-teal)!important}
 .book-theme-color .fallback svg :where(.cpt,.vx,.guide-point){fill:var(--ped-blue)!important;stroke:var(--ped-blue)!important}
+.book-theme-color .fallback svg :where([stroke="#1d4ed8"]){stroke:var(--ped-blue)!important}
+.book-theme-color .fallback svg :where([fill="#1d4ed8"]){fill:var(--ped-blue)!important}
+.book-theme-color .fallback svg :where([stroke="#94a3b8"]){stroke:#96a6b7!important}
+.book-theme-color .fallback svg :where([stroke="#e7eaf1"]){stroke:#e1e7ed!important}
+.book-theme-color .fallback svg :where([fill="#1f2a44"]){fill:var(--ped-ink)!important}
+.book-theme-color .fallback svg :where([stroke="#1f2a44"]){stroke:var(--ped-ink)!important}
+.book-theme-color .fallback svg :where([class*="helper" i],[class*="guide" i],.ped-helper-line){stroke:#8796a7!important;stroke-dasharray:5 4}
 .book-theme-color .fallback svg :where(line,path,polyline,polygon,circle,rect){vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-linejoin:round}
 
-/* MONO: explicit semantic grayscale; grayscale filter is only a safety net for any unknown residual color. */
+/* ---------- MONO: explicit semantic grayscale ---------- */
 .book-theme-mono .fallback{color:var(--mono-black)!important;background:#fff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
 .book-theme-mono .fallback .a4-page{filter:grayscale(1)!important}
 .book-theme-mono .fallback :where(.page-title,h1,.ped-page-title){color:#000!important}
@@ -43,13 +73,13 @@
 .book-theme-mono .fallback :where(h3,h4,h5,h6,.ped-subtitle){color:var(--mono-dark)!important}
 .book-theme-mono .fallback :where(p,li,dd,dt,label,.q-text,.qbody,.subt,.pc-item,strong,b){color:#000!important}
 .book-theme-mono .fallback .ped-question{box-shadow:inset -3px 0 0 #111!important}
-.book-theme-mono .fallback :where(.ped-concept,.foundation-note,.defcard,.pyt-solve-note){background:var(--mono-soft)!important;color:#000!important;box-shadow:inset -4px 0 0 var(--mono-dark),inset 0 0 0 1px var(--mono-line)!important}
+.book-theme-mono .fallback :where(.ped-concept,.foundation-note,.defcard,.pyt-solve-note,.page7-summary,.final-observation){background:var(--mono-soft)!important;color:#000!important;box-shadow:inset -4px 0 0 var(--mono-dark),inset 0 0 0 1px var(--mono-line)!important}
 .book-theme-mono .fallback :where(.ped-hint,aside,blockquote){background:var(--mono-soft)!important;color:#000!important;box-shadow:inset -4px 0 0 var(--mono-dark)!important}
 .book-theme-mono .fallback :where(.ped-example){background:var(--mono-faint)!important;box-shadow:inset 0 0 0 1px var(--mono-line)!important}
-.book-theme-mono .fallback :where(.ped-action){background:#e4e4e4!important;box-shadow:inset 0 0 0 1.2px #555!important}
-.book-theme-mono .fallback :where(.ped-formula){color:#000!important;background:#fafafa!important;box-shadow:inset 0 0 0 1.2px var(--mono-dark)!important}
-.book-theme-mono .fallback :where(.ped-card,.foundation-card,.tri-cell,.figure,.pyt-diagram-frame,.cur-fig){border-color:var(--mono-line)!important}
-.book-theme-mono .fallback :where(.ped-answer,.foundation-fill,.pyt-final-answer,.wline,.mcbox,.tri-check,.check,.work-lines,.solution-space,.final-build-area){background:#fff!important;color:#000!important;border-color:#4f4f4f!important}
+.book-theme-mono .fallback :where(.ped-action,.error-card,.error-response){background:#e9e9e9!important;color:#000!important;box-shadow:inset 0 0 0 1.2px #666!important}
+.book-theme-mono .fallback :where(.ped-formula,.inverse-pair-card,.mixed-card,.final-pair-row,.root-slot,.pairs-col,.cur-final){color:#000!important;background:#fafafa!important;box-shadow:inset 0 0 0 1.2px var(--mono-dark)!important}
+.book-theme-mono .fallback :where(.ped-card,.foundation-card,.tri-cell,.figure,.pyt-diagram-frame,.cur-fig,.inverse-pair-card,.mixed-card,.error-card,.final-pair-row,.classification-card,.drawing-card){border-color:var(--mono-line)!important}
+.book-theme-mono .fallback :where(.ped-answer,.foundation-fill,.pyt-final-answer,.wline,.mcbox,.tri-check,.check,.work-lines,.solution-space,.final-build-area,.response-line,.cls-fill){background:#fff!important;color:#000!important;border-color:#4f4f4f!important}
 .book-theme-mono .fallback :where(.ped-solution,.pyt-solutions,.pyt-solution){color:#000!important;background:#efefef!important}
 .book-theme-mono .fallback :where(.ped-bullet,.bullet-large,.bullet-small){background:#111!important;border-color:#111!important}
 .book-theme-mono .fallback :where(.ped-footer,.gz-footer){color:var(--mono-mid)!important;border-color:var(--mono-line)!important}
@@ -60,12 +90,12 @@
 .book-theme-mono .fallback svg{filter:none!important}
 .book-theme-mono .fallback svg :where(text,tspan){fill:#000!important}
 .book-theme-mono .fallback svg :where(.edge,.pyt-edge,.guide-ray,.cax){stroke:#111!important}
-.book-theme-mono .fallback svg :where(.cg){stroke:#d0d0d0!important}
+.book-theme-mono .fallback svg :where(.cg,.ped-grid-line){stroke:#d0d0d0!important}
 .book-theme-mono .fallback svg :where(.pyt-right,.mark){stroke:#333!important}
 .book-theme-mono .fallback svg :where(.cpt,.vx,.guide-point,.carr){fill:#111!important;stroke:#111!important}
 .book-theme-mono .fallback svg :where([stroke="#1d4ed8"],[stroke="#1f2a44"]){stroke:#111!important}
 .book-theme-mono .fallback svg :where([stroke="#94a3b8"],[stroke="#e7eaf1"]){stroke:#aaa!important}
 .book-theme-mono .fallback svg :where([fill="#1d4ed8"],[fill="#1f2a44"]){fill:#111!important}
-.book-theme-mono .fallback svg :where([class*="helper" i],[class*="guide" i]){stroke:#777!important;stroke-dasharray:5 4}
+.book-theme-mono .fallback svg :where([class*="helper" i],[class*="guide" i],.ped-helper-line){stroke:#777!important;stroke-dasharray:5 4}
 .book-theme-mono .fallback svg :where(line,path,polyline,polygon,circle,rect){vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-linejoin:round}
 @media print{:is(.book-theme-color,.book-theme-mono) .fallback a{color:inherit!important;text-decoration:none!important}}
