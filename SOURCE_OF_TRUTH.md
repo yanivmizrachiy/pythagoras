@@ -135,3 +135,4 @@
 - `backdrop-filter` הוא enhancement בלבד; גם ללא תמיכה בו הממשק חייב להישאר קריא, יציב ושימושי.
 - כל עומק סביב דף A4 חייב להיות רב־שכבתי אך סימטרי, ללא `x/y offset`, כדי לשמור על תחושת דף מרחף ולא דף מוטה.
 - `prefers-reduced-motion` מבטל אנימציות ומעברים שאינם חיוניים.
+- `index.html` טוען את `book-design.js` עם cache-bust `v=12`, ו־`book-design.js` טוען את `ui-controls.css` עם cache-bust `v=6`, כדי שהעיצוב העדכני יגיע מיד ולא ייתקע על bundle ישן.
