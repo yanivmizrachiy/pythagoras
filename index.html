@@ -21,7 +21,7 @@
 @media print{@page{size:A4;margin:0}html,body{margin:0!important;padding:0!important;background:#fff!important}.top,.stage{display:none!important}#printHost{display:block!important;width:210mm!important;margin:0!important;padding:0!important;background:#fff!important}.print-page{width:210mm!important;height:297mm!important;min-height:297mm!important;margin:0!important;padding:0!important;background:#fff!important;overflow:hidden!important;break-after:page;page-break-after:always}.print-page:last-child{break-after:auto;page-break-after:auto}.print-page .fallback,.print-page .a4-page{margin:0!important}.book-theme-original .fallback,.book-theme-color .fallback,.book-theme-mono .fallback{-webkit-print-color-adjust:exact;print-color-adjust:exact}}
 </style>
 <script>
-MathJax={tex:{inlineMath:[["\\(","\\)"]]},chtml:{fontURL:'https://aaa-pythagoras.vercel.app/vendor/mathjax/tex-font/chtml/woff2'}};
+MathJax={tex:{inlineMath:[["\\(","\\)"]]},output:{linebreaks:{inline:false}},chtml:{fontURL:'https://aaa-pythagoras.vercel.app/vendor/mathjax/tex-font/chtml/woff2'}};
 window.__mjFallback=function(){if(window.__mjFallbackDone||(window.MathJax&&window.MathJax.typesetPromise))return;window.__mjFallbackDone=true;try{if(window.MathJax&&window.MathJax.chtml)delete window.MathJax.chtml.fontURL}catch(e){}var s=document.createElement('script');s.defer=true;s.src='https://cdn.jsdelivr.net/npm/mathjax@4.1.3/tex-mml-chtml.js';s.onerror=function(){console.warn('MathJax fallback CDN failed')};document.head.appendChild(s)};
 </script>
 <script defer src="https://aaa-pythagoras.vercel.app/vendor/mathjax/tex-mml-chtml.js" onerror="__mjFallback()"></script>
@@ -58,8 +58,8 @@ let mjResolve;const mjEngineReady=new Promise(r=>{mjResolve=r});
 (function mjWatch(){const M=window.MathJax;if(M&&M.typesetPromise){Promise.resolve(M.startup?.promise).then(()=>mjResolve(M),()=>mjResolve(M))}else{setTimeout(mjWatch,150)}})();
 addEventListener('load',()=>setTimeout(()=>{if(!window.MathJax?.typesetPromise)window.__mjFallback?.()},400),{once:true});
 const mathReady=ms=>ms?Promise.race([mjEngineReady,new Promise(r=>setTimeout(()=>r(null),ms))]):mjEngineReady;
-let mjQueue=Promise.resolve();
-function typeset(scope){const run=mjQueue.then(async()=>{const M=await mjEngineReady;try{if(M.typesetClear)M.typesetClear([scope]);await M.typesetPromise([scope])}catch(e){console.warn('MathJax',e);try{await M.typesetPromise([scope])}catch(e2){console.warn('MathJax retry',e2)}}});mjQueue=run.catch(()=>{});return run}
+let mjQueue=Promise.resolve();const mjSeen=new WeakSet();
+function typeset(scope){const run=mjQueue.then(async()=>{const M=await mjEngineReady;try{if(M.typesetClear&&mjSeen.has(scope))M.typesetClear([scope]);mjSeen.add(scope);await M.typesetPromise([scope])}catch(e){console.warn('MathJax',e);try{await M.typesetPromise([scope])}catch(e2){console.warn('MathJax retry',e2)}}});mjQueue=run.catch(()=>{});return run}
 function typesetSheet(sheet){return typeset(sheet).then(()=>{if(sheet.isConnected&&/\\\(|\\\[/.test(sheet.textContent||'')&&!sheet.dataset.mjRepaired){sheet.dataset.mjRepaired='1';return typeset(sheet)}})}
 function sweepMath(){app.querySelectorAll('.scroll-sheet:not(.is-placeholder)').forEach(s=>{if(/\\\(|\\\[/.test(s.textContent||''))typesetSheet(s)})}
 mjEngineReady.then(()=>{setTimeout(sweepMath,80)});
