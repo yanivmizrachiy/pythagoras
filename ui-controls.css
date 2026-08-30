@@ -66,6 +66,10 @@ body>.stage .scroll-sheet{
   margin-left:auto!important;
   margin-right:auto!important;
   margin-inline:auto!important;
+  box-shadow:0 0 26px rgba(38,53,77,.14)!important;
+}
+body>.stage .scroll-sheet.is-current{
+  box-shadow:0 0 32px rgba(27,63,99,.18)!important;
 }
 body>.stage .preview-fit{
   margin-left:auto!important;
