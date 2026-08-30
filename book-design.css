@@ -1,121 +1,170 @@
-/* Central design system for the live Pythagoras workbook. Visual overrides only: no content, sizing, spacing or geometry changes. */
-:root{--ped-ink:#172033;--ped-soft-ink:#526175;--ped-blue:#1f4e79;--ped-blue-deep:#163a5d;--ped-blue-strong:#245d91;--ped-blue-soft:#eef4fa;--ped-blue-faint:#f7fbff;--ped-teal:#2e716c;--ped-teal-soft:#eef8f6;--ped-amber:#965a0a;--ped-amber-soft:#fff6e8;--ped-rose:#8f3f49;--ped-rose-soft:#fff3f4;--ped-line:#cbd5e1;--ped-line-soft:#e7edf3;--ped-surface:#f7f9fc;--mono-black:#000;--mono-ink:#171717;--mono-dark:#3f3f3f;--mono-mid:#707070;--mono-line:#a8a8a8;--mono-light:#d8d8d8;--mono-soft:#ededed;--mono-faint:#f7f7f7}
-:is(.book-theme-color,.book-theme-mono) .fallback{background:#fff!important;box-shadow:none!important}
-:is(.book-theme-color,.book-theme-mono) .fallback *{box-sizing:border-box}
-:is(.book-theme-color,.book-theme-mono) .fallback :where(h1,h2,h3,h4,h5,h6){break-after:avoid;page-break-after:avoid}
-:is(.book-theme-color,.book-theme-mono) .fallback :where(svg,figure,table,.ped-card){break-inside:avoid;page-break-inside:avoid}
-:is(.book-theme-color,.book-theme-mono) .fallback :where(strong,b){font-weight:800}
+/* Pythagoras workbook design safety layer.
+   IMPORTANT: this file must never change workbook geometry or decorate content heuristically.
+   Color mode preserves the source workbook exactly; mono mode is a non-structural grayscale view.
+*/
 
-/* ---------- COLOR: semantic textbook language ---------- */
-.book-theme-color .fallback{color:var(--ped-ink)!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-.book-theme-color .fallback :where(.page-title,h1,.ped-page-title){color:var(--ped-blue-deep)!important}
-.book-theme-color .fallback :where(.page-subtitle,h2,.chapter-bar,.ped-section-title){color:var(--ped-blue)!important}
-.book-theme-color .fallback :where(h3,h4,h5,h6,.ped-subtitle){color:#315d84!important}
-.book-theme-color .fallback :where(p,li,dd,dt,label,.q-text,.qbody,.subt,.pc-item){color:var(--ped-ink)!important}
-.book-theme-color .fallback :where(strong,b){color:var(--ped-blue-deep)!important}
+/* ---------- CONTENT SAFETY ---------- */
+:is(.book-theme-color,.book-theme-mono) .fallback{
+  -webkit-print-color-adjust:exact;
+  print-color-adjust:exact;
+}
 
-/* question/action hierarchy */
-.book-theme-color .fallback .ped-question{box-shadow:inset -3px 0 0 var(--ped-blue)}
-.book-theme-color .fallback .ped-question-group{box-shadow:inset 0 0 0 1px rgba(31,78,121,.08)}
-.book-theme-color .fallback :where(.q-main,.qrow,.q-sub){color:var(--ped-ink)!important}
-.book-theme-color .fallback :where(.ped-bullet,.bullet-large,.bullet-small){background:var(--ped-blue)!important;border-color:var(--ped-blue)!important}
+:is(.book-theme-color,.book-theme-mono) .fallback *{
+  box-sizing:border-box;
+}
 
-/* concept / instruction */
-.book-theme-color .fallback :where(.ped-concept,.foundation-note,.defcard,.pyt-solve-note,.page7-summary,.final-observation){background:var(--ped-teal-soft)!important;color:var(--ped-ink)!important;box-shadow:inset -4px 0 0 var(--ped-teal),inset 0 0 0 1px #b8d8d3}
-.book-theme-color .fallback :where(.ped-hint,aside,blockquote){background:var(--ped-teal-soft)!important;color:var(--ped-ink)!important;box-shadow:inset -4px 0 0 var(--ped-teal)}
-.book-theme-color .fallback :where(.chapter-bar){background:linear-gradient(90deg,#f5f9fd,#eef5fb)!important;color:var(--ped-blue-deep)!important;border-color:#c6d7e7!important}
+:is(.book-theme-color,.book-theme-mono) .fallback :where(h1,h2,h3,h4,h5,h6){
+  break-after:avoid;
+  page-break-after:avoid;
+}
 
-/* structured practice and mathematical relationships */
-.book-theme-color .fallback :where(.ped-example){background:var(--ped-blue-soft)!important;box-shadow:inset 0 0 0 1px #c0d3e6}
-.book-theme-color .fallback :where(.ped-formula,.inverse-pair-card,.mixed-card,.final-pair-row,.root-slot,.pairs-col,.cur-final){color:var(--ped-blue-deep)!important;background:var(--ped-blue-faint)!important;box-shadow:inset 0 0 0 1px #d7e4ef}
-.book-theme-color .fallback :where(.pair-arrow,.ped-relation){color:var(--ped-teal)!important}
-.book-theme-color .fallback :where(.inverse-pair-card,.mixed-card,.final-pair-row) strong{color:var(--ped-blue-deep)!important}
+:is(.book-theme-color,.book-theme-mono) .fallback :where(svg,figure,table){
+  break-inside:avoid;
+  page-break-inside:avoid;
+}
 
-/* error checking / attention */
-.book-theme-color .fallback :where(.ped-action,.error-card,.error-response){background:var(--ped-amber-soft)!important;color:var(--ped-ink)!important;box-shadow:inset 0 0 0 1px #e5c995}
-.book-theme-color .fallback :where(.error-card) .check{border-color:var(--ped-amber)!important}
-.book-theme-color .fallback :where(.important,.warning,[class*="warning" i]){background:var(--ped-rose-soft)!important;color:var(--ped-rose)!important}
+/* Color mode is intentionally source-preserving. No backgrounds, borders, side bars,
+   shadows, spacing, sizing, typography or diagram colors are overridden here. */
+.book-theme-color .fallback{
+  filter:none!important;
+}
 
-/* cards / choices / answer spaces */
-.book-theme-color .fallback :where(.ped-card,.foundation-card,.tri-cell,.figure,.pyt-diagram-frame,.cur-fig,.inverse-pair-card,.mixed-card,.error-card,.final-pair-row,.classification-card,.drawing-card){border-color:var(--ped-line)!important}
-.book-theme-color .fallback :where(.foundation-card,.tri-cell,.drawing-card,.classification-card){background:#fff!important;box-shadow:inset 0 0 0 1px rgba(203,213,225,.45)}
-.book-theme-color .fallback :where(.ped-answer,.foundation-fill,.pyt-final-answer,.wline,.mcbox,.tri-check,.check,.work-lines,.solution-space,.final-build-area,.response-line,.cls-fill){border-color:#768aa0!important;color:var(--ped-ink)!important;background-color:#fff!important}
-.book-theme-color .fallback :where(.work-lines,.solution-space,.final-build-area){background-image:linear-gradient(to bottom,transparent calc(100% - 1px),rgba(82,97,117,.13) 1px)!important}
-.book-theme-color .fallback :where(.ped-solution,.pyt-solutions,.pyt-solution){color:var(--ped-blue-deep)!important;background:var(--ped-blue-soft)!important}
-.book-theme-color .fallback :where(.ped-footer,.gz-footer){color:var(--ped-soft-ink)!important;border-color:var(--ped-line)!important}
+/* Black-and-white is intentionally non-structural: preserve all source geometry and
+   convert appearance only. */
+.book-theme-mono .fallback{
+  filter:grayscale(1)!important;
+}
 
-/* tables */
-.book-theme-color .fallback table{border-color:var(--ped-line)!important}
-.book-theme-color .fallback :where(th,thead td){background:var(--ped-blue-soft)!important;color:var(--ped-blue-deep)!important;border-color:var(--ped-line)!important}
-.book-theme-color .fallback td{border-color:var(--ped-line)!important}
+/* Legacy semantic classes were injected by the previous design enhancer. The JS layer
+   removes them from live pages. These rules are a fail-safe so stale DOM can never show
+   the former one-sided blue/teal/black accents while cleanup is running. */
+:is(.book-theme-color,.book-theme-mono) .fallback :where(
+  .ped-question,.ped-question-group,.ped-concept,.ped-example,.ped-hint,.ped-solution,
+  .ped-formula,.ped-answer,.ped-diagram,.ped-action,.ped-card,.ped-bullet,.ped-footer,
+  .ped-page-title,.ped-section-title,.ped-subtitle,.ped-grid-line,.ped-helper-line,.ped-relation
+){
+  box-shadow:none!important;
+}
 
-/* diagrams: color by mathematical role, never hue-only */
-.book-theme-color .fallback svg{filter:none!important;overflow:visible}
-.book-theme-color .fallback svg :where(text,tspan){fill:var(--ped-ink)}
-.book-theme-color .fallback svg :where(.edge,.pyt-edge,.guide-ray,.cax){stroke:var(--ped-blue-deep)!important}
-.book-theme-color .fallback svg :where(.cg,.ped-grid-line){stroke:#d8e0e8!important}
-.book-theme-color .fallback svg :where(.pyt-right,.mark){stroke:var(--ped-teal)!important}
-.book-theme-color .fallback svg :where(.cpt,.vx,.guide-point){fill:var(--ped-blue)!important;stroke:var(--ped-blue)!important}
-.book-theme-color .fallback svg :where([stroke="#1d4ed8"]){stroke:var(--ped-blue)!important}
-.book-theme-color .fallback svg :where([fill="#1d4ed8"]){fill:var(--ped-blue)!important}
-.book-theme-color .fallback svg :where([stroke="#94a3b8"]){stroke:#96a6b7!important}
-.book-theme-color .fallback svg :where([stroke="#e7eaf1"]){stroke:#e1e7ed!important}
-.book-theme-color .fallback svg :where([fill="#1f2a44"]){fill:var(--ped-ink)!important}
-.book-theme-color .fallback svg :where([stroke="#1f2a44"]){stroke:var(--ped-ink)!important}
-.book-theme-color .fallback svg :where([class*="helper" i],[class*="guide" i],.ped-helper-line){stroke:#8796a7!important;stroke-dasharray:5 4}
-.book-theme-color .fallback svg :where(line,path,polyline,polygon,circle,rect){vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-linejoin:round}
+/* Never add one-sided emphasis to workbook boxes/cards. */
+:is(.book-theme-color,.book-theme-mono) .fallback :where(
+  .ped-question,.ped-concept,.ped-hint,.ped-action
+){
+  border-inline-start-color:inherit!important;
+  border-inline-end-color:inherit!important;
+}
 
-/* ---------- MONO: explicit semantic grayscale ---------- */
-.book-theme-mono .fallback{color:var(--mono-black)!important;background:#fff!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-.book-theme-mono .fallback .a4-page{filter:grayscale(1)!important}
-.book-theme-mono .fallback :where(.page-title,h1,.ped-page-title){color:#000!important}
-.book-theme-mono .fallback :where(.page-subtitle,h2,.chapter-bar,.ped-section-title){color:var(--mono-ink)!important}
-.book-theme-mono .fallback :where(h3,h4,h5,h6,.ped-subtitle){color:var(--mono-dark)!important}
-.book-theme-mono .fallback :where(p,li,dd,dt,label,.q-text,.qbody,.subt,.pc-item,strong,b){color:#000!important}
-.book-theme-mono .fallback .ped-question{box-shadow:inset -3px 0 0 #111!important}
-.book-theme-mono .fallback :where(.ped-concept,.foundation-note,.defcard,.pyt-solve-note,.page7-summary,.final-observation){background:var(--mono-soft)!important;color:#000!important;box-shadow:inset -4px 0 0 var(--mono-dark),inset 0 0 0 1px var(--mono-line)!important}
-.book-theme-mono .fallback :where(.ped-hint,aside,blockquote){background:var(--mono-soft)!important;color:#000!important;box-shadow:inset -4px 0 0 var(--mono-dark)!important}
-.book-theme-mono .fallback :where(.ped-example){background:var(--mono-faint)!important;box-shadow:inset 0 0 0 1px var(--mono-line)!important}
-.book-theme-mono .fallback :where(.ped-action,.error-card,.error-response){background:#e9e9e9!important;color:#000!important;box-shadow:inset 0 0 0 1.2px #666!important}
-.book-theme-mono .fallback :where(.ped-formula,.inverse-pair-card,.mixed-card,.final-pair-row,.root-slot,.pairs-col,.cur-final){color:#000!important;background:#fafafa!important;box-shadow:inset 0 0 0 1.2px var(--mono-dark)!important}
-.book-theme-mono .fallback :where(.ped-card,.foundation-card,.tri-cell,.figure,.pyt-diagram-frame,.cur-fig,.inverse-pair-card,.mixed-card,.error-card,.final-pair-row,.classification-card,.drawing-card){border-color:var(--mono-line)!important}
-.book-theme-mono .fallback :where(.ped-answer,.foundation-fill,.pyt-final-answer,.wline,.mcbox,.tri-check,.check,.work-lines,.solution-space,.final-build-area,.response-line,.cls-fill){background:#fff!important;color:#000!important;border-color:#4f4f4f!important}
-.book-theme-mono .fallback :where(.ped-solution,.pyt-solutions,.pyt-solution){color:#000!important;background:#efefef!important}
-.book-theme-mono .fallback :where(.ped-bullet,.bullet-large,.bullet-small){background:#111!important;border-color:#111!important}
-.book-theme-mono .fallback :where(.ped-footer,.gz-footer){color:var(--mono-mid)!important;border-color:var(--mono-line)!important}
-.book-theme-mono .fallback table{border-color:var(--mono-line)!important}
-.book-theme-mono .fallback :where(th,thead td){background:var(--mono-soft)!important;color:#111!important;border-color:var(--mono-line)!important}
-.book-theme-mono .fallback td{border-color:var(--mono-line)!important}
-.book-theme-mono .fallback :where(img,canvas){filter:grayscale(1) contrast(1.08)!important}
-.book-theme-mono .fallback svg{filter:none!important}
-.book-theme-mono .fallback svg :where(text,tspan){fill:#000!important}
-.book-theme-mono .fallback svg :where(.edge,.pyt-edge,.guide-ray,.cax){stroke:#111!important}
-.book-theme-mono .fallback svg :where(.cg,.ped-grid-line){stroke:#d0d0d0!important}
-.book-theme-mono .fallback svg :where(.pyt-right,.mark){stroke:#333!important}
-.book-theme-mono .fallback svg :where(.cpt,.vx,.guide-point,.carr){fill:#111!important;stroke:#111!important}
-.book-theme-mono .fallback svg :where([stroke="#1d4ed8"],[stroke="#1f2a44"]){stroke:#111!important}
-.book-theme-mono .fallback svg :where([stroke="#94a3b8"],[stroke="#e7eaf1"]){stroke:#aaa!important}
-.book-theme-mono .fallback svg :where([fill="#1d4ed8"],[fill="#1f2a44"]){fill:#111!important}
-.book-theme-mono .fallback svg :where([class*="helper" i],[class*="guide" i],.ped-helper-line){stroke:#777!important;stroke-dasharray:5 4}
-.book-theme-mono .fallback svg :where(line,path,polyline,polygon,circle,rect){vector-effect:non-scaling-stroke;stroke-linecap:round;stroke-linejoin:round}
-@media print{:is(.book-theme-color,.book-theme-mono) .fallback a{color:inherit!important;text-decoration:none!important}}
+@media print{
+  :is(.book-theme-color,.book-theme-mono) .fallback a{
+    color:inherit!important;
+    text-decoration:none!important;
+  }
+}
 
-/* ---------- APP CONTROLS: selected mode + premium 3D Download ---------- */
-#colorMode,#monoMode{position:relative!important;isolation:isolate;transition:transform .11s ease,box-shadow .11s ease,filter .11s ease,opacity .11s ease!important}
-#colorMode:not(.is-active),#monoMode:not(.is-active){opacity:.70!important;filter:saturate(.68) contrast(.96)!important;transform:scale(.985)!important}
-#colorMode.is-active,#monoMode.is-active{opacity:1!important;filter:none!important;transform:translateY(-1px) scale(1.01)!important}
-#colorMode.is-active{border-color:#6fb7ee!important;box-shadow:0 0 0 3px rgba(56,151,220,.20),0 12px 30px rgba(16,64,101,.32),inset 0 1px 0 rgba(255,255,255,.35)!important}
-#monoMode.is-active{border-color:#5b626b!important;box-shadow:0 0 0 3px rgba(52,58,65,.15),0 12px 27px rgba(30,35,41,.18),inset 0 1px 0 #fff!important}
-#colorMode.is-active::after,#monoMode.is-active::after{content:'✓';position:absolute;inset-inline-start:10px;top:50%;translate:0 -50%;width:22px;height:22px;border-radius:999px;display:grid;place-items:center;font-size:13px;font-weight:950;line-height:1;z-index:2;pointer-events:none}
-#colorMode.is-active::after{background:#fff;color:#125180;box-shadow:0 2px 8px rgba(0,0,0,.18)}
-#monoMode.is-active::after{background:#17191c;color:#fff;box-shadow:0 2px 7px rgba(0,0,0,.16)}
-#downloadColor,#downloadMono{border-radius:999px!important;min-height:48px!important;padding:9px 16px!important;font-weight:900!important;letter-spacing:.015em!important;transform:translateY(-2px)!important;transition:transform .075s ease,box-shadow .075s ease,filter .075s ease!important;will-change:transform;touch-action:manipulation;user-select:none}
-#downloadColor{background:linear-gradient(180deg,#2c83c2 0%,#175684 52%,#103b5c 100%)!important;color:#fff!important;border:1px solid #0d3554!important;box-shadow:inset 0 2px 0 rgba(255,255,255,.32),inset 0 -2px 0 rgba(0,0,0,.13),0 5px 0 #082d48,0 9px 18px rgba(13,53,84,.28)!important;text-shadow:0 1px 1px rgba(0,0,0,.28)}
-#downloadMono{background:linear-gradient(180deg,#fff 0%,#eceef0 48%,#d7dadd 100%)!important;color:#15181b!important;border:1px solid #9fa5ac!important;box-shadow:inset 0 2px 0 #fff,inset 0 -2px 0 rgba(0,0,0,.08),0 5px 0 #818890,0 9px 17px rgba(31,36,41,.18)!important;text-shadow:0 1px 0 #fff}
-#downloadColor:hover:not(:disabled),#downloadMono:hover:not(:disabled){filter:brightness(1.045)!important;transform:translateY(-3px)!important}
-#downloadColor:active:not(:disabled),#downloadMono:active:not(:disabled){transform:translateY(3px)!important;box-shadow:inset 0 2px 4px rgba(0,0,0,.16),0 1px 0 rgba(0,0,0,.22)!important}
-#downloadColor svg,#downloadMono svg{width:19px!important;height:19px!important;stroke-width:2.35!important}
-#downloadColor span,#downloadMono span{direction:ltr;unicode-bidi:isolate;font-family:Arial,Helvetica,sans-serif;font-weight:900!important}
-@media(max-width:430px){#colorMode.is-active::after,#monoMode.is-active::after{width:19px;height:19px;font-size:11px;inset-inline-start:7px}#downloadColor,#downloadMono{min-height:44px!important;padding:8px 11px!important;font-size:11px!important}}
-@media(max-width:340px){#colorMode.is-active::after,#monoMode.is-active::after{width:17px;height:17px;font-size:10px;inset-inline-start:5px}#downloadColor,#downloadMono{min-height:42px!important;padding:7px 9px!important}}
-@media(prefers-reduced-motion:reduce){#colorMode,#monoMode,#downloadColor,#downloadMono{transition:none!important}}
+/* ---------- APP CONTROLS ONLY ---------- */
+#colorMode,#monoMode{
+  position:relative!important;
+  isolation:isolate;
+  transition:transform .11s ease,box-shadow .11s ease,filter .11s ease,opacity .11s ease!important;
+}
+#colorMode:not(.is-active),#monoMode:not(.is-active){
+  opacity:.70!important;
+  filter:saturate(.68) contrast(.96)!important;
+  transform:scale(.985)!important;
+}
+#colorMode.is-active,#monoMode.is-active{
+  opacity:1!important;
+  filter:none!important;
+  transform:translateY(-1px) scale(1.01)!important;
+}
+#colorMode.is-active{
+  border-color:#6fb7ee!important;
+  box-shadow:0 0 0 3px rgba(56,151,220,.20),0 12px 30px rgba(16,64,101,.32),inset 0 1px 0 rgba(255,255,255,.35)!important;
+}
+#monoMode.is-active{
+  border-color:#5b626b!important;
+  box-shadow:0 0 0 3px rgba(52,58,65,.15),0 12px 27px rgba(30,35,41,.18),inset 0 1px 0 #fff!important;
+}
+#colorMode.is-active::after,#monoMode.is-active::after{
+  content:'✓';
+  position:absolute;
+  inset-inline-start:10px;
+  top:50%;
+  translate:0 -50%;
+  width:22px;
+  height:22px;
+  border-radius:999px;
+  display:grid;
+  place-items:center;
+  font-size:13px;
+  font-weight:950;
+  line-height:1;
+  z-index:2;
+  pointer-events:none;
+}
+#colorMode.is-active::after{
+  background:#fff;
+  color:#125180;
+  box-shadow:0 2px 8px rgba(0,0,0,.18);
+}
+#monoMode.is-active::after{
+  background:#17191c;
+  color:#fff;
+  box-shadow:0 2px 7px rgba(0,0,0,.16);
+}
+#downloadColor,#downloadMono{
+  border-radius:999px!important;
+  min-height:48px!important;
+  padding:9px 16px!important;
+  font-weight:900!important;
+  letter-spacing:.015em!important;
+  transform:translateY(-2px)!important;
+  transition:transform .075s ease,box-shadow .075s ease,filter .075s ease!important;
+  will-change:transform;
+  touch-action:manipulation;
+  user-select:none;
+}
+#downloadColor{
+  background:linear-gradient(180deg,#2c83c2 0%,#175684 52%,#103b5c 100%)!important;
+  color:#fff!important;
+  border:1px solid #0d3554!important;
+  box-shadow:inset 0 2px 0 rgba(255,255,255,.32),inset 0 -2px 0 rgba(0,0,0,.13),0 5px 0 #082d48,0 9px 18px rgba(13,53,84,.28)!important;
+  text-shadow:0 1px 1px rgba(0,0,0,.28);
+}
+#downloadMono{
+  background:linear-gradient(180deg,#fff 0%,#eceef0 48%,#d7dadd 100%)!important;
+  color:#15181b!important;
+  border:1px solid #9fa5ac!important;
+  box-shadow:inset 0 2px 0 #fff,inset 0 -2px 0 rgba(0,0,0,.08),0 5px 0 #818890,0 9px 17px rgba(31,36,41,.18)!important;
+  text-shadow:0 1px 0 #fff;
+}
+#downloadColor:hover:not(:disabled),#downloadMono:hover:not(:disabled){
+  filter:brightness(1.045)!important;
+  transform:translateY(-3px)!important;
+}
+#downloadColor:active:not(:disabled),#downloadMono:active:not(:disabled){
+  transform:translateY(3px)!important;
+  box-shadow:inset 0 2px 4px rgba(0,0,0,.16),0 1px 0 rgba(0,0,0,.22)!important;
+}
+#downloadColor svg,#downloadMono svg{
+  width:19px!important;
+  height:19px!important;
+  stroke-width:2.35!important;
+}
+#downloadColor span,#downloadMono span{
+  direction:ltr;
+  unicode-bidi:isolate;
+  font-family:Arial,Helvetica,sans-serif;
+  font-weight:900!important;
+}
+@media(max-width:430px){
+  #colorMode.is-active::after,#monoMode.is-active::after{width:19px;height:19px;font-size:11px;inset-inline-start:7px}
+  #downloadColor,#downloadMono{min-height:44px!important;padding:8px 11px!important;font-size:11px!important}
+}
+@media(max-width:340px){
+  #colorMode.is-active::after,#monoMode.is-active::after{width:17px;height:17px;font-size:10px;inset-inline-start:5px}
+  #downloadColor,#downloadMono{min-height:42px!important;padding:7px 9px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  #colorMode,#monoMode,#downloadColor,#downloadMono{transition:none!important}
+}
