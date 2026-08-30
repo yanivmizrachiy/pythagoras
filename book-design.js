@@ -2,7 +2,7 @@
 if(!document.querySelector('link[data-pythagoras-ui-controls]')){
   const l=document.createElement('link');
   l.rel='stylesheet';
-  l.href='ui-controls.css?v=5';
+  l.href='ui-controls.css?v=6';
   l.dataset.pythagorasUiControls='1';
   document.head.append(l);
 }
