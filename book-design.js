@@ -23,6 +23,10 @@ const LEGACY_CLASSES=[
 ];
 const LEGACY_SELECTOR=LEGACY_CLASSES.map(c=>'.'+c).join(',');
 
+function hasLegacyClass(el){
+  return !!(el?.classList&&LEGACY_CLASSES.some(c=>el.classList.contains(c)));
+}
+
 function cleanElement(el){
   if(!el||el.nodeType!==1)return 0;
   let removed=0;
@@ -90,9 +94,13 @@ function queueApply(){
 const observer=new MutationObserver(mutations=>{
   let needsCleanup=false;
   for(const m of mutations){
-    for(const node of m.addedNodes){
+    if(m.type==='attributes'&&hasLegacyClass(m.target)){
+      needsCleanup=true;
+      break;
+    }
+    for(const node of m.addedNodes||[]){
       if(node.nodeType!==1)continue;
-      if(LEGACY_CLASSES.some(c=>node.classList?.contains(c))||node.querySelector?.(LEGACY_SELECTOR)){
+      if(hasLegacyClass(node)||node.querySelector?.(LEGACY_SELECTOR)){
         needsCleanup=true;
         break;
       }
@@ -104,7 +112,7 @@ const observer=new MutationObserver(mutations=>{
 
 function start(){
   apply(document);
-  observer.observe(document.documentElement,{childList:true,subtree:true});
+  observer.observe(document.documentElement,{childList:true,subtree:true,attributes:true,attributeFilter:['class']});
 }
 
 window.PythagorasBookDesign={apply,audit,coverage,cleanup,observer,start};
