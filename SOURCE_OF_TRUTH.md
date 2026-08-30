@@ -136,7 +136,7 @@
 - `backdrop-filter` הוא enhancement בלבד; גם ללא תמיכה בו הממשק חייב להישאר קריא, יציב ושימושי.
 - כל עומק סביב דף A4 חייב להיות רב־שכבתי אך סימטרי, ללא `x/y offset`, כדי לשמור על תחושת דף מרחף ולא דף מוטה.
 - `prefers-reduced-motion` מבטל אנימציות ומעברים שאינם חיוניים.
-- `index.html` טוען את `book-design.js` עם cache-bust `v=12`, ו־`book-design.js` טוען את `ui-controls.css` עם cache-bust `v=7`, כדי שהעיצוב העדכני יגיע מיד ולא ייתקע על bundle ישן.
+- `index.html` טוען את `book-design.js` עם cache-bust `v=13`, ו־`book-design.js` טוען את `ui-controls.css` עם cache-bust `v=7`, כדי שהעיצוב העדכני יגיע מיד ולא ייתקע על bundle ישן.
 
 ## 16. רינדור נוסחאות (MathJax) — כלל קשיח
 - דפי המקור מכילים נוסחאות LaTeX בתחימת `\(...\)`; תצוגה תקינה מחייבת שכל דף שנטען יעבור עימוד MathJax. אסור שדף יישאר מוצג עם LaTeX גולמי (למשל `\(x^2=121\)` כטקסט).
