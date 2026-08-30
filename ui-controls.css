@@ -99,15 +99,15 @@ body>.top .counter{min-width:68px!important;font-size:10.5px!important;padding:0
 }
 @media(prefers-reduced-motion:reduce){#colorMode,#monoMode,#downloadColor,#downloadMono{transition:none!important}}
 
-/* HOST LAYOUT ISOLATION
-   Workbook source styles are loaded globally for each A4 page. They must never be
-   allowed to constrain or offset the application shell itself. */
+/* HOST LAYOUT ISOLATION — exact physical centering.
+   Reserve an equal scrollbar gutter on both viewport sides and center sheets with CSS Grid.
+   Never use 100vw offset math here: in RTL it creates a visible horizontal drift. */
 html{
   inline-size:100%!important;
   max-inline-size:none!important;
   margin:0!important;
   padding:0!important;
-  scrollbar-gutter:auto!important;
+  scrollbar-gutter:stable both-edges!important;
 }
 html body{
   inline-size:100%!important;
@@ -126,30 +126,44 @@ body>.stage{
   inline-size:100%!important;
   width:100%!important;
   max-inline-size:none!important;
-  margin-inline:0!important;
+  margin:0!important;
   box-sizing:border-box!important;
 }
-body>.stage{padding-inline:0!important}
-body>.stage>.paper,
+body>.stage{
+  padding-inline:0!important;
+}
+body>.stage>.paper{
+  inline-size:100%!important;
+  width:100%!important;
+  max-inline-size:none!important;
+  margin:0!important;
+  padding:0!important;
+  box-sizing:border-box!important;
+}
 body>.stage .scroll-stack{
   inline-size:100%!important;
   width:100%!important;
   max-inline-size:none!important;
-  margin-inline:0!important;
-  padding-inline:0!important;
+  margin:0!important;
+  padding:0!important;
   box-sizing:border-box!important;
-}
-body>.stage .scroll-stack{
-  align-items:center!important;
-  justify-content:flex-start!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr)!important;
+  justify-items:center!important;
+  align-items:start!important;
+  row-gap:20px!important;
 }
 body>.stage .scroll-sheet{
   position:relative!important;
-  left:calc(50% - 50vw)!important;
-  align-self:center!important;
-  margin-left:auto!important;
-  margin-right:auto!important;
-  margin-inline:auto!important;
+  left:auto!important;
+  right:auto!important;
+  inset-inline:auto!important;
+  justify-self:center!important;
+  align-self:start!important;
+  width:min(210mm,calc(100% - 32px))!important;
+  max-width:min(210mm,calc(100% - 32px))!important;
+  margin:0!important;
+  box-sizing:border-box!important;
   box-shadow:0 0 0 1px rgba(38,53,77,.05),0 0 18px rgba(38,53,77,.12)!important;
 }
 body>.stage .scroll-sheet.is-current{
@@ -159,4 +173,12 @@ body>.stage .preview-fit{
   margin-left:auto!important;
   margin-right:auto!important;
   margin-inline:auto!important;
+}
+
+@media(max-width:760px){
+  body>.stage .scroll-stack{row-gap:12px!important}
+  body>.stage .scroll-sheet{
+    width:calc(100% - 16px)!important;
+    max-width:calc(100% - 16px)!important;
+  }
 }
