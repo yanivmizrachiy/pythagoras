@@ -99,15 +99,17 @@ body>.top .counter{min-width:68px!important;font-size:10.5px!important;padding:0
 }
 @media(prefers-reduced-motion:reduce){#colorMode,#monoMode,#downloadColor,#downloadMono{transition:none!important}}
 
-/* HOST LAYOUT ISOLATION — exact physical centering.
-   Reserve an equal scrollbar gutter on both viewport sides and center sheets with CSS Grid.
-   Never use 100vw offset math here: in RTL it creates a visible horizontal drift. */
+/* HOST LAYOUT ISOLATION — physical viewport centering.
+   In RTL desktop browsers the vertical scrollbar can consume space on the left,
+   so centering inside the document content box is visually shifted by half the gutter.
+   The stack therefore spans 100vw and uses the standard full-bleed margin formula;
+   the A4 sheet is centered inside the physical viewport, with no hard-coded pixel offset. */
 html{
   inline-size:100%!important;
   max-inline-size:none!important;
   margin:0!important;
   padding:0!important;
-  scrollbar-gutter:stable both-edges!important;
+  scrollbar-gutter:auto!important;
 }
 html body{
   inline-size:100%!important;
@@ -141,10 +143,11 @@ body>.stage>.paper{
   box-sizing:border-box!important;
 }
 body>.stage .scroll-stack{
-  inline-size:100%!important;
-  width:100%!important;
+  inline-size:100vw!important;
+  width:100vw!important;
   max-inline-size:none!important;
-  margin:0!important;
+  margin-left:calc(50% - 50vw)!important;
+  margin-right:calc(50% - 50vw)!important;
   padding:0!important;
   box-sizing:border-box!important;
   display:grid!important;
@@ -160,8 +163,8 @@ body>.stage .scroll-sheet{
   inset-inline:auto!important;
   justify-self:center!important;
   align-self:start!important;
-  width:min(210mm,calc(100% - 32px))!important;
-  max-width:min(210mm,calc(100% - 32px))!important;
+  width:min(210mm,calc(100vw - 32px))!important;
+  max-width:min(210mm,calc(100vw - 32px))!important;
   margin:0!important;
   box-sizing:border-box!important;
   box-shadow:0 0 0 1px rgba(38,53,77,.05),0 0 18px rgba(38,53,77,.12)!important;
@@ -178,7 +181,7 @@ body>.stage .preview-fit{
 @media(max-width:760px){
   body>.stage .scroll-stack{row-gap:12px!important}
   body>.stage .scroll-sheet{
-    width:calc(100% - 16px)!important;
-    max-width:calc(100% - 16px)!important;
+    width:calc(100vw - 16px)!important;
+    max-width:calc(100vw - 16px)!important;
   }
 }
