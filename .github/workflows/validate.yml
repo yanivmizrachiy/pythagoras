@@ -9,6 +9,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: pythagoras-canonical-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -18,6 +22,29 @@ jobs:
         with:
           node-version: "20"
       - run: npm run validate
+      - name: Validate static PDF is exactly 53 pages
+        run: |
+          python -m pip install --disable-pip-version-check -q pypdf
+          python - <<'PY'
+          from pypdf import PdfReader
+          p="pythagoras-workbook.pdf"
+          r=PdfReader(p)
+          assert len(r.pages)==53, f"expected 53 PDF pages, got {len(r.pages)}"
+          print("PASS PDF: 53 pages")
+          PY
+      - name: Browser smoke
+        run: |
+          npm install --no-save --package-lock=false puppeteer-core
+          node tools/dev-server.js >/tmp/pythagoras-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          for i in {1..60}; do
+            curl -fsS http://127.0.0.1:8080/ >/dev/null && break
+            sleep 0.5
+          done
+          CHROME_BIN="$(command -v google-chrome || command -v chromium || command -v chromium-browser)"
+          test -n "$CHROME_BIN"
+          CHROME_BIN="$CHROME_BIN" npm run smoke
 
   sync-pages:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -33,3 +60,41 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git push origin HEAD:gh-pages --force
+          MAIN_SHA="$(git rev-parse HEAD)"
+          PAGES_SHA="$(git ls-remote origin refs/heads/gh-pages | cut -f1)"
+          test "$MAIN_SHA" = "$PAGES_SHA"
+          echo "PASS refs: main == gh-pages == $MAIN_SHA"
+
+  verify-live:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: sync-pages
+    runs-on: ubuntu-latest
+    steps:
+      - name: Verify GitHub Pages and Vercel compatibility
+        shell: bash
+        run: |
+          set -euo pipefail
+          check_site() {
+            local base="$1"
+            local name="$2"
+            for i in {1..30}; do
+              if curl -fsSL --max-time 20 "$base/" -o /tmp/index.html                 && grep -q 'משפט פיתגורס' /tmp/index.html                 && curl -fsSL --max-time 20 "$base/WORKBOOK_MANIFEST.json" -o /tmp/manifest.json                 && python - <<'PY'
+          import json
+          d=json.load(open('/tmp/manifest.json',encoding='utf-8'))
+          assert d.get('totalPages')==53
+          assert len(d.get('pages',[]))==53
+          PY
+              then
+                echo "PASS live: $name"
+                return 0
+              fi
+              sleep 10
+            done
+            echo "FAIL live: $name"
+            return 1
+          }
+          check_site "https://yanivmizrachiy.github.io/pythagoras" "GitHub Pages"
+          check_site "https://aaa-pythagoras.vercel.app" "Vercel compatibility"
+          curl -fsSL --max-time 60 "https://yanivmizrachiy.github.io/pythagoras/pythagoras-workbook.pdf" -o /tmp/live.pdf
+          test "$(wc -c </tmp/live.pdf)" -gt 100000
+          echo "PASS live PDF"

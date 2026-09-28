@@ -1,9 +1,10 @@
 {
   "name": "pythagoras-workbook",
   "private": true,
-  "version": "2.1.0",
+  "version": "2.2.0",
   "scripts": {
     "validate": "node tools/validate.js",
+    "smoke": "node tools/smoke.js",
     "start": "node tools/dev-server.js"
   }
 }
