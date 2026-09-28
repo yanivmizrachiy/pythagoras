@@ -6,6 +6,7 @@
 - מקור אמת יחיד: [SOURCE_OF_TRUTH.md](SOURCE_OF_TRUTH.md)
 - manifest יחיד: `WORKBOOK_MANIFEST.json`
 - validator יחיד: `npm run validate`
+- smoke אמיתי בדפדפן + בדיקת PDF 53 עמודים + אימות live אוטומטי בכל push ל-`main`
 - GitHub Pages: https://yanivmizrachiy.github.io/pythagoras/
 - Vercel compatibility: https://aaa-pythagoras.vercel.app/
 
