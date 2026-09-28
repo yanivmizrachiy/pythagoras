@@ -81,6 +81,7 @@
 - שתי הכתובות מגישות את אותו מקור קנוני מ-`pythagoras`.
 - אין ענף `release` פעיל ואין צינור `aaa/main → release`.
 - Vercel נפרס מ-`pythagoras/main`.
+- `vercel.json` מדלג על deploy כאשר השתנו רק תיעוד/CI; פריסה מתבצעת רק כשקוד, תוכן, styles, vendor, PDF או הגדרות Vercel השתנו.
 - כל שינוי ב-`main` עובר validator לפני סנכרון `gh-pages`.
 
 ## 10. CI ו-Validator
