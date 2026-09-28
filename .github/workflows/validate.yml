@@ -7,7 +7,7 @@ on:
     branches: [main]
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   validate:
@@ -22,6 +22,8 @@ jobs:
   sync-pages:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: validate
+    permissions:
+      contents: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
