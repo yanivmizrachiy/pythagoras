@@ -1,9 +1,9 @@
 {
-  "name": "pythagoras-unified-workbook",
+  "name": "pythagoras-workbook",
   "private": true,
-  "version": "2.0.0",
+  "version": "2.1.0",
   "scripts": {
-    "validate": "node tools/validate-merged.js",
+    "validate": "node tools/validate.js",
     "start": "node tools/dev-server.js"
   }
 }

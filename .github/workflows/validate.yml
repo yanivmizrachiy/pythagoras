@@ -1,4 +1,4 @@
-name: Validate unified Pythagoras
+name: Validate canonical Pythagoras
 
 on:
   push:
@@ -17,9 +17,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - run: node tools/validate-merged.js
+      - run: npm run validate
 
-  pages:
+  sync-pages:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: validate
     runs-on: ubuntu-latest
