@@ -86,6 +86,10 @@
 ## 10. CI ו-Validator
 - validator יחיד: `tools/validate.js`.
 - workflow יחיד לבדיקת המוצר: `.github/workflows/validate.yml`.
+- smoke test יחיד: `tools/smoke.js`, המריץ Chrome אמיתי על טלפון קטן, Galaxy S24 Ultra, iPad, לפטופ ודסקטופ.
+- CI מאמת שה-PDF הקבוע מכיל בדיוק 53 עמודים.
+- לאחר סנכרון `gh-pages`, CI מאמת ש-`main` ו-`gh-pages` מצביעים לאותו SHA.
+- שער `verify-live` מאמת בפועל את GitHub Pages, את כתובת Vercel התאימות, את manifest 53/53 ואת ה-PDF החי.
 - ה-validator חייב להכשיל שינוי אם:
   - מספר הדפים אינו 53;
   - יש page HTML/CSS חסר או orphan;
