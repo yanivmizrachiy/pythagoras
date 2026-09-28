@@ -1,0 +1,11 @@
+/* עמוד 28 — משפט פיתגורס (שאלה 21 — משולש שווה-שוקיים, גובה CD לשוק, אורך הבסיס BC) */
+@import url("../topics/pythagoras-live.css");
+
+.page-28 {
+	--fig-w: 230px;
+}
+
+.page-28 .solution-space {
+	flex: 1;
+	min-height: 150px;
+}

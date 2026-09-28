@@ -1,0 +1,11 @@
+/* עמוד 23 — משפט פיתגורס (שאלה 16 — משולש שווה-צלעות ABD ומשולש ישר-זווית שווה-שוקיים DBC) */
+@import url("../topics/pythagoras-live.css");
+
+.page-23 {
+	--fig-w: 340px;
+}
+
+.page-23 .solution-space {
+	flex: 1;
+	min-height: 120px;
+}

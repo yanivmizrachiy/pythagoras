@@ -1,0 +1,11 @@
+/* עמוד 30 — משפט פיתגורס (שאלה 23 — מלבן ABCD ובתוכו חסום המשולש הישר-זווית DEC) */
+@import url("../topics/pythagoras-live.css");
+
+.page-30 {
+	--fig-w: 440px;
+}
+
+.page-30 .solution-space {
+	flex: 1;
+	min-height: 280px;
+}

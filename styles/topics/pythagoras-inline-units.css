@@ -1,0 +1,31 @@
+@layer topic {
+/*
+ * רכיבי יחידות מתמטיות צמודות לתיבות תשובה — פיתגורס בלבד.
+ * המטרה: למנוע שבירה/היפוך של ° ויחידות אחרות בתוך משפטי RTL.
+ */
+.pyt-foundation .degree-answer-unit {
+  display: inline-flex;
+  direction: ltr;
+  unicode-bidi: isolate;
+  align-items: flex-start;
+  gap: 2px;
+  vertical-align: middle;
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.pyt-foundation .degree-answer-unit::after {
+  content: "°";
+  display: block;
+  flex: 0 0 auto;
+  font-size: 12px;
+  line-height: 1;
+  margin-top: 0;
+}
+
+.pyt-foundation .degree-answer-unit .foundation-fill {
+  margin: 0;
+  flex: 0 0 auto;
+}
+
+}

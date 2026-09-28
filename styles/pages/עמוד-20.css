@@ -1,0 +1,27 @@
+/* עמוד 20 — משפט פיתגורס (שאלה 12 — מסך טלוויזיה במסגרת, חישוב הצלע הקצרה x) */
+@import url("../topics/pythagoras-live.css");
+
+.page-20 {
+	--fig-w: 470px;
+}
+
+.page-20 .pyt-fill {
+	fill: #cfd4da;
+}
+
+.page-20 .pyt-screen {
+	fill: var(--bg-paper);
+	stroke: currentColor;
+	stroke-width: 1.6;
+	stroke-linejoin: round;
+	vector-effect: non-scaling-stroke;
+}
+
+.page-20 .pyt-note-line {
+	margin-right: 20px;
+}
+
+.page-20 .solution-space {
+	flex: 1;
+	min-height: 180px;
+}

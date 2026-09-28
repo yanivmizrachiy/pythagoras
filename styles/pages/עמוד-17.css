@@ -1,0 +1,11 @@
+/* עמוד 17 — משפט פיתגורס (שאלה 9 — טרפז ישר-זווית ABCD, היקף הטרפז) */
+@import url("../topics/pythagoras-live.css");
+
+.page-17 {
+	--fig-w: 460px;
+}
+
+.page-17 .solution-space {
+	flex: 1;
+	min-height: 360px;
+}

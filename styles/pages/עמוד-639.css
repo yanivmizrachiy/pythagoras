@@ -1,0 +1,54 @@
+@import url("../topics/pythagoras-foundations.css");
+@import url("../topics/pythagoras-power-practice.css");
+
+.page-639 .question-block { display:grid; grid-template-rows:42px 220px 230px 150px 145px minmax(105px,1fr); gap:7px; align-content:stretch; width:100%; min-width:0; min-height:0; box-sizing:border-box; }
+.page-639 .question-block>* { width:100%; min-width:0; max-width:100%; box-sizing:border-box; }
+.page-639 .page6-summary { display:flex; align-items:center; justify-content:space-between; gap:12px; min-width:0; min-height:42px; padding:5px 10px; border-block:1px solid var(--border-light); background:var(--bg-subtle); font-size:14.4px; line-height:1.2; white-space:nowrap; }
+.page-639 .calculator-note { flex:0 0 auto; padding:3px 9px; border:1px solid #94a3b8; border-radius:999px; background:#fff; font-weight:600; color:var(--accent-dark); }
+.page-639 .foundation-fill { background:#fff; box-shadow:none; border:1.2px solid #64748b; border-radius:4px; }
+.page-639 .page6-section,.page-639 .page6-thinking-task,.page-639 .page6-pattern-task { min-width:0; min-height:0; }
+.page-639 .page6-section { display:grid; grid-template-rows:auto minmax(0,1fr); gap:5px; }
+.page-639 .page6-section .q-main,.page-639 .page6-thinking-task .q-main,.page-639 .page6-pattern-task .q-main { margin:0; min-height:22px; }
+.page-639 .page6-section .q-text,.page-639 .page6-thinking-task .q-text,.page-639 .page6-pattern-task .q-text { font-size:14.4px; line-height:1.22; }
+.page-639 .page6-basic-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); grid-template-rows:repeat(3,minmax(0,1fr)); gap:7px; min-width:0; min-height:0; }
+.page-639 .square-card,.page-639 .hard-square-card,.page-639 .compare-card { direction:ltr; unicode-bidi:isolate; display:flex; align-items:center; justify-content:center; gap:6px; min-width:0; min-height:0; padding:6px 7px; border:1px solid #cbd5e1; border-radius:6px; background:#fff; font-size:16.5px; line-height:1.15; box-sizing:border-box; }
+.page-639 .square-card,.page-639 .hard-square-card,.page-639 .pattern-expression { flex-direction:column; }
+.page-639 .square-fill { height:24px; flex:0 0 24px; }
+.page-639 .square-card:nth-child(-n+3) .square-fill { width:34px; min-width:34px; }
+.page-639 .square-card:nth-child(n+4):nth-child(-n+9) .square-fill { width:46px; min-width:46px; }
+.page-639 .square-card:nth-child(n+10) .square-fill { width:58px; min-width:58px; }
+.page-639 .page6-thinking-zone { display:grid; grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr); gap:10px; min-width:0; min-height:0; }
+.page-639 .page6-thinking-task { display:grid; grid-template-rows:auto minmax(0,1fr); gap:5px; padding-top:4px; border-top:1px solid var(--border-light); }
+.page-639 .compare-task { grid-template-rows:auto 78px minmax(0,1fr); }
+.page-639 .compare-example { display:grid; grid-template-columns:1fr 34px 1fr; grid-template-rows:18px minmax(0,1fr); align-items:center; justify-items:center; gap:2px 7px; min-width:0; padding:5px 8px; border:1px solid #cbd5e1; border-radius:7px; background:#fff; }
+.page-639 .compare-example-title { grid-column:1/-1; font-size:12px; font-weight:600; color:#475569; }
+.page-639 .compare-side { display:flex; flex-direction:column; align-items:center; gap:2px; font-size:15px; }
+.page-639 .compare-side strong { font-size:15px; font-weight:600; }
+.page-639 .compare-sign { font-size:18px; font-weight:700; color:var(--title-blue); }
+.page-639 .compare-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:6px; min-width:0; min-height:0; }
+.page-639 .compare-card { gap:5px; background:var(--bg-subtle); font-size:14.5px; }
+.page-639 .compare-fill { width:30px; height:22px; flex:0 0 30px; }
+.page-639 .student-claims { display:grid; grid-template-rows:1fr 1.25fr; gap:7px; min-width:0; min-height:0; }
+.page-639 .claim-card { display:grid; align-content:center; gap:4px; min-width:0; min-height:0; padding:6px 9px; border:1px solid #cbd5e1; border-radius:7px; background:#fff; font-size:12.7px; line-height:1.25; }
+.page-639 .claim-question { display:flex; align-items:center; flex-wrap:wrap; gap:4px; }
+.page-639 .name-answer { width:54px; height:22px; }
+.page-639 .claim-card .response-line { display:inline-block; min-width:100px; height:18px; border-bottom:1.1px solid #334155; }
+.page-639 .claim-card .response-line.long { min-width:175px; }
+.page-639 .hard-square-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); grid-template-rows:repeat(2,minmax(0,1fr)); gap:7px; min-width:0; min-height:0; }
+.page-639 .hard-square-card { background:var(--bg-subtle); font-size:15.8px; }
+.page-639 .hard-square-fill { height:24px; flex:0 0 24px; width:64px; min-width:64px; }
+.page-639 .fraction-square-card { font-size:14.8px; }
+.page-639 .fraction-square-card .fraction-fill { width:74px; min-width:74px; }
+.page-639 .power-error-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; min-width:0; min-height:0; }
+.page-639 .power-error-card { display:grid; grid-template-rows:auto auto auto; align-content:center; justify-items:center; gap:6px; min-width:0; min-height:0; padding:7px 8px; border:1px solid #cbd5e1; border-radius:6px; background:#fff; font-size:12.8px; line-height:1.2; }
+.page-639 .error-expression { direction:ltr; unicode-bidi:isolate; font-size:15.5px; font-weight:500; }
+.page-639 .error-choice { display:flex; align-items:center; justify-content:center; gap:5px; white-space:nowrap; }
+.page-639 .error-choice .check { display:inline-block; width:14px; height:14px; min-width:14px; margin:0; border:1.2px solid #475569; border-radius:2px; background:#fff; box-sizing:border-box; position:static; }
+.page-639 .power-error-card .response-line { display:inline-block; min-width:62px; height:18px; border-bottom:1.1px solid #334155; }
+.page-639 .page6-pattern-task { display:grid; grid-template-rows:auto minmax(0,1fr); gap:5px; padding-top:4px; border-top:1px solid var(--border-light); }
+.page-639 .pattern-row { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:7px; min-width:0; min-height:0; }
+.page-639 .pattern-expression { display:flex; align-items:center; justify-content:center; gap:4px; min-width:0; padding:5px 7px; border:1px solid #cbd5e1; border-radius:6px; background:var(--bg-subtle); font-size:15px; }
+.page-639 .pattern-fill { height:23px; }
+.page-639 .pattern-expression:nth-child(1) .pattern-fill { width:58px; min-width:58px; }
+.page-639 .pattern-expression:nth-child(n+2) .pattern-fill { width:68px; min-width:68px; }
+@media print { .page-639 .page6-summary,.page-639 .square-card,.page-639 .page6-thinking-task,.page-639 .hard-square-card,.page-639 .power-error-card,.page-639 .page6-pattern-task { break-inside:avoid; } }

@@ -1,0 +1,48 @@
+@import url("../topics/pythagoras-foundations.css");
+
+.page-657 .question-block { justify-content: flex-start; gap: 14px; }
+.page-657 .q-text { line-height: 1.5; font-size: 16px; }
+
+/* משטח משבצות (פינות חדות אחידות) לחישוב התלמיד */
+.page-657 .curriculum-work { min-height: 120px; }
+
+.page-657 .cur-row { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 16px; align-items: stretch; }
+.page-657 .cur-fig { display: flex; align-items: flex-start; justify-content: center; }
+.page-657 .cur-work-col { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+.page-657 .cur-work-col .curriculum-work { flex: 1 1 auto; }
+.page-657 .cur-work-wide .curriculum-work { min-height: 96px; }
+
+/* מערכת צירים */
+.page-657 .coord-svg { width: 100%; max-width: 250px; height: auto; display: block; }
+.page-657 .coord-svg .cg { stroke: rgba(96,165,250,0.5); stroke-width: 1; }
+.page-657 .coord-svg .cax { stroke: #0f172a; stroke-width: 1.6; }
+.page-657 .coord-svg .carr { fill: #0f172a; }
+.page-657 .coord-svg .cal { fill: #0f172a; font-style: italic; font-family: 'PytTeXMathItalic', Georgia, serif; font-size: 15px; }
+.page-657 .coord-svg .ctk { fill: #334155; font-family: 'PytTeX', Georgia, serif; font-size: 13px; }
+.page-657 .coord-svg .cpt { fill: #b91c1c; }
+.page-657 .coord-svg .cpl { fill: #0f172a; font-family: 'PytTeX', Georgia, serif; font-size: 14px; }
+.page-657 .coord-svg .cseg { stroke: #b91c1c; stroke-width: 1.8; }
+.page-657 .coord-svg .cline { stroke: #1d4ed8; stroke-width: 1.8; }
+
+/* משולשי Q2 */
+.page-657 .tri-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+.page-657 .tri-cell { display: flex; flex-direction: column; align-items: center; gap: 8px; border: 1px solid var(--border-light); border-radius: 10px; padding: 8px; }
+.page-657 .tri-svg { width: 100%; max-width: 150px; height: 105px; }
+.page-657 .tri-svg .edge { fill: none; stroke: var(--accent-dark); stroke-width: 1.6; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.page-657 .tri-svg .mark { fill: none; stroke: var(--accent-dark); stroke-width: 1.2; vector-effect: non-scaling-stroke; }
+.page-657 .tri-svg .tlbl { fill: var(--text-main); font-family: 'PytTeX', Georgia, serif; font-size: 15px; }
+.page-657 .tri-check { width: 26px; height: 26px; border: 1.35px solid #1f2a44; border-radius: 6px; background: #fff; }
+
+/* שורת תשובה */
+.page-657 .cur-final { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; direction: rtl; font-size: 16px; margin-top: 2px; }
+.page-657 .cur-final .cur-gap { margin-inline-start: 20px; }
+
+
+/* מילוי גובה העמוד: אזורי הכתיבה נמתחים, אין שטח לבן מת. */
+.page-657 .question-block { display: flex; flex-direction: column; justify-content: flex-start; }
+.page-657 .cur-row { flex: 1 1 auto; min-height: 0; align-items: stretch; }
+.page-657 .cur-work-col { flex: 1 1 auto; }
+.page-657 .curriculum-work { flex: 1 1 auto; }
+.page-657 .cur-work-wide { display: flex; }
+.page-657 .cur-work-wide .curriculum-work { width: 100%; }
+.page-657 .coord-svg { max-width: 300px; }

@@ -1,0 +1,4 @@
+@import url('../topics/geometry7.css');
+@import url('../topics/pythagoras.css');
+
+.page-375 .mcbox { display:inline-block; width:18px; height:18px; border:1.5px solid var(--grid-line); border-radius:4px; }

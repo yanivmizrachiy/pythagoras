@@ -1,0 +1,118 @@
+@import url("./pythagoras.css");
+@layer topic {
+
+.pyt-foundation .question-block { gap: 12px; }
+.pyt-foundation .foundation-note { border: 1px solid var(--border-light); background: var(--bg-subtle); border-radius: 10px; padding: 12px 16px; font-size: 18px; line-height: 1.55; }
+.pyt-foundation .foundation-note strong { font-weight: 700; }
+.pyt-foundation .foundation-fill-group { display: inline-flex; align-items: center; gap: 4px; direction: ltr; unicode-bidi: isolate; vertical-align: -7px; margin-inline: 4px; }
+.pyt-foundation .foundation-fill { display: inline-block; height: 30px; border: 1.35px solid #1f2a44; border-radius: 8px; background: linear-gradient(180deg, #ffffff 0%, #fdfefe 100%); box-shadow: 0 1px 0 rgba(15,23,42,.13), 0 4px 8px rgba(15,23,42,.11), inset 0 1px 0 rgba(255,255,255,.98); vertical-align: middle; }
+.pyt-foundation .foundation-fill-symbol { width: 42px; }
+.pyt-foundation .foundation-fill-number { width: 58px; }
+.pyt-foundation .foundation-fill-edge { width: 70px; }
+.pyt-foundation .foundation-fill-short { width: 82px; }
+.pyt-foundation .foundation-fill-product { width: 128px; }
+.pyt-foundation .foundation-fill-term { width: 118px; }
+.pyt-foundation .foundation-fill-medium { width: 112px; }
+.pyt-foundation .foundation-fill-expression { width: 220px; }
+.pyt-foundation .foundation-unit { font-size: 18px; line-height: 1; }
+.pyt-foundation .foundation-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; }
+.pyt-foundation .foundation-grid.three { grid-template-columns: repeat(3, minmax(0,1fr)); }
+.pyt-foundation .foundation-card { border: 1px solid var(--border-light); border-radius: 10px; background: var(--bg-paper); padding: 10px; min-height: 120px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; }
+.pyt-foundation .foundation-card p { margin: 0; text-align: center; line-height: 1.4; }
+.pyt-foundation .foundation-svg { width: 100%; max-width: 230px; height: 135px; display: block; }
+.pyt-foundation .foundation-svg.hero { max-width: 420px; height: 180px; }
+.pyt-foundation .foundation-svg.hero-wide { max-width: 500px; height: 220px; }
+/* שרטוטי תלמיד: קווים דקים, חדים וברורים בהדפסה. */
+.pyt-foundation .foundation-svg .edge { fill: none; stroke: var(--accent-dark); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.pyt-foundation .foundation-svg .mark { fill: none; stroke: var(--accent-dark); stroke-width: 1.15; vector-effect: non-scaling-stroke; }
+/* כתב מתמטי ספרי מתואם-פרויקט: אותם גופני TeX של MathJax מה-vendor —
+   מספרים זקופים (tex-n), משתנים באיטליק מתמטי (tex-mi) (הוראת יניב, 2026-08-18). */
+@font-face {
+  font-family: 'PytTeX';
+  src: url('../../vendor/mathjax/tex-font/chtml/woff2/mjx-tex-n.woff2') format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PytTeXMathItalic';
+  src: url('../../vendor/mathjax/tex-font/chtml/woff2/mjx-tex-mi.woff2') format('woff2');
+  font-display: swap;
+}
+.pyt-foundation .foundation-svg .pt, .pyt-foundation .foundation-svg .lbl { fill: var(--text-main); font-family: 'PytTeX', Georgia, 'Times New Roman', serif; font-size: 17.5px; font-weight: 400; }
+.pyt-foundation .foundation-svg .lbl.var, .pyt-foundation .foundation-svg .pt { font-family: 'PytTeXMathItalic', Georgia, 'Times New Roman', serif; font-style: italic; }
+.pyt-foundation .foundation-svg .soft { fill: var(--bg-subtle); stroke: var(--border-light); stroke-width: 1.25; }
+.pyt-foundation .response-line { display: inline-block; min-width: 100px; height: 24px; border-bottom: 1.5px solid var(--text-main); vertical-align: bottom; }
+.pyt-foundation .response-line.long { min-width: 210px; }
+/* מרחב עבודה אחיד: דף משבצות עדין (הוראת יניב, 2026-08-18) — אותה טכנולוגיה בכל הפרויקט. */
+.pyt-foundation .work-lines { min-height: 92px; border: 1px solid rgba(96, 165, 250, 0.55); border-radius: 0; background-color: #fff; background-image: linear-gradient(to right, rgba(96, 165, 250, 0.42) 1px, transparent 1px), linear-gradient(to bottom, rgba(96, 165, 250, 0.42) 1px, transparent 1px); background-size: 12px 12px; background-position: 0 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+.pyt-foundation .foundation-card .work-lines { width: 100%; }
+/* שאלה חישובית מלאה: דרך שורה-שורה + תשובה סופית נפרדת. */
+.pyt-foundation .full-solution-space { width: 100%; min-height: 140px; border: 1px solid rgba(96, 165, 250, 0.55); border-radius: 0; background-color: #fff; background-image: linear-gradient(to right, rgba(96, 165, 250, 0.42) 1px, transparent 1px), linear-gradient(to bottom, rgba(96, 165, 250, 0.42) 1px, transparent 1px); background-size: 12px 12px; background-position: 0 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; direction: ltr; unicode-bidi: isolate; }
+.pyt-foundation .student-final-answer { width: 100%; min-height: 38px; display: flex; align-items: center; justify-content: flex-start; gap: 8px; direction: ltr; unicode-bidi: isolate; font-size: 16px; border-top: 1px solid var(--border-light); padding-top: 6px; }
+.pyt-foundation .student-final-answer .foundation-fill { height: 30px; }
+/* נימוק מתמטי: לפחות שתי שורות כתיבה כאשר המשימה דורשת הסבר. */
+.pyt-foundation .reason-wrap { width: 100%; display: grid; gap: 4px; }
+.pyt-foundation .reason-label { font-size: 15px; font-weight: 600; text-align: right; }
+.pyt-foundation .reason-space { width: 100%; min-height: 56px; border: 1px solid var(--border-light); border-radius: 7px; background: repeating-linear-gradient(to bottom, var(--bg-paper) 0, var(--bg-paper) 26px, var(--grid-line) 27px); }
+.pyt-foundation .power-grid { display: grid; grid-template-columns: repeat(4, minmax(0,1fr)); gap: 10px; }
+.pyt-foundation .math-card { direction: ltr; unicode-bidi: isolate; border: 1px solid var(--border-light); border-radius: 9px; background: var(--bg-paper); padding: 12px 8px; text-align: center; font-size: 19px; min-height: 54px; }
+.pyt-foundation .statement-list { display: grid; gap: 10px; }
+.pyt-foundation .statement { border: 1px solid var(--border-light); border-radius: 8px; padding: 10px 12px; line-height: 1.5; }
+.pyt-foundation .check { display: inline-block; width: 18px; height: 18px; border: 1.35px solid var(--text-main); margin-inline-end: 8px; vertical-align: -3px; }
+.pyt-foundation .big-equation { direction: ltr; unicode-bidi: isolate; text-align: center; font-size: 27px; font-weight: 700; margin: 8px 0; }
+.pyt-foundation .side-table { width: 100%; border-collapse: collapse; text-align: center; }
+.pyt-foundation .side-table th, .pyt-foundation .side-table td { border: 1px solid var(--border-light); padding: 8px; }
+@media print {
+  .pyt-foundation .foundation-card, .pyt-foundation .foundation-note, .pyt-foundation .statement { break-inside: avoid; }
+  .pyt-foundation .foundation-fill { background: #fff; box-shadow: none; border-color: #1f2a44; }
+}
+
+/* pythagoras-foundations-v2 */
+.pyt-foundation .worked-example { border: 1.5px solid var(--accent-dark); border-radius: 10px; background: var(--bg-paper); padding: 12px 18px; display: grid; grid-template-columns: auto 1fr; gap: 14px; align-items: start; }
+.pyt-foundation .worked-example-wide { padding-block: 10px; }
+.pyt-foundation .example-label { font-weight: 700; font-size: 18px; padding-top: 3px; }
+.pyt-foundation .solution-stack { direction: ltr; unicode-bidi: isolate; display: grid; justify-items: center; gap: 7px; width: 100%; }
+.pyt-foundation .solution-step { font-size: 21px; line-height: 1.35; min-height: 26px; }
+.pyt-foundation .final-answer { direction: ltr; unicode-bidi: isolate; display: inline-block; border: 2px solid var(--accent-dark); border-radius: 5px; padding: 4px 16px; font-size: 21px; font-weight: 700; }
+.pyt-foundation .equation-practice-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.pyt-foundation .equation-practice-card { border: 1px solid var(--border-light); border-radius: 9px; background: var(--bg-paper); padding: 9px; }
+.pyt-foundation .practice-equation { direction: ltr; unicode-bidi: isolate; text-align: center; font-size: 20px; font-weight: 600; margin-bottom: 7px; }
+.pyt-foundation .work-lines.short { min-height: 64px; }
+.pyt-foundation .length-rule-check { display: grid; gap: 8px; margin-top: 4px; }
+.pyt-foundation .length-rule-check .statement { background: var(--bg-paper); }
+.pyt-foundation .worked-example.compact { padding: 9px 14px; margin-bottom: 4px; }
+.pyt-foundation .worked-example.compact .solution-step, .pyt-foundation .worked-example.compact .final-answer { font-size: 18px; }
+@media print { .pyt-foundation .worked-example, .pyt-foundation .equation-practice-card { break-inside: avoid; } }
+
+/* סימן שורש שלם: √ עם קו עליון (vinculum) מעל מקום הרדיקנד. פותר גם את הגלישה של
+   מקום־הכתיבה לשורה נפרדת: √ והרדיקנד יושבים בתא אחד ונקראים כשורש אחד (הוראת יניב). */
+.pyt-foundation .sqrt-cell {
+  display: inline-flex;
+  align-items: flex-start;
+  min-width: 0;
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+.pyt-foundation .sqrt-cell > .radic {
+  font-size: 1.3em;
+  line-height: 0.86;
+  padding-inline-end: 1px;
+}
+.pyt-foundation .sqrt-cell > .root-line,
+.pyt-foundation .sqrt-cell > .root-work-fill {
+  border-top: 1.35px solid #334155;
+  border-bottom: 0;
+  margin-top: 2px;
+  align-self: flex-start;
+}
+.pyt-foundation .sqrt-cell > .radicand {
+  border-top: 1.35px solid currentColor;
+  margin-top: 2px;
+  padding: 1px 4px 0;
+  line-height: 1;
+}
+@media print {
+  .pyt-foundation .sqrt-cell > .root-line,
+  .pyt-foundation .sqrt-cell > .root-work-fill { border-top-color: #334155; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+
+}

@@ -1,0 +1,11 @@
+/* עמוד 22 — משפט פיתגורס (שאלה 15 — שטח הריבוע ABDE הבנוי על היתר) */
+@import url("../topics/pythagoras-live.css");
+
+.page-22 {
+	--fig-w: 430px;
+}
+
+.page-22 .solution-space {
+	flex: 1;
+	min-height: 100px;
+}

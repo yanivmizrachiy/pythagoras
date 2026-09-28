@@ -1,0 +1,66 @@
+@import url("../topics/pythagoras-foundations.css");
+
+/* עמוד 14 — ניסוח פורמלי של המשפט, תנאי שימוש ומבנה המשוואה. */
+.page-645 .question-block {
+  display:grid;
+  grid-template-rows:155px 285px 240px minmax(220px,1fr);
+  gap:8px;
+  align-content:stretch;
+  min-width:0;
+  min-height:0;
+}
+.page-645 .question-block > * { min-width:0; min-height:0; margin:0; box-sizing:border-box; }
+.page-645 .q-main { margin:0; min-height:22px; }
+.page-645 .q-text { font-size:14px; line-height:1.22; }
+
+.page-645 .page14-definition-band {
+  display:grid;
+  grid-template-columns:190px minmax(0,1fr);
+  gap:12px;
+  align-items:stretch;
+  padding:7px 10px;
+  border-block:1px solid var(--border-light);
+  background:var(--bg-subtle);
+}
+.page-645 .definition-figure { display:flex; align-items:center; justify-content:center; }
+.page-645 .definition-figure svg { width:175px; height:118px; }
+.page-645 .edge { fill:none; stroke:#26374d; stroke-width:2.2; }
+.page-645 .mark { fill:none; stroke:#26374d; stroke-width:1.8; }
+.page-645 .lbl { font:600 13px Rubik,Arial,sans-serif; fill:#26374d; }
+.page-645 .guided-theorem { display:grid; grid-template-rows:26px 1fr 34px; align-items:center; gap:5px; min-width:0; }
+.page-645 .theorem-title { font-size:15px; font-weight:700; color:var(--title-blue); }
+.page-645 .theorem-line { display:flex; align-items:center; justify-content:flex-start; flex-wrap:wrap; gap:5px; font-size:14px; line-height:1.35; }
+.page-645 .theorem-math { display:flex; align-items:baseline; justify-content:center; gap:7px; font-size:18px; font-weight:600; }
+.page-645 .theorem-math .term { display:inline-flex; align-items:baseline; }
+.page-645 .theorem-math .tw { unicode-bidi:isolate; }
+.page-645 .theorem-math sup { font-size:0.6em; margin-inline-start:1px; }
+.page-645 .theorem-math .op { color:var(--title-blue); font-weight:700; }
+.page-645 .word-fit { width:72px; min-width:72px; height:25px; border-radius:5px; }
+.page-645 .word-fit.short { width:52px; min-width:52px; }
+
+.page-645 .page14-section,
+.page-645 .page14-final-task { display:grid; grid-template-rows:auto minmax(0,1fr); gap:5px; min-width:0; min-height:0; }
+.page-645 .page14-final-task { grid-template-rows:auto minmax(0,1fr) 34px; }
+
+.page-645 .applicability-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); grid-template-rows:repeat(2,minmax(0,1fr)); gap:8px; min-height:0; }
+.page-645 .app-card { display:grid; grid-template-rows:minmax(0,1fr) 28px; align-items:center; justify-items:center; gap:4px; padding:6px 8px; border:1px solid var(--border-light); border-radius:8px; background:var(--bg-paper); font-size:12.8px; text-align:center; }
+.page-645 .app-card svg { width:108px; height:68px; }
+.page-645 .app-card .check { width:15px; height:15px; margin:0 3px; }
+.page-645 .text-card { grid-template-rows:auto minmax(0,1fr) 28px; }
+.page-645 .text-card strong { color:var(--title-blue); }
+
+.page-645 .structure-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; min-height:0; }
+.page-645 .structure-card { display:grid; grid-template-rows:42px minmax(0,1fr); align-items:center; justify-items:center; gap:6px; padding:7px; border:1px solid var(--border-light); border-radius:8px; background:var(--bg-subtle); font-size:12.6px; text-align:center; }
+.page-645 .structure-expression { display:flex; align-items:center; justify-content:center; flex-direction:column; gap:5px; font-size:15px; }
+.page-645 .formula-fit { width:58px; min-width:58px; height:25px; border-radius:5px; }
+.page-645 .formula-fit.wide { width:95px; min-width:95px; }
+
+.page-645 .final-check-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; min-height:0; }
+.page-645 .final-check-card { display:grid; grid-template-rows:22px minmax(0,1fr) 32px; align-items:center; justify-items:center; gap:5px; padding:7px 8px; border:1px solid var(--border-light); border-radius:8px; background:var(--bg-paper); font-size:12.5px; line-height:1.2; text-align:center; }
+.page-645 .final-check-card .check { width:15px; height:15px; margin:0; }
+.page-645 .final-check-card .response-line { display:inline-block; min-width:95px; height:18px; }
+.page-645 .final-conclusion { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:5px; min-height:34px; padding-top:4px; border-top:1px solid var(--border-light); font-size:13.2px; }
+
+@media print {
+  .page-645 .page14-definition-band,.page-645 .app-card,.page-645 .structure-card,.page-645 .final-check-card { break-inside:avoid; }
+}

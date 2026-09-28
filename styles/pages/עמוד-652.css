@@ -1,0 +1,231 @@
+@import url("../topics/pythagoras-foundations.css");
+
+/* עמוד 11 — קירוב פתרונות. היררכיה שטוחה: פסי עבודה, מפרידים דקים ופתרון אנכי עקבי. */
+.page-652 .question-block {
+  display: grid;
+  grid-template-rows: repeat(5, auto);
+  gap: 7px;
+  align-content: space-between;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+
+.page-652 .question-block > * { width: 100%; min-width: 0; max-width: 100%; min-height: 0; margin: 0; box-sizing: border-box; }
+.page-652 > .header-container { min-width: 0; align-items: center; gap: 10px; }
+.page-652 .long-page-title { flex: 1 1 auto; min-width: 0; max-width: calc(100% - 44px); margin: 0; font-size: 20.5px; line-height: 1.1; white-space: nowrap; }
+.page-652 > .header-container > .page-number { flex: 0 0 32px; width: 32px; min-width: 32px; }
+
+.page-652 .foundation-fill {
+  background: #fff;
+  box-shadow: none;
+  border: 1.2px solid #64748b;
+  border-radius: 4px;
+}
+
+.page-652 .q-main { margin: 0; min-height: 20px; }
+.page-652 .q-text { font-size: 13.3px; line-height: 1.14; }
+
+.page-652 .page11-top-band {
+  direction: rtl;
+  display: grid;
+  grid-template-columns: minmax(210px, .9fr) minmax(0, 2.1fr);
+  gap: 0;
+  min-width: 0;
+  min-height: 0;
+  border-block: 1px solid var(--border-light);
+  background: var(--bg-subtle);
+}
+
+.page-652 .compact-worked-example {
+  grid-column: 1;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  padding: 8px 12px;
+  display: grid;
+  grid-template-rows: 22px minmax(0, 1fr);
+  align-items: start;
+  justify-items: stretch;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-sizing: border-box;
+}
+
+.page-652 .compact-worked-example .example-label { padding: 0; font-size: 13.8px; font-weight: 600; line-height: 1.2; text-align: right; color: var(--title-blue); }
+.page-652 .page11-example-steps { width: 100%; min-width: 0; gap: 2px; justify-items: start; }
+.page-652 .page11-example-steps .solution-step { width: 100%; min-height: 16px; font-size: 13.6px; line-height: 1.05; text-align: left; }
+.page-652 .page11-example-steps .example-result-step { font-weight: 600; }
+.page-652 .compact-worked-example mjx-container { max-width: 100%; margin-block: 0 !important; }
+
+.page-652 .top-guided-practice {
+  grid-column: 2;
+  direction: rtl;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0;
+  min-width: 0;
+  min-height: 0;
+  border-right: 1px solid var(--border-light);
+}
+
+.page-652 .top-practice-card {
+  direction: rtl;
+  display: grid;
+  grid-template-rows: 26px minmax(0, 1fr);
+  align-items: center;
+  justify-items: center;
+  gap: 3px;
+  min-width: 0;
+  min-height: 0;
+  padding: 7px 10px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-sizing: border-box;
+}
+.page-652 .top-practice-card + .top-practice-card { border-right: 1px solid var(--border-light); }
+
+.page-652 .page11-section,
+.page-652 .page11-final-task { display: grid; grid-template-rows: auto minmax(0, 1fr); gap: 5px; min-width: 0; min-height: 0; }
+.page-652 .page11-bounds-task { grid-template-rows: auto minmax(0, 1fr) 28px; }
+.page-652 .page11-final-task { grid-template-rows: auto minmax(0, 1fr) 30px; }
+
+.page-652 .direct-approx-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  min-width: 0;
+  min-height: 0;
+  border-block: 1px solid var(--border-light);
+}
+
+.page-652 .direct-approx-card {
+  padding: 5px 8px;
+  display: grid;
+  grid-template-rows: 28px minmax(0, 1fr);
+  align-items: center;
+  justify-items: center;
+  gap: 5px;
+  min-width: 0;
+  min-height: 0;
+  border: 0;
+  border-radius: 0;
+  background: #fff;
+  box-sizing: border-box;
+}
+.page-652 .direct-approx-card + .direct-approx-card { border-right: 1px solid var(--border-light); }
+
+.page-652 .equation { font-size: 17px; line-height: 1.15; font-weight: 600; }
+.page-652 .top-practice-card .equation { font-size: 15.5px; }
+.page-652 .direct-solution-scaffold,
+.page-652 .build-solution-scaffold { display: grid; align-content: center; gap: 4px; min-width: 0; width: 100%; }
+.page-652 .top-practice-card .direct-solution-scaffold { gap: 2px; }
+
+.page-652 .scaffold-row {
+  display: grid;
+  grid-template-columns: 34px 17px minmax(54px, 1fr);
+  align-items: center;
+  column-gap: 4px;
+  min-width: 0;
+  min-height: 21px;
+  font-size: 13.6px;
+}
+.page-652 .top-practice-card .scaffold-row { min-height: 21px; font-size: 12.8px; grid-template-columns: 30px 15px minmax(50px, 1fr); }
+.page-652 .scaffold-lhs { text-align: right; white-space: nowrap; }
+.page-652 .scaffold-eq { text-align: center; }
+.page-652 .root-form-slot,
+.page-652 .approx-slot,
+.page-652 .build-line-slot,
+.page-652 .build-a-slot { height: 21px; border-radius: 4px; justify-self: start; }
+.page-652 .root-form-slot { width: 72px; }
+.page-652 .approx-slot { width: 54px; }
+.page-652 .top-practice-card .root-form-slot { width: 62px; height: 20px; }
+.page-652 .top-practice-card .approx-slot { width: 48px; height: 20px; }
+
+.page-652 .bounds-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0;
+  min-width: 0;
+  min-height: 0;
+  border-block: 1px solid var(--border-light);
+  background: var(--bg-subtle);
+}
+.page-652 .bounds-card {
+  padding: 4px 8px;
+  display: grid;
+  grid-template-rows: auto 1fr 1fr;
+  align-items: center;
+  justify-items: center;
+  gap: 3px;
+  min-width: 0;
+  min-height: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-sizing: border-box;
+  font-size: 13.8px;
+  line-height: 1.18;
+}
+.page-652 .bounds-card + .bounds-card { border-right: 1px solid var(--border-light); }
+.page-652 .bounds-card strong { font-size: 15.5px; font-weight: 600; }
+.page-652 .bounds-check { display: flex; align-items: center; justify-content: center; min-height: 28px; padding-top: 3px; border-top: 1px solid var(--border-light); font-size: 12.9px; line-height: 1.18; text-align: center; }
+
+.page-652 .approx-error-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  min-width: 0;
+  min-height: 0;
+  border-block: 1px solid var(--border-light);
+}
+.page-652 .approx-error-card {
+  padding: 5px 10px;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  min-height: 0;
+  border: 0;
+  border-radius: 0;
+  background: #fff;
+  box-sizing: border-box;
+  font-size: 13.1px;
+  line-height: 1.22;
+  text-align: center;
+}
+.page-652 .approx-error-card + .approx-error-card { border-right: 1px solid var(--border-light); }
+.page-652 .approx-error-card > div:last-child { display: flex; align-items: center; justify-content: center; gap: 6px; }
+.page-652 .approx-error-card .response-line { min-width: 82px; height: 18px; }
+
+.page-652 .build-approx-card {
+  display: grid;
+  grid-template-columns: 1.05fr 1.45fr;
+  gap: 0;
+  align-items: stretch;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  border-block: 1px solid var(--border-light);
+  border-inline: 0;
+  border-radius: 0;
+  background: var(--bg-subtle);
+}
+.page-652 .build-choice { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 5px; min-width: 0; padding: 8px 12px; font-size: 13px; line-height: 1.2; text-align: center; }
+.page-652 .build-a-slot { width: 46px; }
+.page-652 .build-solution-scaffold { padding: 8px 18px; border-right: 1px solid var(--border-light); }
+.page-652 .build-solution-scaffold .scaffold-row { grid-template-columns: 36px 17px minmax(74px, 1fr); }
+.page-652 .build-line-slot { width: 82px; }
+.page-652 .final-reason { display: flex; align-items: center; justify-content: center; gap: 7px; min-width: 0; min-height: 30px; padding-top: 3px; border-top: 1px solid var(--border-light); font-size: 12.9px; line-height: 1.18; }
+.page-652 .final-reason .response-line.long { min-width: 240px; height: 19px; }
+
+@media print {
+  .page-652 .page11-top-band,
+  .page-652 .direct-approx-card,
+  .page-652 .bounds-card,
+  .page-652 .approx-error-card,
+  .page-652 .build-approx-card { break-inside: avoid; }
+}

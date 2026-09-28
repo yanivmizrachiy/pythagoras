@@ -1,0 +1,21 @@
+/* עמוד 26 — משפט פיתגורס (שאלה 19 — משולש שווה השוקיים ABD, חוצה זווית DE, משולש ישר-זווית ABC וטרפז BCED) */
+@import url("../topics/pythagoras-live.css");
+
+.page-26 {
+	--fig-w: 430px;
+}
+
+.page-26 .pyt-dash {
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 1.6;
+	stroke-dasharray: 5 4;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	vector-effect: non-scaling-stroke;
+}
+
+.page-26 .solution-space {
+	flex: 1;
+	min-height: 200px;
+}

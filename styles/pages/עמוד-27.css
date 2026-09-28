@@ -1,0 +1,15 @@
+/* עמוד 27 — משפט פיתגורס (שאלה 20 — משולש ישר-זווית ACB, ניצב CB, שטח וגובה ליתר CD) */
+@import url("../topics/pythagoras-live.css");
+
+.page-27 {
+	--fig-w: 340px;
+}
+
+.page-27 .sub-label {
+	line-height: 22px;
+}
+
+.page-27 .solution-space {
+	flex: 1;
+	min-height: 150px;
+}

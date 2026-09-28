@@ -1,0 +1,11 @@
+/* עמוד 18 — משפט פיתגורס (שאלה 10 — אורך הקטע AB במערכת צירים) */
+@import url("../topics/pythagoras-live.css");
+
+.page-18 {
+	--fig-w: 300px;
+}
+
+.page-18 .solution-space {
+	flex: 1;
+	min-height: 220px;
+}

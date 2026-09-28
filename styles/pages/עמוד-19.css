@@ -1,0 +1,11 @@
+/* עמוד 19 — משפט פיתגורס (שאלה 11 — מרובע ABCD משני משולשים ישרי-זווית, אורך הצלע CD) */
+@import url("../topics/pythagoras-live.css");
+
+.page-19 {
+	--fig-w: 470px;
+}
+
+.page-19 .solution-space {
+	flex: 1;
+	min-height: 200px;
+}

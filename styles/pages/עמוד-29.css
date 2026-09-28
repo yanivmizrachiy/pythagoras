@@ -1,0 +1,11 @@
+/* עמוד 29 — משפט פיתגורס (שאלה 22 — יחס הניצבים 7:24, ניצב קטן 14 ס"מ) */
+@import url("../topics/pythagoras-live.css");
+
+.page-29 {
+	--fig-w: 440px;
+}
+
+.page-29 .solution-space {
+	flex: 1;
+	min-height: 380px;
+}

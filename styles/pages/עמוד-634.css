@@ -1,0 +1,37 @@
+@import url("../topics/pythagoras-foundations.css");
+@import url("../topics/pythagoras-inline-units.css");
+
+.page-634 .question-block {
+  display: grid;
+  grid-template-rows: auto auto minmax(218px, 1.35fr) auto minmax(108px, .72fr) auto minmax(118px, .82fr) minmax(138px, .82fr);
+  gap: 9px;
+  align-content: stretch;
+  min-height: 0;
+}
+.page-634 .foundation-note-one-line { display:flex; align-items:center; justify-content:flex-start; gap:5px; flex-wrap:nowrap; padding:5px 11px; min-height:34px; font-size:15.5px; line-height:1.2; white-space:nowrap; }
+.page-634 .foundation-fill-inline { display:inline-block; height:21px; border-radius:5px; flex:0 0 auto; }
+.page-634 .angle-name-fill { width:78px; }
+.page-634 .degrees-fill { width:50px; }
+.page-634 .compact-instruction,.page-634 .drawing-instruction,.page-634 .final-build-instruction { margin:0; min-height:0; }
+.page-634 .compact-instruction .q-text,.page-634 .drawing-instruction .q-text,.page-634 .final-build-instruction .q-text { line-height:1.25; }
+.page-634 .foundation-grid { min-height:0; }
+.page-634 .angle-choice-grid { gap:9px 10px; height:100%; }
+.page-634 .angle-choice-grid .foundation-card { min-height:0; height:100%; padding:7px 9px; gap:4px; }
+.page-634 .angle-choice-grid .foundation-svg { max-width:220px; height:min(96px,72%); min-height:82px; }
+.page-634 .angle-choice-grid .check { width:16px; height:16px; margin:0; }
+.page-634 .classification-card { height:100%; justify-content:center; gap:5px; padding:7px 10px; min-height:0; }
+.page-634 .cls-strip { width:100%; display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); align-items:center; gap:8px; }
+.page-634 .cls-item { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:4px; }
+.page-634 .cls-svg { width:94px; height:66px; }
+.page-634 .foundation-svg .vx,.page-634 .cls-svg .vx { fill:var(--accent-dark); }
+.page-634 .cls-svg .edge { fill:none; stroke:var(--accent-dark); stroke-width:1.6px; stroke-linecap:round; stroke-linejoin:round; vector-effect:non-scaling-stroke; }
+.page-634 .cls-fill { width:92px; height:24px; border-radius:5px; }
+.page-634 .drawing-grid { grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; height:100%; }
+.page-634 .drawing-card { min-height:0; height:100%; align-items:stretch; justify-content:center; padding:7px 10px; }
+.page-634 .guided-ray-svg { width:100%; height:100%; min-height:92px; border:1.35px dashed #94a3b8; border-radius:7px; background:var(--bg-paper); }
+.page-634 .guided-ray-svg .guide-ray { fill:none; stroke:var(--accent-dark); stroke-width:1.6; stroke-linecap:round; vector-effect:non-scaling-stroke; }
+.page-634 .guided-ray-svg .guide-point { fill:var(--accent-dark); }
+.page-634 .final-build-task { height:100%; min-height:0; display:grid; grid-template-rows:auto minmax(0,1fr); gap:7px; padding:4px 2px 0; border:0; background:transparent; }
+.page-634 .final-build-instruction .q-text { font-size:14.8px; }
+.page-634 .final-build-area { min-height:94px; width:100%; border:1.5px dashed #64748b; border-radius:7px; background:#fff; box-shadow:none; }
+@media print { .page-634 .foundation-note-one-line,.page-634 .final-build-task,.page-634 .classification-card,.page-634 .drawing-card { break-inside:avoid; } }

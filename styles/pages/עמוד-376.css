@@ -1,0 +1,7 @@
+@import url('../topics/geometry7.css');
+@import url('../topics/pythagoras.css');
+
+/* מצמצם את פיזור ה-space-between באמצעות הגדלת אזורי העבודה עצמם. */
+.page-376 .q {
+  padding-block: 11px 12px;
+}

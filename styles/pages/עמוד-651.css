@@ -1,0 +1,204 @@
+@import url("../topics/pythagoras-foundations.css");
+
+/* עמוד 9 — משוואות מהצורה x²=a. פריסה שטוחה, ברורה וללא תיבה בתוך תיבה. */
+.page-651 .question-block {
+  display: grid;
+  grid-template-rows: 98px 228px 300px 190px minmax(72px, 1fr);
+  gap: 8px;
+  align-content: stretch;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+
+.page-651 .question-block > * {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.page-651 > .header-container {
+  min-width: 0;
+  align-items: center;
+  gap: 10px;
+}
+
+.page-651 > .header-container > .page-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: calc(100% - 44px);
+  margin: 0;
+  font-size: 22px;
+  line-height: 1.1;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.page-651 .q-main { margin: 0; min-height: 22px; }
+.page-651 .q-text { font-size: 14.2px; line-height: 1.22; }
+
+.page-651 .foundation-fill {
+  display: inline-block;
+  background: #fff;
+  box-shadow: none;
+  border: 1.2px solid #64748b;
+  border-radius: 4px;
+  vertical-align: middle;
+}
+
+.page-651 .digit-slot { width: 32px; min-width: 32px; height: 23px; }
+.page-651 .two-digit-slot { width: 44px; min-width: 44px; height: 23px; }
+.page-651 .signed-slot { width: 44px; min-width: 44px; height: 23px; }
+.page-651 .signed-two-digit-slot { width: 56px; min-width: 56px; height: 23px; }
+.page-651 .word-slot { width: 62px; min-width: 62px; height: 23px; }
+
+.page-651 .page9-distinction {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  min-width: 0;
+  min-height: 0;
+  border-block: 1px solid var(--border-light);
+  background: var(--bg-subtle);
+}
+
+.page-651 .distinction-side {
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  align-items: center;
+  justify-items: center;
+  gap: 3px;
+  min-width: 0;
+  padding: 8px 14px;
+  text-align: center;
+  font-size: 13.4px;
+  line-height: 1.2;
+}
+
+.page-651 .distinction-side + .distinction-side { border-right: 1px solid var(--border-light); }
+.page-651 .distinction-side strong { color: var(--title-blue); font-size: 14.6px; }
+.page-651 .distinction-side > div { font-size: 18px; }
+
+.page-651 .page9-cases-task,
+.page-651 .page9-equation-practice,
+.page-651 .page9-true-false {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 5px;
+  min-width: 0;
+  min-height: 0;
+}
+
+.page-651 .case-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  min-width: 0;
+  min-height: 0;
+  border-block: 1px solid var(--border-light);
+}
+
+.page-651 .case-column {
+  display: grid;
+  grid-template-rows: 28px 30px minmax(0, 1fr) auto;
+  align-items: center;
+  justify-items: center;
+  gap: 4px;
+  min-width: 0;
+  min-height: 0;
+  padding: 7px 12px;
+  background: #fff;
+  text-align: center;
+}
+
+.page-651 .case-column + .case-column { border-right: 1px solid var(--border-light); }
+.page-651 .case-heading { font-size: 17px; font-weight: 700; }
+.page-651 .case-rule { display: flex; align-items: center; justify-content: center; gap: 5px; font-size: 13.6px; }
+.page-651 .case-example { display: grid; align-content: center; justify-items: start; gap: 2px; width: 100%; max-width: 150px; font-size: 14.4px; line-height: 1.08; }
+.page-651 .positive-case .case-example { grid-template-rows: repeat(5, 1fr); }
+.page-651 .zero-case .case-example,
+.page-651 .negative-case .case-example { justify-items: center; }
+.page-651 .no-real-solution { direction: rtl; font-family: 'Rubik', sans-serif; font-size: 13.8px; }
+.page-651 .case-note { font-size: 12.2px; line-height: 1.18; color: #475569; }
+
+.page-651 .equation-practice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  min-width: 0;
+  min-height: 0;
+  border-block: 1px solid var(--border-light);
+}
+
+.page-651 .practice-item {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  min-height: 0;
+  padding: 7px 14px;
+}
+
+.page-651 .practice-item:nth-child(odd) { border-left: 1px solid var(--border-light); }
+.page-651 .practice-item:nth-child(n+3) { border-top: 1px solid var(--border-light); }
+.page-651 .practice-equation { font-size: 17px; font-weight: 600; text-align: center; }
+.page-651 .answer-pair { display: grid; grid-template-columns: auto 44px auto 56px; align-items: center; justify-content: center; gap: 5px; font-size: 13.8px; }
+.page-651 .single-answer { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 14px; }
+.page-651 .open-answer-line { width: 78%; height: 28px; border-bottom: 1.4px solid #334155; justify-self: center; }
+
+.page-651 .tf-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  min-width: 0;
+  min-height: 0;
+  border-block: 1px solid var(--border-light);
+}
+
+.page-651 .tf-item {
+  display: grid;
+  grid-template-rows: auto 24px minmax(20px, 1fr);
+  align-items: center;
+  justify-items: center;
+  gap: 3px;
+  min-width: 0;
+  min-height: 0;
+  padding: 6px 10px;
+  font-size: 12.6px;
+  line-height: 1.15;
+  text-align: center;
+}
+
+.page-651 .tf-item:nth-child(odd) { border-left: 1px solid var(--border-light); }
+.page-651 .tf-item:nth-child(n+3) { border-top: 1px solid var(--border-light); }
+.page-651 .tf-claim { font-size: 13.8px; font-weight: 500; }
+.page-651 .tf-choice { display: flex; align-items: center; justify-content: center; gap: 5px; white-space: nowrap; }
+.page-651 .tf-dot { width: 13px; height: 13px; border: 1.3px solid #334155; border-radius: 50%; background: #fff; }
+.page-651 .correction-line { display: block; width: 82%; min-width: 0; height: 24px; border-bottom: 1.4px solid #334155; background: transparent; }
+
+.page-651 .page9-final-rule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0;
+  min-height: 0;
+  padding: 10px 16px;
+  border-top: 1px solid var(--border-light);
+  font-size: 14px;
+  /* גובה השורה חייב לעלות על גובה תיבות ההשלמה (23px), אחרת שורות עטופות נדחסות זו בזו */
+  line-height: 2.1;
+  text-align: center;
+}
+
+.page-651 .page9-final-rule .foundation-fill { margin-inline: 4px; }
+
+@media print {
+  .page-651 .page9-distinction,
+  .page-651 .case-grid,
+  .page-651 .practice-item,
+  .page-651 .tf-item,
+  .page-651 .page9-final-rule { break-inside: avoid; }
+}

@@ -1,0 +1,90 @@
+@layer topic {
+/* משפט פיתגורס — שכבת הבסיס המשותפת לכל דפי הנושא והחוברת. */
+
+/* גופני מתמטיקה קנוניים: אותם קובצי TeX מקומיים של MathJax בכל חוברת פיתגורס. */
+@font-face {
+  font-family: 'PytTeX';
+  src: url('../../vendor/mathjax/tex-font/chtml/woff2/mjx-tex-n.woff2') format('woff2');
+  font-display: swap;
+}
+@font-face {
+  font-family: 'PytTeXMathItalic';
+  src: url('../../vendor/mathjax/tex-font/chtml/woff2/mjx-tex-mi.woff2') format('woff2');
+  font-display: swap;
+}
+
+/* Scope Guard: aaa הוא חוברת פיתגורס בלבד. ניווט נושאים היסטורי מוסתר בכל דפי החוברת. */
+body:has(:is(.pythagoras, .page-375, .page-376, .page-377, .page-378, .page-379, .page-380)) .preview-nav-topics {
+  display: none !important;
+}
+
+/* 375–380 יכולים להמשיך להופיע גם בגאומטריה ז', אך הם חברים בחוברת פיתגורס ולכן
+   מקבלים את שכבת האחידות גם כשה-HTML המקורי אינו נושא class="pythagoras". */
+:is(.pythagoras, .page-375, .page-376, .page-377, .page-378, .page-379, .page-380).a4-page {
+  font-family: 'Rubik', Arial, sans-serif;
+}
+
+:is(.pythagoras, .page-375, .page-376, .page-377, .page-378, .page-379, .page-380) .pyt-fig-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+/* SVG מתמטי ותיק: מספרים/אורכי צלעות בגופן TeX, משתנים ונקודות באיטליק מתמטי. */
+.pythagoras.a4-page :is(.pyt-tri-svg, .pyt-fig-svg, .pyt-rect-svg) text {
+  font-family: 'PytTeX', Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+}
+.pythagoras.a4-page :is(.pyt-tri-x, .pyt-var, .pyt-point, .pt) {
+  font-family: 'PytTeXMathItalic', Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  font-weight: 400;
+}
+.pythagoras.a4-page .len {
+  font-family: 'PytTeX', Georgia, 'Times New Roman', serif;
+  font-style: normal;
+  font-weight: 400;
+}
+
+/* תיבת התשובה הקנונית של פיתגורס — סגנון 5. */
+:is(.pythagoras, .page-375, .page-376, .page-377, .page-378, .page-379, .page-380) .answer-box {
+  height: 30px;
+  border: 1.35px solid #1f2a44;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #ffffff 0%, #fdfefe 100%);
+  box-shadow: 0 1px 0 rgba(15, 23, 42, .13), 0 4px 8px rgba(15, 23, 42, .11), inset 0 1px 0 rgba(255, 255, 255, .98);
+  transform: none;
+  vertical-align: middle;
+}
+
+:is(.pythagoras, .page-375, .page-376, .page-377, .page-378, .page-379, .page-380) .answer-box::before {
+  display: none;
+}
+
+:is(.pythagoras, .page-375, .page-376, .page-377, .page-378, .page-379, .page-380) .answer-box.box-sm {
+  width: 58px;
+}
+
+/* תוויות מספריות/לטיניות ב-SVG של דפי היישום משתמשות באותו TeX מקומי ולא בגופן ממשק. */
+:is(.page-375, .page-376, .page-377, .page-378, .page-379, .page-380) svg.chart text[direction="ltr"] {
+  font-family: 'PytTeX', Georgia, 'Times New Roman', serif;
+  font-weight: 400;
+}
+
+@media print {
+  :is(.pythagoras, .page-375, .page-376, .page-377, .page-378, .page-379, .page-380) .answer-box {
+    background: #fff;
+    box-shadow: none;
+    border-color: #1f2a44;
+  }
+}
+
+/* הקרדיט באותו מיקום בכל דפי חוברת פיתגורס. */
+:is(.pythagoras, .page-375, .page-376, .page-377, .page-378, .page-379, .page-380).a4-page > .gz-footer {
+  transform: translateY(9px);
+}
+
+}

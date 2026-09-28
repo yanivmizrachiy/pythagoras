@@ -1,0 +1,49 @@
+@import url("../topics/pythagoras-foundations.css");
+
+/* עמוד 12 — ארבע השלמות שונות, פריסת 2×2 סימטרית: כל כרטיס בעל שלד זהה
+   כך שכל ארבעת הריבועים יושבים באותו גובה בדיוק, והרווחים מאוזנים. */
+.page-643 .question-block.square-area-practice { justify-content:flex-start; gap:12px; min-height:0; }
+.page-643 .page12-intro { margin-bottom:0; flex:0 0 auto; }
+.page-643 .square-task-grid { flex:1 1 auto; min-height:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); grid-template-rows:repeat(2,minmax(0,1fr)); gap:12px; }
+
+/* שלד קבוע לכל כרטיס: הוראה (למעלה) · ריבוע (אמצע, מיושר בין הכרטיסים) · חישוב (למטה). */
+.page-643 .square-task-card {
+  position:relative; min-height:0; overflow:hidden;
+  border:1px solid var(--border-light); border-radius:11px; background:var(--bg-paper);
+  padding:16px 20px;
+  display:grid; grid-template-rows:3.2em 150px 1fr; gap:6px;
+  justify-items:center;
+}
+.page-643 .square-task-card::after { content:""; position:absolute; inset-inline-end:0; top:0; bottom:0; width:4px; background:var(--title-blue); opacity:.7; }
+.page-643 .task-prompt { align-self:start; justify-self:stretch; font-size:17.5px; line-height:1.45; text-align:right; }
+.page-643 .task-prompt strong { font-weight:700; }
+
+/* הריבוע — אותו גודל ואותו מיקום אנכי בכל ארבעת הכרטיסים. */
+.page-643 .numeric-square,.page-643 .symbol-square,.page-643 .area-square,.page-643 .reverse-square {
+  width:116px; height:116px; align-self:start; justify-self:center;
+  border:1.6px solid var(--accent-dark); background:var(--bg-subtle);
+  position:relative; display:flex; align-items:center; justify-content:center;
+}
+.page-643 .numeric-square .side-label,.page-643 .symbol-side,.page-643 .reverse-side { position:absolute; bottom:-24px; left:50%; transform:translateX(-50%); white-space:nowrap; font-size:17px; }
+.page-643 .symbol-area { font-size:16px; color:#475569; }
+.page-643 .area-square { font-size:18px; font-weight:600; }
+.page-643 .reverse-question { font-size:26px; font-weight:700; color:var(--title-blue); }
+
+/* אזור החישוב/ההשלמה — ממורכז אנכית בשורה התחתונה, זהה בין הכרטיסים. */
+.page-643 .task-work { align-self:center; width:100%; display:grid; justify-items:center; gap:8px; }
+.page-643 .single-completion { align-self:center; }
+.page-643 .work-caption { direction:rtl; font-size:14px; font-weight:600; color:#475569; }
+.page-643 .math-work { display:grid; grid-auto-rows:auto; align-content:center; justify-items:center; gap:6px; font-size:22px; white-space:nowrap; }
+.page-643 .math-work > .foundation-fill { display:block; }
+
+.page-643 .final-row,.page-643 .single-completion { min-height:36px; display:flex; align-items:center; justify-content:center; gap:8px; font-size:17px; line-height:1.35; flex-wrap:wrap; }
+.page-643 .answer-fit { display:inline-block; flex:0 0 auto; height:31px; }
+.page-643 .answer-fit-one-digit { width:34px; }
+.page-643 .answer-fit-two-digit { width:46px; }
+.page-643 .answer-fit-symbol-square { width:50px; }
+.page-643 .answer-underline { display:inline-block; height:28px; border-bottom:1.6px solid var(--text-main); flex:0 0 auto; }
+
+@media print {
+  .page-643 .square-task-card { break-inside:avoid; }
+  .page-643 .square-task-card::after { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+}

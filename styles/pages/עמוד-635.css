@@ -1,0 +1,48 @@
+@import url("../topics/pythagoras-foundations.css");
+@import url("../topics/pythagoras-inline-units.css");
+
+.page-635 .question-block {
+  display: grid;
+  grid-template-rows: auto auto 86px 118px 168px minmax(0, 1fr);
+  align-content: stretch;
+  gap: 7px;
+  min-height: 0;
+  overflow: hidden;
+}
+.page-635 .foundation-note-one-line { display:flex; align-items:center; justify-content:flex-start; gap:5px; flex-wrap:nowrap; padding:5px 11px; min-height:34px; font-size:15.5px; line-height:1.2; white-space:nowrap; }
+.page-635 .foundation-fill-inline { display:inline-block; height:21px; border-radius:5px; flex:0 0 auto; }
+.page-635 .angle-type-fill { width:74px; }
+.page-635 .degrees-fill { width:50px; }
+.page-635 .compact-instruction,.page-635 .construction-instruction,.page-635 .mc-triangle-heading,.page-635 .hunt-instruction { margin:0; min-height:0; }
+.page-635 .compact-instruction .q-text,.page-635 .construction-instruction .q-text,.page-635 .mc-triangle-heading .q-text,.page-635 .hunt-instruction .q-text { font-size:14.4px; line-height:1.25; }
+.page-635 .triangle-choice-grid { grid-template-columns:repeat(6,minmax(0,1fr)); gap:7px; height:100%; min-height:0; }
+.page-635 .triangle-choice-grid .foundation-card { min-height:0; height:100%; padding:4px 5px; gap:2px; }
+.page-635 .triangle-choice-grid .foundation-svg { width:100%; max-width:108px; height:58px; }
+.page-635 .triangle-choice-grid .check { width:13px; height:13px; margin:0; }
+.page-635 .mc-triangle-section { height:100%; min-height:0; display:grid; grid-template-rows:auto minmax(0,1fr); gap:5px; padding:6px 9px; border:1px solid var(--border-light); border-radius:10px; background:var(--bg-paper); overflow:hidden; }
+.page-635 .mc-triangle-question { font-size:14.4px; line-height:1.25; }
+.page-635 .mc-triangle-grid { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:8px; min-height:0; }
+.page-635 .mc-triangle-card { min-height:0; height:100%; border:1px solid var(--border-light); border-radius:8px; background:var(--bg-subtle); padding:2px 5px 4px; display:grid; grid-template-rows:minmax(0,1fr) auto; align-items:center; justify-items:center; overflow:hidden; }
+.page-635 .mc-triangle-card svg { width:100%; max-width:112px; height:54px; display:block; }
+.page-635 .mc-triangle-card path { fill:none; stroke:var(--accent-dark); stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; vector-effect:non-scaling-stroke; }
+.page-635 .mc-triangle-answer { width:100%; display:flex; align-items:center; justify-content:center; gap:7px; font-size:12.5px; line-height:1; }
+.page-635 .mc-radio { width:13px; height:13px; border:1.4px solid var(--accent-dark); border-radius:50%; background:var(--bg-paper); flex:0 0 auto; }
+.page-635 .construction-task { height:100%; min-height:0; display:grid; grid-template-rows:auto minmax(0,1fr) auto; gap:6px; padding:3px 1px 2px; border:0; border-radius:0; background:transparent; overflow:hidden; }
+.page-635 .construction-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; min-height:0; }
+.page-635 .construction-card { min-height:0; height:100%; border:1px dashed #b8c4d6; border-radius:7px; background:#fff; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+.page-635 .construction-svg { width:100%; height:78px; display:block; direction:ltr; shape-rendering:geometricPrecision; text-rendering:geometricPrecision; }
+.page-635 .construction-svg line { stroke:var(--accent-dark); stroke-width:1.55; stroke-linecap:round; vector-effect:non-scaling-stroke; }
+.page-635 .construction-svg circle { fill:var(--accent-dark); }
+.page-635 .construction-svg text { font-family:'Rubik',Arial,sans-serif; font-size:13px; font-weight:400; fill:var(--text-main); }
+.page-635 .construction-reflection { display:flex; align-items:baseline; gap:6px; min-height:20px; padding-inline:2px; font-size:13.8px; line-height:1.25; white-space:nowrap; }
+.page-635 .construction-answer-line { display:inline-block; flex:0 0 118px; height:16px; border-bottom:1px solid var(--accent-dark); }
+
+/* בתחתית: הוראת החיפוש, השרטוט, ושאלת הספירה. */
+.page-635 .hunt-section { margin:0; height:100%; min-height:0; display:grid; grid-template-rows:auto minmax(0,1fr) 34px; gap:7px; overflow:hidden; }
+.page-635 .geometry-hunt-card { width:100%; height:100%; min-height:0; padding:2px 8px; border:1px solid var(--border-light); border-radius:10px; background:var(--bg-paper); break-inside:avoid; overflow:hidden; }
+.page-635 .triangle-hunt-svg { width:100%; height:100%; min-height:0; display:block; shape-rendering:geometricPrecision; }
+.page-635 .triangle-hunt-svg .mosaic-lines { fill:none; stroke:var(--accent-dark); stroke-width:1.55; stroke-linecap:round; stroke-linejoin:round; vector-effect:non-scaling-stroke; }
+.page-635 .triangle-hunt-svg .mosaic-points { fill:var(--accent-dark); }
+.page-635 .hunt-total { height:34px; min-height:0; display:flex; align-items:center; justify-content:flex-start; gap:9px; padding:2px; border:0; border-radius:0; background:transparent; font-size:14.3px; font-weight:500; overflow:hidden; }
+.page-635 .hunt-count-fill { width:54px; height:20px; flex:0 0 auto; border:0; border-bottom:1.2px solid var(--accent-dark); border-radius:0; background:transparent; box-shadow:none; }
+@media print { .page-635 .foundation-note-one-line,.page-635 .mc-triangle-section,.page-635 .mc-triangle-card,.page-635 .construction-task,.page-635 .construction-card,.page-635 .geometry-hunt-card,.page-635 .hunt-total,.page-635 .triangle-choice-grid .foundation-card { break-inside:avoid; } }

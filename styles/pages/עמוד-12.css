@@ -1,0 +1,25 @@
+/* עמוד 12 — משפט פיתגורס (דף עבודה) */
+@import url("../topics/pythagoras.css");
+
+.page-12 .question-block { justify-content: flex-start; gap: 8px; }
+.page-12 .pyt-units-note { font-weight: 500; margin-right: 10px; white-space: nowrap; }
+.page-12 .pyt-diagram-frame { display: flex; justify-content: center; align-items: center; width: 440px; padding: 8px; border: 1px solid var(--grid-line); border-radius: 6px; color: var(--accent-dark); }
+.page-12 .pyt-fig-svg { display: block; height: 205px; shape-rendering: geometricPrecision; }
+.page-12 .pyt-edge { fill: none; stroke: currentColor; stroke-width: 1.85; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.page-12 .pyt-right { fill: none; stroke: currentColor; stroke-width: 1.55; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+.page-12 .pyt-fig-svg text { font-family: inherit; fill: var(--text-main); paint-order: stroke; stroke: var(--bg-paper); stroke-width: 1.5; }
+.page-12 .pyt-point { font-size: 14px; font-weight: 500; text-anchor: middle; dominant-baseline: middle; unicode-bidi: isolate; }
+.page-12 .pyt-side { font-size: 14px; font-weight: 400; text-anchor: middle; dominant-baseline: middle; unicode-bidi: isolate; }
+.page-12 .pyt-var { font-size: 14px; font-weight: 500; font-style: italic; text-anchor: middle; dominant-baseline: middle; unicode-bidi: isolate; }
+.page-12 .pyt-sub-list { display: grid; gap: 5px; }
+.page-12 .pyt-solve-note { font-weight: 600; line-height: 22px; }
+/* כל הגובה הפנוי נהפך לשטח פתרון אמיתי, במקום רווח לבן לפני התשובות. */
+.page-12 .solution-space { flex: 1 1 auto; min-height: 225px; height: auto; border: 1px solid var(--border-light); border-radius: 6px; background-color: var(--bg-paper); padding: 6px 8px; direction: ltr; unicode-bidi: isolate; background-image: linear-gradient(to bottom, transparent 27px, var(--grid-line) 27px, var(--grid-line) 28px), linear-gradient(to right, transparent 27px, var(--grid-line) 27px, var(--grid-line) 28px); background-size: 28px 28px; background-repeat: repeat; }
+.page-12 .pyt-final-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.page-12 .pyt-final-row { display: flex; align-items: center; justify-content: flex-start; gap: 7px; direction: ltr; unicode-bidi: isolate; min-height: 34px; }
+.page-12 .pyt-final-answer { display: inline-block; width: 82px; height: 30px; border: 1.35px solid #1f2a44; border-radius: 8px; background: #fff; box-shadow: 0 1px 0 rgba(15,23,42,.13),0 4px 8px rgba(15,23,42,.11); }
+.page-12 .pyt-footer { margin-top: 0; display: flex; flex-direction: column; gap: 0; }
+.page-12 .pyt-solutions .q-sub { margin-bottom: 0; }
+.page-12 .pyt-solutions .q-text { display: grid; grid-template-columns: max-content repeat(2, minmax(0,1fr)); column-gap: 10px; align-items: center; width: 100%; font-size: 12px; }
+.page-12 .pyt-solutions .solutions-label { font-weight: 500; }
+.page-12 .pyt-solution { direction: ltr; unicode-bidi: isolate; font-weight: 500 !important; text-align: center; white-space: nowrap; }

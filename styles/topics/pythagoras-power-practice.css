@@ -1,0 +1,234 @@
+@layer topic {
+/*
+ * תרגילי חזקות ושורשים — שכבת העריכה המשותפת.
+ * שינויי גופן, כרטיס, דוגמה, גריד ותיבות השלמה נעשים כאן פעם אחת.
+ * דף ייחודי משנה רק CSS variables על .page-N במקום לשכפל selectors.
+ */
+.pyt-foundation {
+  --power-question-gap: 14px;
+  --power-note-gap: 10px;
+  --power-grid-columns: 3;
+  --power-grid-gap: 12px;
+  --power-card-min-height: 102px;
+  --power-card-padding: 12px 10px;
+  --power-instruction-font-size: 16px;
+  --power-instruction-line-height: 22px;
+  --power-sentence-columns: 2;
+  --power-scratch-flex: 0 0 auto;
+  --power-scratch-min-height: 0px;
+  --power-scratch-margin-top: 0px;
+}
+
+.pyt-foundation .question-block {
+  justify-content: flex-start;
+  gap: var(--power-question-gap);
+}
+
+.pyt-foundation .q-text {
+  font-size: var(--power-instruction-font-size);
+  line-height: var(--power-instruction-line-height);
+}
+
+.pyt-foundation .foundation-note {
+  display: grid;
+  gap: var(--power-note-gap);
+}
+
+.pyt-foundation .math-ltr {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-block;
+}
+
+.pyt-foundation .power-grid {
+  grid-template-columns: repeat(var(--power-grid-columns), minmax(0, 1fr));
+  gap: var(--power-grid-gap);
+}
+
+.pyt-foundation .power-grid .stacked-answer-card {
+  min-height: var(--power-card-min-height);
+  padding: var(--power-card-padding);
+}
+
+.pyt-foundation .power-scratch-space {
+  flex: var(--power-scratch-flex);
+  min-height: var(--power-scratch-min-height);
+  margin-top: var(--power-scratch-margin-top);
+}
+
+.pyt-foundation .stacked-answer-card {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.pyt-foundation .stacked-answer-card .exercise-expression {
+  min-height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  line-height: 1.25;
+  font-weight: 500;
+}
+
+.pyt-foundation .stacked-answer-card .exercise-answer {
+  min-height: 30px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pyt-foundation .stacked-answer-card .exercise-answer .foundation-fill {
+  display: block;
+  margin: 0 auto;
+}
+
+/* הסבר פתיחה קומפקטי בדפי חזקות/שורשים בלבד. */
+.pyt-foundation:has(.power-example-stack) .foundation-note,
+.pyt-foundation .compact-root-note {
+  padding: 8px 12px;
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.pyt-foundation .compact-root-note {
+  display: block;
+}
+
+.pyt-foundation .power-example-stack {
+  direction: ltr;
+  unicode-bidi: isolate;
+  width: min(260px, 100%);
+  margin: 1px auto 0;
+  padding: 7px 11px;
+  border: 1px solid var(--border-light);
+  border-radius: 9px;
+  background: var(--bg-paper);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+}
+
+.pyt-foundation .power-example-stack .exercise-expression {
+  font-size: 18px;
+  line-height: 1.25;
+}
+
+.pyt-foundation .power-example-stack .exercise-answer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* בסיס חסר: התלמיד משלים את המספר ישירות בריבוע שלפני החזקה. */
+.pyt-foundation .missing-base-card {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 76px;
+  padding: 8px 7px;
+}
+
+.pyt-foundation .missing-base-expression {
+  display: inline-flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 5px;
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-family: 'PytTeX', Georgia, 'Times New Roman', serif;
+  font-size: 18px;
+  line-height: 30px;
+  white-space: nowrap;
+}
+
+.pyt-foundation .missing-base-slot {
+  width: 34px;
+  height: 30px;
+  flex: 0 0 34px;
+}
+
+.pyt-foundation .missing-base-power {
+  font-size: 12px;
+  line-height: 1;
+  margin-inline-start: -4px;
+  transform: translateY(-1px);
+}
+
+.pyt-foundation .missing-base-equals,
+.pyt-foundation .missing-base-target {
+  line-height: 30px;
+}
+
+/* משפטי השלמה קצרים לניצול שטח בלי להוסיף הסברים ארוכים. */
+.pyt-foundation .power-sentence-grid {
+  display: grid;
+  grid-template-columns: repeat(var(--power-sentence-columns), minmax(0, 1fr));
+  gap: 8px 10px;
+}
+
+.pyt-foundation .power-sentence-card {
+  min-height: 42px;
+  padding: 6px 10px;
+  border: 1px solid var(--border-light);
+  border-radius: 9px;
+  background: var(--bg-paper);
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 7px;
+  font-size: 15px;
+  line-height: 1.3;
+}
+
+.pyt-foundation .sentence-fill {
+  width: 64px;
+  min-width: 64px;
+  height: 28px;
+}
+
+.pyt-foundation .sentence-fill-short {
+  width: 44px;
+  min-width: 44px;
+}
+
+/* מספר חסר בתוך שורש: ביטוי השורש עצמו מרונדר רק באמצעות MathJax. */
+.pyt-foundation .missing-root-card {
+  min-height: 66px;
+  padding: 7px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pyt-foundation .missing-root-expression {
+  direction: ltr;
+  unicode-bidi: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  line-height: 30px;
+}
+
+@media print {
+  .pyt-foundation .stacked-answer-card,
+  .pyt-foundation .power-example-stack,
+  .pyt-foundation .missing-base-card,
+  .pyt-foundation .power-sentence-card,
+  .pyt-foundation .missing-root-card {
+    break-inside: avoid;
+  }
+}
+
+}

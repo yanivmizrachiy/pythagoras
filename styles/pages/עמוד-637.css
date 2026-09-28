@@ -1,0 +1,44 @@
+@import url("../topics/pythagoras-foundations.css");
+
+.page-637 .question-block {
+  display:grid;
+  grid-template-rows:46px 190px 205px 150px 104px minmax(170px,1fr);
+  gap:8px;
+  align-content:stretch;
+  width:100%; min-width:0; min-height:0; box-sizing:border-box;
+}
+.page-637 .question-block>* { width:100%; min-width:0; max-width:100%; box-sizing:border-box; }
+.page-637 .hyp-summary { display:flex; align-items:center; justify-content:center; gap:5px; min-height:46px; padding:5px 10px; border-block:1px solid var(--border-light); background:var(--bg-subtle); font-size:14.6px; line-height:1.2; white-space:nowrap; }
+.page-637 .summary-word-fill { width:66px; min-width:66px; height:24px; border-radius:4px; }
+.page-637 .hyp-section { display:grid; grid-template-rows:auto minmax(0,1fr); gap:5px; min-width:0; min-height:0; }
+.page-637 .hyp-section .q-main { margin:0; min-width:0; min-height:0; }
+.page-637 .hyp-section .q-text { font-size:14.5px; line-height:1.25; }
+.page-637 .hyp-visual-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; min-width:0; min-height:0; }
+.page-637 .hyp-card { min-width:0; min-height:0; display:grid; grid-template-rows:minmax(0,1fr) 28px; align-items:center; justify-items:stretch; padding:5px 8px; border:1px solid var(--border-light); border-radius:8px; background:var(--bg-paper); }
+.page-637 .hyp-svg,.page-637 .rectangle-svg,.page-637 .vertex-name-svg,.page-637 .symbol-triangle { display:block; width:100%; height:100%; min-width:0; min-height:0; shape-rendering:geometricPrecision; }
+.page-637 .hyp-svg .edge,.page-637 .vertex-name-svg .edge,.page-637 .symbol-triangle .edge { fill:none; stroke:var(--accent-dark); stroke-width:1.65; stroke-linecap:round; stroke-linejoin:round; vector-effect:non-scaling-stroke; }
+.page-637 .hyp-svg .mark,.page-637 .vertex-name-svg .mark,.page-637 .symbol-triangle .mark { fill:none; stroke:var(--accent-dark); stroke-width:1.15; vector-effect:non-scaling-stroke; }
+.page-637 .hyp-svg .lbl,.page-637 .rectangle-svg .lbl { fill:var(--text-main); font-family:'Rubik',Arial,sans-serif; font-style:italic; font-size:15px; }
+.page-637 .hyp-answer { display:flex; align-items:center; justify-content:center; gap:5px; font-size:14.3px; }
+.page-637 .hyp-answer .response-line,.page-637 .rectangle-answer .response-line { min-width:58px; height:20px; }
+.page-637 .vertex-name-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; min-width:0; min-height:0; }
+.page-637 .vertex-name-card { display:grid; grid-template-rows:34px minmax(0,1fr); gap:4px; min-width:0; min-height:0; padding:7px 10px; border:1px solid var(--border-light); border-radius:8px; background:#fff; }
+.page-637 .vertex-condition { display:flex; align-items:center; justify-content:center; gap:4px; font-size:13.7px; line-height:1.22; text-align:center; }
+.page-637 .vertex-blank { fill:#fff; stroke:#64748b; stroke-width:1.3; stroke-dasharray:2 2; vector-effect:non-scaling-stroke; }
+.page-637 .rectangle-work { display:grid; grid-template-columns:270px minmax(0,1fr); align-items:stretch; gap:14px; min-width:0; min-height:0; padding:5px 10px; border-block:1px solid var(--border-light); background:var(--bg-subtle); }
+.page-637 .rectangle-svg .rect-edge,.page-637 .rectangle-svg .rect-diagonal,.page-637 .rectangle-svg .rect-mark { fill:none; stroke:var(--accent-dark); vector-effect:non-scaling-stroke; }
+.page-637 .rectangle-svg .rect-edge { stroke-width:1.6; }
+.page-637 .rectangle-svg .rect-diagonal { stroke-width:2.4; stroke:var(--title-blue); }
+.page-637 .rectangle-svg .rect-mark { stroke-width:1.15; }
+.page-637 .rectangle-answers { display:grid; align-content:center; gap:12px; min-width:0; font-size:14.2px; }
+.page-637 .rectangle-answer { display:flex; align-items:center; justify-content:center; gap:6px; white-space:nowrap; }
+.page-637 .danny-sentence { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:5px; min-height:0; padding:8px 12px; border:1px solid var(--border-light); border-radius:8px; background:#fff; font-size:14.4px; line-height:1.35; text-align:center; }
+.page-637 .number-fill { width:50px; height:24px; }
+.page-637 .word-fill { width:68px; height:24px; }
+.page-637 .symbol-work { display:grid; grid-template-columns:260px minmax(0,1fr); gap:14px; align-items:center; min-width:0; min-height:0; padding:6px 12px; border:1px solid var(--border-light); border-radius:8px; background:var(--bg-paper); }
+.page-637 .symbol-triangle { height:120px; }
+.page-637 .symbol-triangle .side-label { font-family:'Rubik',Arial,sans-serif; font-style:italic; font-size:17px; fill:#111827; }
+.page-637 .symbol-row { display:flex; align-items:center; justify-content:center; gap:10px; min-width:0; font-family:'Rubik',Arial,sans-serif; font-size:20px; }
+.page-637 .symbol-fill { width:42px; height:28px; border-radius:4px; }
+.page-637 .symbol-sep { margin-inline:12px; color:var(--title-blue); }
+@media print { .page-637 .hyp-card,.page-637 .vertex-name-card,.page-637 .rectangle-work,.page-637 .danny-sentence,.page-637 .symbol-work { break-inside:avoid; } }

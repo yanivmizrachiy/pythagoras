@@ -1,0 +1,355 @@
+@import url("../topics/pythagoras-foundations.css");
+
+/* עמוד 16 — עמוד הדפסה צפוף ושימושי: דוגמה אנכית, תרגום שרטוטים, בחירת פעולה וארבעה פתרונות מלאים. */
+.page-647 > .header-container {
+  min-width: 0;
+  align-items: center;
+  gap: 10px;
+}
+
+.page-647 > .header-container > .page-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: calc(100% - 44px);
+  margin: 0;
+  font-size: 21.5px;
+  line-height: 1.1;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.page-647 > .header-container > .page-number {
+  flex: 0 0 32px;
+  width: 32px;
+  min-width: 32px;
+}
+
+.page-647 .question-block {
+  display: grid;
+  grid-template-rows: 112px minmax(0, 1fr) 105px;
+  gap: 7px;
+  align-content: stretch;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+
+.page-647 .question-block > * {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.page-647 .q-main {
+  margin: 0;
+  min-height: 20px;
+}
+
+.page-647 .q-text {
+  font-size: 13.7px;
+  line-height: 1.18;
+}
+
+.page-647 .page16-section,
+.page-647 .page16-final-task {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 4px;
+  min-width: 0;
+  min-height: 0;
+}
+
+/* דוגמה: לא שרשרת אופקית. כל מעבר בשורה חדשה וסימני השוויון מיושרים. */
+.page-647 .page16-example {
+  display: grid;
+  grid-template-columns: 54px 150px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  min-height: 0;
+  padding: 5px 11px;
+  border-block: 1px solid var(--border-light);
+  background: var(--bg-subtle);
+}
+
+.page-647 .example-label {
+  align-self: start;
+  padding-top: 3px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.page-647 .example-triangle {
+  height: 94px;
+  min-height: 0;
+}
+
+.page-647 .example-triangle svg,
+.page-647 .page16-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-width: 0;
+  shape-rendering: geometricPrecision;
+}
+
+.page-647 .edge {
+  fill: none;
+  stroke: var(--accent-dark);
+  stroke-width: 1.55;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.page-647 .mark {
+  fill: none;
+  stroke: var(--accent-dark);
+  stroke-width: 1.15;
+  vector-effect: non-scaling-stroke;
+}
+
+.page-647 .lbl {
+  fill: var(--text-main);
+  font-family: 'PytTeX', Georgia, 'Times New Roman', serif;
+  font-size: 15px;
+}
+
+.page-647 .lbl.var {
+  font-family: 'PytTeXMathItalic', Georgia, 'Times New Roman', serif;
+  font-style: italic;
+}
+
+.page-647 .aligned-solution {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  gap: 2px;
+  min-width: 0;
+}
+
+.page-647 .solution-row {
+  display: grid;
+  grid-template-columns: 36px 18px minmax(88px, auto);
+  align-items: center;
+  min-height: 17px;
+  column-gap: 4px;
+  font-size: 14px;
+  line-height: 1.08;
+  white-space: nowrap;
+}
+
+.page-647 .solution-row .lhs {
+  min-width: 0;
+  text-align: right;
+}
+
+.page-647 .solution-row .eq {
+  text-align: center;
+}
+
+.page-647 .final-solution-row {
+  margin-top: 1px;
+  padding: 2px 7px;
+  border: 1.2px solid #1f2a44;
+  border-radius: 5px;
+  background: #fff;
+}
+
+/* ארבעה שרטוטים קומפקטיים: יותר תרגול, פחות מלל. */
+.page-647 .page16-visual-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 7px;
+  min-width: 0;
+  min-height: 0;
+}
+
+.page-647 .page16-mini-card {
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) 28px;
+  min-width: 0;
+  min-height: 0;
+  padding: 4px 5px;
+  border: 1px solid var(--border-light);
+  border-radius: 7px;
+  background: var(--bg-paper);
+}
+
+.page-647 .equation-write {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.page-647 .page16-equation-fill {
+  width: 122px;
+  height: 24px;
+  border-radius: 5px;
+}
+
+/* ארבע החלטות פעולה קצרות — בלי עוד שרטוטים גדולים. */
+.page-647 .operation-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 7px;
+  min-width: 0;
+  min-height: 0;
+}
+
+.page-647 .operation-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 0;
+  min-height: 0;
+  padding: 6px 5px;
+  border: 1px solid var(--border-light);
+  border-radius: 7px;
+  background: var(--bg-subtle);
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.page-647 .operation-fill {
+  width: 27px;
+  height: 24px;
+  flex: 0 0 27px;
+  border: 1.25px solid #1f2a44;
+  border-radius: 5px;
+  background: #fff;
+}
+
+/* ארבעה פתרונות מלאים ב-2 על 2. אין שטח עבודה לבן סתמי: כל שורה משרתת מעבר אלגברי. */
+.page-647 .page16-solve-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(2, minmax(0, 1fr));
+  gap: 8px 10px;
+  min-width: 0;
+  min-height: 0;
+}
+
+.page-647 .page16-solve-card {
+  display: grid;
+  grid-template-rows: 84px minmax(0, 1fr);
+  gap: 6px;
+  min-width: 0;
+  min-height: 0;
+  padding: 6px 8px 7px;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  background: var(--bg-paper);
+}
+
+.page-647 .page16-figure {
+  height: 84px;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding-bottom: 3px;
+  border-bottom: 1px solid #eef2f7;
+}
+
+.page-647 .solve-head {
+  display: grid;
+  grid-template-columns: 24px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 5px;
+  min-width: 0;
+  padding-bottom: 3px;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 12.4px;
+  line-height: 1.1;
+}
+
+.page-647 .solve-head strong {
+  font-size: 11.8px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.page-647 .student-solution {
+  width: 100%;
+  justify-content: center;
+  align-content: center;
+  gap: 8px;
+}
+
+.page-647 .student-solution .solution-row {
+  grid-template-columns: 34px 18px minmax(120px, 1fr);
+  width: min(270px, 100%);
+  min-height: 30px;
+  margin-inline: auto;
+  font-size: 15px;
+}
+
+.page-647 .work-fill,
+.page-647 .root-work-fill,
+.page-647 .final-work-fill {
+  display: inline-block;
+  height: 21px;
+  border-bottom: 1.15px solid #334155;
+}
+
+.page-647 .work-fill { width: 128px; }
+.page-647 .root-work-fill { width: 82px; }
+.page-647 .final-work-fill { width: 72px; }
+
+.page-647 .student-solution .final-solution-row {
+  width: min(225px, 100%);
+  padding-block: 3px;
+}
+
+/* שתי טעויות שונות בסיום, בלי פסקת סיכום מבזבזת מקום. */
+.page-647 .page16-final-task {
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.page-647 .final-error-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  min-width: 0;
+  min-height: 0;
+}
+
+.page-647 .final-error-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 5px 7px;
+  min-width: 0;
+  min-height: 0;
+  padding: 7px 9px;
+  border-block: 1px solid var(--border-light);
+  background: var(--bg-subtle);
+  font-size: 12.8px;
+  line-height: 1.18;
+  text-align: center;
+}
+
+.page-647 .final-error-card strong {
+  font-weight: 600;
+}
+
+.page-647 .final-error-card .response-line {
+  min-width: 100px;
+  height: 20px;
+}
+
+@media print {
+  .page-647 .page16-example,
+  .page-647 .page16-mini-card,
+  .page-647 .operation-card,
+  .page-647 .page16-solve-card,
+  .page-647 .final-error-card {
+    break-inside: avoid;
+  }
+}

@@ -1,0 +1,7 @@
+@import url('../topics/geometry7.css');
+@import url('../topics/pythagoras.css');
+
+/* מפחית רווחים בין הכרטיסים על ידי הגדלת הכרטיסים עצמם, בלי לשנות תוכן. */
+.page-377 .q {
+  padding-block: 10px 11px;
+}

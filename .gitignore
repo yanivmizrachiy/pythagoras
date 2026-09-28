@@ -1,4 +1,6 @@
-.vercel
-.env*
-.claude/
-*.tar.gz
+node_modules/
+.vercel/
+.env
+.env.*
+*.tmp
+*.log

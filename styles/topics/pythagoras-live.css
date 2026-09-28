@@ -1,0 +1,265 @@
+@import url("./pythagoras.css");
+@layer topic {
+
+/* משפט פיתגורס — עיצוב משותף לדפי HTML חיים (שכתוב מדפי תמונת-PDF).
+   Scoped ל-.pyt-live בלבד — אינו נוגע בעמוד-9..12 הקיימים.
+   כל דף טוען זאת דרך ה-CSS הייעודי שלו ומגדיר משתנים (--fig-w) לפי צורך. */
+
+/* ---- פריסת גוף השאלה ---- */
+.pyt-live .question-block {
+	justify-content: flex-start;
+	gap: 10px;
+}
+
+.pyt-live .pyt-units-note {
+	font-weight: 500;
+	margin-right: 10px;
+	white-space: nowrap;
+}
+
+.pyt-live .pyt-sub-list {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+}
+
+/* ---- מסגרת תרשים בודד ---- */
+.pyt-live .visual-container {
+	display: flex;
+	justify-content: center;
+}
+
+.pyt-live .pyt-diagram-frame {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: var(--fig-w, 440px);
+	max-width: 100%;
+	padding: 10px;
+	border: 1px solid var(--grid-line);
+	border-radius: 6px;
+	color: var(--accent-dark);
+}
+
+.pyt-live .pyt-fig-svg {
+	display: block;
+	max-width: 100%;
+	height: auto;
+	shape-rendering: geometricPrecision;
+}
+
+.pyt-live .pyt-edge {
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 1.85;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	vector-effect: non-scaling-stroke;
+}
+
+.pyt-live .pyt-right {
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 1.55;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	vector-effect: non-scaling-stroke;
+}
+
+.pyt-live .pyt-brace {
+	fill: none;
+	stroke: currentColor;
+	stroke-width: 1.4;
+	stroke-linecap: round;
+	stroke-linejoin: round;
+	vector-effect: non-scaling-stroke;
+}
+
+.pyt-live .pyt-fill {
+	fill: var(--bg-subtle);
+	stroke: currentColor;
+	stroke-width: 1.85;
+	stroke-linejoin: round;
+	vector-effect: non-scaling-stroke;
+}
+
+.pyt-live .pyt-fig-svg text {
+	font-family: inherit;
+	fill: var(--text-main);
+	paint-order: stroke;
+	stroke: var(--bg-paper);
+	stroke-width: 1.5;
+}
+
+.pyt-live .pyt-point {
+	font-size: 14px;
+	font-weight: 500;
+	text-anchor: middle;
+	dominant-baseline: middle;
+	unicode-bidi: isolate;
+}
+
+.pyt-live .pyt-side {
+	font-size: 14px;
+	font-weight: 400;
+	text-anchor: middle;
+	dominant-baseline: middle;
+	unicode-bidi: isolate;
+}
+
+.pyt-live .pyt-var {
+	font-size: 14px;
+	font-weight: 500;
+	font-style: italic;
+	text-anchor: middle;
+	dominant-baseline: middle;
+	unicode-bidi: isolate;
+}
+
+/* ---- שורת תרשימים מרובים ---- */
+.pyt-live .pyt-fig-row {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: flex-start;
+	gap: 14px;
+	width: 100%;
+}
+
+.pyt-live .pyt-fig-cell {
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	gap: 4px;
+}
+
+.pyt-live .pyt-fig-letter {
+	font-weight: 500;
+	text-align: right;
+}
+
+/* ---- כותרת תת-שאלה עם תיבת תשובה ---- */
+.pyt-live .answer-inline {
+	direction: ltr;
+	unicode-bidi: isolate;
+}
+
+/* ---- רב-ברירה ---- */
+.pyt-live .pyt-mc {
+	display: flex;
+	flex-direction: column;
+	gap: 7px;
+	align-items: flex-start;
+	margin: 4px 22px 0 0;
+}
+
+.pyt-live .pyt-mc-opt {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.pyt-live .pyt-mc-box {
+	width: 19px;
+	height: 19px;
+	border: 1.35px solid #1f2a44;
+	border-radius: 4px;
+	background: var(--bg-paper);
+	flex: 0 0 auto;
+}
+
+.pyt-live .pyt-mc-num {
+	font-size: 11px;
+	color: var(--text-main);
+	opacity: 0.7;
+	min-width: 10px;
+}
+
+.pyt-live .pyt-mc-val {
+	direction: ltr;
+	unicode-bidi: isolate;
+}
+
+/* ---- כותרת/פסקה של תת-סעיף ---- */
+.pyt-live .sub-label {
+	font-weight: 500;
+	margin-inline-end: 6px;
+}
+
+/* ---- אזור פתרון משובץ ---- */
+.pyt-live .solution-space {
+	min-height: 60px;
+	border: 1px solid var(--border-light);
+	border-radius: 6px;
+	background-color: var(--bg-paper);
+	padding: 6px 8px;
+	direction: ltr;
+	unicode-bidi: isolate;
+	background-image:
+		linear-gradient(to bottom, transparent 21px, var(--grid-line) 21px, var(--grid-line) 22px),
+		linear-gradient(to right, transparent 21px, var(--grid-line) 21px, var(--grid-line) 22px);
+	background-size: 22px 22px;
+	background-repeat: repeat;
+}
+
+/* ---- תשובה סופית — אותו עיקרון של „סגנון 5” ---- */
+.pyt-live .pyt-final-row {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 7px;
+	direction: rtl;
+}
+
+.pyt-live .pyt-final-answer {
+	display: inline-block;
+	width: 118px;
+	height: 30px;
+	border: 1.35px solid #1f2a44;
+	border-radius: 8px;
+	background: linear-gradient(180deg, #ffffff 0%, #fdfefe 100%);
+	box-shadow: 0 1px 0 rgba(15, 23, 42, 0.13), 0 4px 8px rgba(15, 23, 42, 0.11), inset 0 1px 0 rgba(255, 255, 255, 0.98);
+	direction: ltr;
+	unicode-bidi: isolate;
+}
+
+/* ---- תחתית: פתרונות ---- */
+.pyt-live .pyt-footer {
+	margin-top: auto;
+	display: flex;
+	flex-direction: column;
+	gap: 0;
+}
+
+.pyt-live .pyt-solutions {
+	padding-bottom: 0;
+	border-top: 1px solid var(--border-light);
+	padding-top: 6px;
+}
+
+.pyt-live .pyt-solutions .q-sub {
+	margin-bottom: 0;
+}
+
+.pyt-live .pyt-solutions .q-text {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 6px 16px;
+	width: 100%;
+	font-size: 12px;
+}
+
+.pyt-live .pyt-solutions .solutions-label {
+	font-weight: 500;
+}
+
+.pyt-live .pyt-solution {
+	direction: ltr;
+	unicode-bidi: isolate;
+	font-weight: 500 !important;
+	text-align: center;
+	white-space: nowrap;
+}
+
+}

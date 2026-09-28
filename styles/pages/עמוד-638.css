@@ -1,0 +1,45 @@
+@import url("../topics/pythagoras-foundations.css");
+
+.page-638 > .header-container,
+.pythagoras-workbook-shell .workbook-page-wrap > .page-638 > .header-container { display:flex!important; flex-direction:row!important; justify-content:space-between!important; align-items:flex-end!important; gap:12px!important; width:100%!important; min-height:40px!important; margin:0 0 8px!important; padding:0 0 6px!important; border:0!important; border-bottom:4px double var(--title-blue)!important; box-sizing:border-box!important; }
+.page-638 > .header-container > .page-title,
+.pythagoras-workbook-shell .workbook-page-wrap > .page-638 > .header-container > .page-title { display:block!important; flex:1 1 auto!important; min-width:0!important; max-width:calc(100% - 44px)!important; margin:0!important; padding:0!important; color:var(--title-blue)!important; font-family:'Rubik',Arial,sans-serif!important; font-size:24px!important; font-weight:400!important; line-height:1.15!important; white-space:nowrap!important; text-align:right!important; }
+.page-638 > .header-container > .page-number,
+.pythagoras-workbook-shell .workbook-page-wrap > .page-638 > .header-container > .page-number { display:flex!important; flex:0 0 32px!important; width:32px!important; min-width:32px!important; height:32px!important; align-items:center!important; justify-content:center!important; margin:0!important; padding:0!important; border:2px solid var(--title-blue)!important; border-radius:50%!important; color:var(--title-blue)!important; background:transparent!important; font-size:16px!important; font-weight:400!important; line-height:1!important; }
+
+.page-638 .question-block { display:grid; grid-template-rows:260px 128px 154px 28px minmax(300px,1fr); gap:9px; align-content:stretch; width:100%; min-width:0; min-height:0; box-sizing:border-box; }
+.page-638 .question-block>* { width:100%; min-width:0; max-width:100%; margin-inline:0; box-sizing:border-box; }
+.page-638 .page5-discovery { display:grid; grid-template-columns:minmax(0,1.25fr) 300px; gap:16px; align-items:stretch; min-width:0; min-height:0; padding:10px 14px; border-block:1px solid var(--border-light); background:var(--bg-subtle); }
+.page-638 .discovery-text { display:grid; grid-template-rows:auto minmax(0,1fr); gap:8px; min-width:0; min-height:0; }
+.page-638 .page5-discovery .q-main { margin:0; }
+.page-638 .page5-discovery .q-text { font-size:14.8px; line-height:1.35; }
+.page-638 .discovery-lines { display:grid; align-content:center; justify-items:start; gap:11px; padding-inline:26px; font-size:15px; }
+.page-638 .discovery-lines>div { display:flex; align-items:center; gap:7px; }
+.page-638 .math-comparison { min-width:170px; font-size:18px; }
+.page-638 .name-fill { width:62px; height:25px; }
+.page-638 .side-name-fill { width:58px; height:25px; }
+.page-638 .discovery-svg { width:100%; height:100%; min-height:0; display:block; shape-rendering:geometricPrecision; }
+.page-638 .discovery-svg .edge,.page-638 .error-svg .edge { fill:none; stroke:var(--accent-dark); stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; vector-effect:non-scaling-stroke; }
+.page-638 .discovery-svg .mark,.page-638 .error-svg .mark { fill:none; stroke:var(--accent-dark); stroke-width:1.3; vector-effect:non-scaling-stroke; }
+.page-638 .discovery-svg .pt,.page-638 .error-svg .pt { fill:var(--text-main); font-family:'Rubik',Arial,sans-serif; font-size:15px; font-style:italic; }
+.page-638 .page5-error-task { display:grid; grid-template-columns:160px minmax(0,1fr); align-items:center; gap:12px; min-width:0; min-height:0; padding:7px 12px; border-block:1px solid var(--border-light); background:#fff; }
+.page-638 .error-visual { width:100%; height:100%; min-height:0; }
+.page-638 .error-svg { display:block; width:100%; height:100%; }
+.page-638 .error-content { display:grid; align-content:center; gap:9px; min-width:0; }
+.page-638 .error-claim { font-size:14.8px; font-weight:600; line-height:1.3; }
+.page-638 .error-fix { display:flex; align-items:center; flex-wrap:wrap; gap:6px; min-width:0; font-size:14.4px; line-height:1.35; }
+.page-638 .correction-fill { width:54px; height:24px; border-radius:4px; }
+.page-638 .logic-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; min-width:0; min-height:0; }
+.page-638 .logic-card { display:grid; grid-template-rows:minmax(0,1fr) 48px; align-items:center; gap:7px; min-width:0; min-height:0; padding:9px 10px; border:1px solid var(--border-light); border-radius:8px; background:var(--bg-paper); }
+.page-638 .logic-text { align-self:center; font-size:14px; line-height:1.35; text-align:center; }
+.page-638 .logic-answer { min-height:40px; display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:5px; font-size:13.6px; line-height:1.3; text-align:center; }
+.page-638 .logic-fill { width:40px; height:24px; border-radius:4px; }
+.page-638 .logic-fill.wide { width:56px; }
+.page-638 .logic-choice { direction:rtl; }
+.page-638 .compact-instruction { margin:0; min-width:0; min-height:0; }
+.page-638 .compact-instruction .q-text { font-size:14.6px; line-height:1.25; }
+.page-638 .construction-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px; min-width:0; min-height:0; }
+.page-638 .construction-card { display:grid; grid-template-rows:52px minmax(0,1fr); gap:7px; min-width:0; min-height:0; padding:9px 10px; border:1px solid var(--border-light); border-radius:8px; background:var(--bg-paper); }
+.page-638 .construction-prompt { display:flex; align-items:center; justify-content:center; min-height:0; font-size:14.1px; line-height:1.35; text-align:center; }
+.page-638 .build-canvas { min-width:0; min-height:0; width:100%; height:100%; border:1.2px dashed #94a3b8; border-radius:7px; background:#fff; }
+@media print { .page-638 .page5-discovery,.page-638 .page5-error-task,.page-638 .logic-card,.page-638 .construction-card { break-inside:avoid; } }

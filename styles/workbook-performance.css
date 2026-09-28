@@ -1,0 +1,36 @@
+/* Performance layer for the original workbook. No worksheet geometry/content changes. */
+.workbook-page-wrap[data-load-state="pending"]{
+  width:min(794px,calc(100vw - 12px));
+  max-width:calc(100vw - 12px);
+  aspect-ratio:210/297;
+  overflow:hidden;
+  contain:layout paint style;
+  background:linear-gradient(105deg,#fff 22%,#f3f6f9 42%,#fff 62%);
+  background-size:220% 100%;
+  animation:workbook-skeleton 1.25s linear infinite;
+}
+.workbook-page-placeholder{
+  position:absolute;
+  inset:0;
+  display:grid;
+  place-items:center;
+  color:#94a3b8;
+  font:700 12px/1 'Rubik',Arial,sans-serif;
+  direction:rtl;
+  pointer-events:none;
+}
+.workbook-page-wrap[data-load-state="loaded"]{
+  content-visibility:auto;
+  contain-intrinsic-size:auto 1123px;
+}
+@keyframes workbook-skeleton{to{background-position:-220% 0}}
+@media(max-width:720px){
+  .workbook-page-wrap[data-load-state="loaded"]{contain-intrinsic-size:auto 141.43vw}
+}
+@media(prefers-reduced-motion:reduce){
+  .workbook-page-wrap[data-load-state="pending"]{animation:none}
+}
+@media print{
+  .workbook-page-wrap{content-visibility:visible!important;contain:none!important}
+  .workbook-page-placeholder{display:none!important}
+}

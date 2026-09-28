@@ -1,0 +1,13 @@
+/* עמוד 15 — משפט פיתגורס: שני סרטוטים ושני פתרונות מלאים */
+@import url("../topics/pythagoras-live.css");
+
+.page-15 .question-block { gap: 8px; }
+/* שני כרטיסי הפתרון ממלאים את הגובה הפנוי; כל תוספת גובה הולכת לכתיבה. */
+.page-15 .pyt-fig-row { flex: 1 1 auto; min-height: 0; gap: 14px; display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); }
+.page-15 .pyt-calc-figure { border: 1px solid var(--border-light); border-radius: 9px; padding: 8px; background: var(--bg-paper); gap: 6px; min-height: 0; }
+.page-15 .pyt-diagram-frame { width: 100%; padding: 5px; }
+.page-15 .pyt-diagram-frame .pyt-fig-svg { width: 100%; height: 190px; }
+.page-15 .solution-space { flex: 1 1 auto; min-height: 150px; height: auto; }
+.page-15 .pyt-final-row { min-height: 34px; }
+.page-15 .pyt-final-answer { width: 82px; }
+.page-15 .pyt-footer { margin-top: 0; }

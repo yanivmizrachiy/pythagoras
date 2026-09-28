@@ -1,0 +1,44 @@
+@import url("../topics/pythagoras-foundations.css");
+@import url("../topics/pythagoras-inline-units.css");
+
+.page-636 .question-block {
+  display:grid;
+  grid-template-rows:46px minmax(292px,1.15fr) 150px minmax(235px,.95fr) minmax(170px,.72fr);
+  gap:9px;
+  min-height:0;
+  overflow:hidden;
+}
+.page-636 .legs-concept-row { min-height:0; height:46px; display:flex; align-items:center; justify-content:flex-start; gap:7px; padding:7px 12px; font-size:15.5px; line-height:1.2; white-space:nowrap; }
+.page-636 .legs-term-fill { width:112px; height:23px; flex:0 0 auto; }
+.page-636 .legs-identify-section,.page-636 .vertex-section,.page-636 .single-partner-section { min-height:0; display:grid; grid-template-rows:auto minmax(0,1fr); gap:6px; overflow:hidden; }
+.page-636 .q-main { margin:0; min-height:0; }
+.page-636 .q-text { font-size:14.8px; line-height:1.28; }
+.page-636 .legs-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; min-height:0; }
+.page-636 .leg-card { min-height:0; height:100%; border:1px solid #dbe4ef; border-radius:9px; background:#fff; display:grid; grid-template-rows:minmax(0,1fr) 70px; align-items:center; padding:8px 10px; overflow:hidden; }
+.page-636 .leg-svg,.page-636 .quick-leg-svg,.page-636 .mcq-triangle { width:100%; height:100%; display:block; shape-rendering:geometricPrecision; text-rendering:geometricPrecision; }
+.page-636 .leg-svg .edge,.page-636 .quick-leg-svg .edge,.page-636 .mcq-triangle .edge { fill:none; stroke:#111827; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; vector-effect:non-scaling-stroke; }
+.page-636 .leg-svg .mark,.page-636 .quick-leg-svg .mark,.page-636 .mcq-triangle .mark { fill:none; stroke:#111827; stroke-width:1.45; vector-effect:non-scaling-stroke; }
+.page-636 .leg-svg .equal-mark { fill:none; stroke:#475569; stroke-width:1.35; vector-effect:non-scaling-stroke; }
+.page-636 .vertex { font-family:'Rubik',Arial,sans-serif; font-size:16px; font-style:italic; font-weight:500; fill:#111827; text-anchor:middle; dominant-baseline:middle; }
+.page-636 .leg-answer { min-height:0; display:flex; align-items:center; justify-content:center; text-align:center; font-size:13px; line-height:1.42; padding-inline:2px; flex-wrap:wrap; gap:3px; }
+.page-636 .answer-line,.page-636 .short-answer { display:inline-block; border-bottom:1.2px solid #334155; height:18px; vertical-align:baseline; }
+.page-636 .answer-line { width:48px; }
+.page-636 .word-line { width:38px; }
+.page-636 .short-answer { width:46px; }
+.page-636 .single-partner-section { padding-block:3px; border-block:1px solid #e2e8f0; }
+.page-636 .partner-leg-task { min-width:0; min-height:0; display:flex; align-items:center; justify-content:center; padding:2px 55px; }
+.page-636 .quick-leg-svg { max-height:110px; }
+.page-636 .quick-leg-svg .given-leg { fill:none; stroke:#0f172a; stroke-width:4.2; stroke-linecap:round; vector-effect:non-scaling-stroke; }
+.page-636 .vertex-section { grid-template-rows:auto minmax(0,1fr); }
+.page-636 .construction-task { min-height:0; height:100%; display:grid; grid-template-rows:minmax(0,1fr) 30px; gap:6px; padding:6px 10px; border-block:1px solid #dbe4ef; background:transparent; overflow:hidden; }
+.page-636 .build-canvas { min-height:0; border:1.2px dashed #94a3b8; border-radius:8px; background:#fff; }
+.page-636 .right-vertex-line { display:flex; align-items:baseline; justify-content:center; gap:6px; font-size:13.8px; white-space:nowrap; }
+/* עמודת האופציות רחבה מהשאלה — הטקסטים ארוכים ואסור שייחתכו */
+.page-636 .legs-mcq { min-height:0; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.35fr); gap:12px; padding:7px 10px; border:1px solid #dbe4ef; border-radius:9px; background:#fbfdff; overflow:hidden; }
+.page-636 .mcq-prompt { min-height:0; display:grid; grid-template-columns:minmax(0,1fr) 132px; align-items:center; gap:8px; }
+.page-636 .mcq-prompt .q-text { font-size:13.8px; line-height:1.35; }
+.page-636 .mcq-triangle { height:108px; }
+.page-636 .mcq-options-grid { min-height:0; display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); align-content:center; gap:9px 12px; }
+.page-636 .mcq-choice { display:flex; align-items:center; gap:6px; min-height:38px; padding:5px 7px; border-bottom:1px solid #e2e8f0; font-size:13.4px; line-height:1.25; }
+.page-636 .choice-circle { width:14px; height:14px; flex:0 0 auto; border:1.3px solid #334155; border-radius:50%; background:#fff; }
+@media print { .page-636 .leg-card,.page-636 .construction-task,.page-636 .single-partner-section,.page-636 .legs-mcq { break-inside:avoid; } }

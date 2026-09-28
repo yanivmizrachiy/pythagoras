@@ -1,0 +1,39 @@
+@import url("../topics/pythagoras-foundations.css");
+
+.page-641 .question-block { display:grid; grid-template-rows:78px 72px 200px 190px 120px minmax(160px,1fr); gap:8px; align-content:stretch; width:100%; min-width:0; min-height:0; box-sizing:border-box; }
+.page-641 .question-block>* { width:100%; min-width:0; max-width:100%; min-height:0; margin:0; box-sizing:border-box; }
+.page-641 .nonnegative-definition { display:grid; grid-template-columns:150px minmax(0,1fr) 230px; align-items:center; gap:12px; padding:8px 12px; border-block:1px solid var(--border-light); background:var(--bg-subtle); }
+.page-641 .definition-title { font-size:16px; font-weight:700; color:var(--title-blue); text-align:center; }
+.page-641 .definition-text { font-size:14.5px; line-height:1.3; }
+.page-641 .definition-examples { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; align-items:center; justify-items:center; font-size:14px; }
+.page-641 .definition-examples span { min-width:42px; padding:4px 6px; border:1px solid #cbd5e1; border-radius:6px; background:#fff; text-align:center; }
+.page-641 .root-result-rule { display:grid; grid-template-columns:minmax(0,1.6fr) minmax(0,1fr); align-items:center; gap:12px; padding:7px 12px; border-bottom:1px solid var(--border-light); }
+.page-641 .rule-text { font-size:14.3px; line-height:1.32; }
+.page-641 .rule-examples { display:flex; align-items:center; justify-content:center; gap:10px; font-size:14px; white-space:nowrap; }
+.page-641 .rule-examples .not-example { text-decoration:line-through; text-decoration-thickness:1px; }
+.page-641 .page8-section,.page-641 .page8-final-task { display:grid; grid-template-rows:auto minmax(0,1fr); gap:5px; min-width:0; min-height:0; }
+.page-641 .q-main { margin:0; min-height:22px; }
+.page-641 .q-text { font-size:14.5px; line-height:1.24; }
+.page-641 .direct-root-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); grid-template-rows:repeat(2,minmax(0,1fr)); gap:7px; min-width:0; min-height:0; }
+.page-641 .root-card { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; min-width:0; min-height:0; padding:7px 8px; border:1px solid var(--border-light); border-radius:8px; background:#fff; font-size:16.5px; line-height:1.15; }
+.page-641 .root-fill { height:24px; border-radius:4px; width:48px; min-width:48px; }
+.page-641 .root-card:nth-child(1) .root-fill,.page-641 .root-card:nth-child(2) .root-fill { width:34px; min-width:34px; }
+.page-641 .root-card:nth-child(n+3):nth-child(-n+5) .root-fill { width:48px; min-width:48px; }
+.page-641 .fraction-root { background:var(--bg-subtle); font-size:15px; }
+.page-641 .fraction-fill { width:66px; min-width:66px; }
+.page-641 .inference-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); grid-template-rows:repeat(2,minmax(0,1fr)); gap:8px 10px; min-width:0; min-height:0; }
+.page-641 .inference-card { display:grid; grid-template-columns:auto 36px auto minmax(46px,auto); align-items:center; justify-content:center; gap:6px; min-width:0; min-height:0; padding:7px 9px; border:1px solid var(--border-light); border-radius:8px; background:var(--bg-paper); font-size:14.5px; white-space:nowrap; }
+.page-641 .inference-card>span:nth-child(2) { direction:rtl; font-size:12.5px; color:#475569; }
+.page-641 .inference-fill { width:46px; min-width:46px; height:24px; }
+.page-641 .inference-fill.fraction { width:64px; min-width:64px; }
+.page-641 .result-check-grid { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:8px; min-width:0; min-height:0; }
+.page-641 .result-choice { display:flex; align-items:center; justify-content:center; gap:7px; min-width:0; min-height:0; padding:7px 8px; border:1px solid var(--border-light); border-radius:8px; background:#fff; font-size:15px; }
+.page-641 .result-choice .check { width:15px; height:15px; margin:0; flex:0 0 auto; }
+.page-641 .bridge-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; min-width:0; min-height:0; }
+.page-641 .bridge-card { display:grid; grid-template-rows:auto minmax(0,1fr) auto; align-items:center; justify-items:center; gap:6px; min-width:0; min-height:0; padding:9px 12px; border:1px solid var(--border-light); border-radius:8px; background:var(--bg-subtle); }
+.page-641 .bridge-title { font-size:14px; font-weight:600; }
+.page-641 .bridge-expression { display:flex; align-items:center; justify-content:center; gap:6px; font-size:17px; }
+.page-641 .bridge-card:first-child .bridge-expression { flex-direction:column; }
+.page-641 .bridge-fill { width:36px; min-width:36px; height:24px; }
+.page-641 .bridge-note { font-size:13px; line-height:1.25; text-align:center; }
+@media print { .page-641 .nonnegative-definition,.page-641 .root-result-rule,.page-641 .root-card,.page-641 .inference-card,.page-641 .result-choice,.page-641 .bridge-card { break-inside:avoid; } }

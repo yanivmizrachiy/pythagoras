@@ -1,0 +1,11 @@
+/* עמוד 17 — משפט פיתגורס (שאלה 18 — משולש ישר-זווית ABC, היקף 56, AB=7, יתר BC=x) */
+@import url("../topics/pythagoras-live.css");
+
+.page-25 {
+	--fig-w: 440px;
+}
+
+.page-25 .solution-space {
+	flex: 1;
+	min-height: 150px;
+}

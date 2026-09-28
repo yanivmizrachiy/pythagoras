@@ -1,0 +1,193 @@
+@import url("../topics/pythagoras-foundations.css");
+
+.page-650 > .header-container > .page-title {
+  font-size: 22px;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.page-650 .question-block {
+  display: grid;
+  grid-template-rows: 52px 94px minmax(690px, 1fr) 90px;
+  gap: 5px;
+  align-content: stretch;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+
+.page-650 .question-block > * {
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.page-650 .q-main { margin: 0; min-height: 20px; }
+.page-650 .q-text { font-size: 13.5px; line-height: 1.16; }
+
+.page-650 .page20-rule {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-block: 1px solid var(--border-light);
+  background: var(--bg-subtle);
+  font-size: 13.1px;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.page-650 .page20-choice-section,
+.page-650 .page20-solve-section {
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 4px;
+  min-width: 0;
+  min-height: 0;
+}
+
+.page-650 .page20-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 7px;
+  min-width: 0;
+  min-height: 0;
+}
+
+.page-650 .choice-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  min-width: 0;
+  min-height: 0;
+  padding: 5px 6px;
+  border: 1px solid var(--border-light);
+  border-radius: 7px;
+  background: var(--bg-paper);
+  font-size: 13.7px;
+  white-space: nowrap;
+}
+
+.page-650 .operation-fill {
+  width: 26px;
+  height: 23px;
+  flex: 0 0 26px;
+  border: 1.2px solid #334155;
+  border-radius: 5px;
+  background: #fff;
+}
+
+.page-650 .page20-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: 8px 10px;
+  min-width: 0;
+  min-height: 0;
+}
+
+.page-650 .page20-card {
+  display: grid;
+  grid-template-rows: 27px minmax(0, 1fr);
+  gap: 4px;
+  min-width: 0;
+  min-height: 0;
+  padding: 7px 9px;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  background: var(--bg-paper);
+}
+
+.page-650 .card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 12.9px;
+  line-height: 1.08;
+}
+
+.page-650 .student-stack {
+  display: grid;
+  align-content: center;
+  justify-content: center;
+  gap: 6px;
+  direction: ltr;
+  min-width: 0;
+  min-height: 0;
+}
+
+.page-650 .work-row {
+  display: grid;
+  grid-template-columns: 30px 18px minmax(100px, 155px);
+  align-items: center;
+  gap: 4px;
+  min-height: 26px;
+  font-size: 14.5px;
+  line-height: 1.04;
+}
+
+.page-650 .work-row b { font-weight: 400; text-align: center; }
+
+.page-650 .equation-line,
+.page-650 .work-line,
+.page-650 .root-line,
+.page-650 .answer-line {
+  display: inline-block;
+  height: 20px;
+  border-bottom: 1.15px solid #334155;
+}
+
+.page-650 .equation-line { width: 150px; }
+.page-650 .work-line { width: 140px; }
+.page-650 .root-line { width: 82px; }
+.page-650 .answer-line { width: 70px; }
+
+.page-650 .work-row.final-row {
+  width: 205px;
+  justify-self: center;
+  padding: 3px 8px;
+  border: 1.2px solid #1f2a44;
+  border-radius: 5px;
+  background: #fff;
+}
+
+.page-650 .page20-final-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 9px;
+  min-width: 0;
+  min-height: 0;
+}
+
+.page-650 .final-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 5px 7px;
+  min-width: 0;
+  min-height: 0;
+  padding: 7px 9px;
+  border-block: 1px solid var(--border-light);
+  background: var(--bg-subtle);
+  font-size: 12.4px;
+  line-height: 1.15;
+  text-align: center;
+}
+
+.page-650 .correction-fill { width: 145px; height: 22px; }
+.page-650 .final-card .check { width: 14px; height: 14px; margin: 0; }
+
+@media print {
+  .page-650 .page20-rule,
+  .page-650 .choice-card,
+  .page-650 .page20-card,
+  .page-650 .final-card { break-inside: avoid; }
+}

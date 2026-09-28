@@ -1,0 +1,215 @@
+@import url("../topics/pythagoras-foundations.css");
+
+/* עמוד 17 — פתרון אנכי עקבי, צפוף להדפסה וללא שטחי עבודה לבנים גדולים. */
+.page-653 {
+  font-family: 'Rubik', sans-serif;
+}
+
+.page-653 > .header-container > .page-title {
+  font-size: 22px;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.page-653 .question-block {
+  display: grid;
+  grid-template-rows: 128px 24px minmax(650px, 1fr) 108px;
+  gap: 7px;
+  align-content: stretch;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+
+.page-653 .question-block > * {
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.page-653 .q-main { margin: 0; min-height: 20px; }
+.page-653 .q-text { font-size: 13.8px; line-height: 1.18; }
+
+.page-653 .page17-example {
+  display: grid;
+  grid-template-columns: 60px minmax(230px, .72fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  min-height: 0;
+  padding: 7px 12px;
+  border-block: 1px solid var(--border-light);
+  background: var(--bg-subtle);
+}
+
+.page-653 .example-label {
+  align-self: start;
+  padding-top: 2px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.page-653 .aligned-solution {
+  display: grid;
+  justify-content: center;
+  align-content: center;
+  gap: 2px;
+  direction: ltr;
+}
+
+.page-653 .solution-row {
+  display: grid;
+  grid-template-columns: 34px 18px minmax(90px, auto);
+  align-items: center;
+  min-height: 18px;
+  column-gap: 4px;
+  font-size: 14.3px;
+  line-height: 1.08;
+  white-space: nowrap;
+}
+
+.page-653 .solution-row .lhs { text-align: right; }
+.page-653 .solution-row .eq { text-align: center; }
+
+.page-653 .final-solution-row {
+  margin-top: 1px;
+  padding: 2px 8px;
+  border: 1.2px solid #1f2a44;
+  border-radius: 5px;
+  background: #fff;
+}
+
+.page-653 .example-note {
+  font-size: 13px;
+  line-height: 1.25;
+  text-align: center;
+}
+
+.page-653 .page17-practice-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: 8px 10px;
+  min-width: 0;
+  min-height: 0;
+}
+
+.page-653 .page17-card {
+  display: grid;
+  grid-template-rows: 30px minmax(0, 1fr);
+  gap: 4px;
+  min-width: 0;
+  min-height: 0;
+  padding: 7px 9px;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  background: var(--bg-paper);
+}
+
+.page-653 .practice-equation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-bottom: 3px;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 15.5px;
+  font-weight: 600;
+}
+
+.page-653 .student-stack {
+  display: grid;
+  align-content: center;
+  justify-content: center;
+  gap: 7px;
+  min-width: 0;
+  min-height: 0;
+}
+
+.page-653 .work-row {
+  display: grid;
+  grid-template-columns: 34px 18px minmax(100px, 150px);
+  align-items: center;
+  gap: 4px;
+  min-height: 27px;
+  font-size: 14.8px;
+  line-height: 1.05;
+}
+
+.page-653 .work-row b {
+  font-weight: 400;
+  text-align: center;
+}
+
+.page-653 .work-line,
+.page-653 .root-line,
+.page-653 .answer-line {
+  display: inline-block;
+  height: 21px;
+  border-bottom: 1.15px solid #334155;
+}
+
+.page-653 .work-line { width: 140px; }
+.page-653 .root-line { width: 82px; }
+.page-653 .answer-line { width: 70px; }
+
+.page-653 .work-row.final-row {
+  width: 205px;
+  justify-self: center;
+  padding: 3px 8px;
+  border: 1.2px solid #1f2a44;
+  border-radius: 5px;
+  background: #fff;
+}
+
+.page-653 .page17-final-check {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  min-height: 0;
+  padding: 7px 12px;
+  border-block: 1px solid var(--border-light);
+  background: var(--bg-subtle);
+}
+
+.page-653 .page17-final-check > strong {
+  font-size: 13.2px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.page-653 .final-check-stack {
+  display: flex;
+  gap: 7px;
+  align-items: stretch;
+  min-width: 0;
+}
+
+.page-653 .final-check-row {
+  display: flex;
+  flex: 1 1 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 0;
+  min-height: 34px;
+  padding: 4px 6px;
+  border: 1px solid var(--border-light);
+  border-radius: 6px;
+  background: #fff;
+  font-size: 13px;
+}
+
+.page-653 .final-check-row b { font-weight: 400; text-align: center; }
+.page-653 .final-check-fill { width: 46px; height: 22px; }
+.page-653 .final-check-wide { width: 68px; height: 22px; }
+
+@media print {
+  .page-653 .page17-example,
+  .page-653 .page17-card,
+  .page-653 .page17-final-check {
+    break-inside: avoid;
+  }
+}

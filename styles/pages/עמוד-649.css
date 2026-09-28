@@ -1,0 +1,135 @@
+@import url("../topics/pythagoras-foundations.css");
+
+.page-649 > .header-container > .page-title {
+  font-size: 22px;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.page-649 .question-block {
+  display: grid;
+  grid-template-rows: 54px 24px minmax(760px, 1fr) 64px;
+  gap: 7px;
+  align-content: stretch;
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+}
+
+.page-649 .question-block > * {
+  width: 100%;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+.page-649 .q-main { margin: 0; min-height: 20px; }
+.page-649 .q-text { font-size: 13.7px; line-height: 1.18; }
+
+.page-649 .page19-reminder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 6px 10px;
+  border-block: 1px solid var(--border-light);
+  background: var(--bg-subtle);
+  font-size: 13.4px;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.page-649 .page19-reminder strong { font-size: 16px; font-weight: 600; }
+
+.page-649 .page19-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: repeat(3, minmax(0, 1fr));
+  gap: 8px 10px;
+  min-width: 0;
+  min-height: 0;
+}
+
+.page-649 .page19-card {
+  display: grid;
+  grid-template-rows: 28px minmax(0, 1fr);
+  gap: 4px;
+  min-width: 0;
+  min-height: 0;
+  padding: 7px 9px;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  background: var(--bg-paper);
+}
+
+.page-649 .card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding-bottom: 3px;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 13px;
+  line-height: 1.1;
+}
+
+.page-649 .student-stack {
+  display: grid;
+  align-content: center;
+  justify-content: center;
+  gap: 7px;
+  direction: ltr;
+  min-width: 0;
+  min-height: 0;
+}
+
+.page-649 .work-row {
+  display: grid;
+  grid-template-columns: 30px 18px minmax(100px, 150px);
+  align-items: center;
+  gap: 4px;
+  min-height: 27px;
+  font-size: 14.8px;
+  line-height: 1.05;
+}
+
+.page-649 .work-row b { font-weight: 400; text-align: center; }
+.page-649 .work-line,
+.page-649 .root-line,
+.page-649 .answer-line { display: inline-block; height: 21px; border-bottom: 1.15px solid #334155; }
+.page-649 .work-line { width: 140px; }
+.page-649 .root-line { width: 82px; }
+.page-649 .answer-line { width: 70px; }
+
+.page-649 .work-row.final-row {
+  width: 205px;
+  justify-self: center;
+  padding: 3px 8px;
+  border: 1.2px solid #1f2a44;
+  border-radius: 5px;
+  background: #fff;
+}
+
+.page-649 .page19-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-width: 0;
+  min-height: 0;
+  padding: 7px 10px;
+  border-block: 1px solid var(--border-light);
+  background: var(--bg-subtle);
+  font-size: 12.9px;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+
+.page-649 .correction-fill { width: 165px; height: 23px; }
+
+@media print {
+  .page-649 .page19-card,
+  .page-649 .page19-reminder,
+  .page-649 .page19-error { break-inside: avoid; }
+}

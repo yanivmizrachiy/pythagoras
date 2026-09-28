@@ -1,0 +1,11 @@
+/* עמוד 24 — משפט פיתגורס (שאלה 17 — הגובה ליתר במשולש ישר-זווית ABC) */
+@import url("../topics/pythagoras-live.css");
+
+.page-24 {
+	--fig-w: 440px;
+}
+
+.page-24 .solution-space {
+	flex: 1;
+	min-height: 90px;
+}

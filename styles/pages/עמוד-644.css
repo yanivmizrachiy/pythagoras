@@ -1,0 +1,184 @@
+@import url("../topics/pythagoras-foundations.css");
+
+/* עמוד 13 — גילוי הקשר. כרטיסים בגובה התוכן (לא נמתחים), משולשים בגובה אמיתי,
+   והמרווח הפנוי מתחלק באופן שווה בין ארבע המשימות — בלי חללים מתים בתוך הכרטיסים. */
+.page-644 .question-block {
+  display: grid;
+  grid-template-rows: repeat(4, auto);
+  align-content: space-between;
+  gap: 14px;
+  min-width: 0;
+  min-height: 0;
+}
+.page-644 .question-block > * { width: 100%; min-width: 0; max-width: 100%; margin: 0; box-sizing: border-box; }
+
+.page-644 .page13-figure-task,
+.page-644 .page13-relation-task,
+.page-644 .page13-reverse-task,
+.page-644 .page13-generalize-task {
+  display: grid;
+  grid-template-rows: auto auto;
+  gap: 7px;
+  min-width: 0;
+}
+.page-644 .q-main { margin: 0; }
+.page-644 .q-text { font-size: 13.8px; line-height: 1.25; }
+
+/* — שורת משולש + כרטיסים: המשולש בגובה אמיתי, הכרטיסים ממורכזים לצידו — */
+.page-644 .figure-and-squares {
+  display: grid;
+  grid-template-columns: minmax(0, .82fr) minmax(0, 1.7fr);
+  gap: 12px;
+  align-items: center;
+  min-width: 0;
+}
+
+.page-644 .triangle-panel,
+.page-644 .second-triangle-panel,
+.page-644 .symbolic-panel {
+  min-width: 0;
+  align-self: stretch;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  background: var(--bg-paper);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+}
+.page-644 .triangle-panel .foundation-svg.hero-wide,
+.page-644 .second-triangle,
+.page-644 .symbolic-triangle {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  min-height: 130px;
+}
+
+/* — כרטיס תוצאה אחיד: שורת תרגיל + תיבת תשובה, בגובה התוכן בלבד — */
+.page-644 .square-result-card,
+.page-644 .relation-calc,
+.page-644 .reverse-relation-card,
+.page-644 .symbolic-result {
+  min-width: 0;
+  padding: 9px 8px;
+  border: 1px solid var(--border-light);
+  border-radius: 8px;
+  background: var(--bg-subtle);
+  box-sizing: border-box;
+}
+.page-644 .result-below-card {
+  display: grid;
+  grid-template-rows: auto auto;
+  align-content: center;
+  justify-items: center;
+  gap: 7px;
+}
+.page-644 .calc-line { font-size: 18px; line-height: 1.15; font-weight: 600; text-align: center; }
+.page-644 .calc-result { display: flex; align-items: center; justify-content: center; width: 100%; }
+
+.page-644 .square-results-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  align-items: center;
+  min-width: 0;
+}
+
+.page-644 .answer-one-digit,
+.page-644 .answer-two-digits,
+.page-644 .answer-three-digits,
+.page-644 .symbolic-slot,
+.page-644 .word-slot,
+.page-644 .final-symbol-slot { height: 25px; border-radius: 5px; }
+.page-644 .answer-one-digit { width: 34px; min-width: 34px; }
+.page-644 .answer-two-digits { width: 46px; min-width: 46px; }
+.page-644 .answer-three-digits { width: 58px; min-width: 58px; }
+.page-644 .symbolic-slot { width: 48px; min-width: 48px; }
+.page-644 .word-slot { width: 82px; min-width: 82px; }
+.page-644 .word-slot.short { width: 60px; min-width: 60px; }
+.page-644 .word-slot.wide { width: 100px; min-width: 100px; }
+.page-644 .final-symbol-slot { width: 62px; min-width: 62px; }
+
+/* — משימה 2: שני חישובים + מסקנה — */
+.page-644 .relation-workbench {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.45fr);
+  gap: 12px;
+  align-items: stretch;
+  min-width: 0;
+}
+.page-644 .relation-calculations {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  align-items: center;
+  min-width: 0;
+}
+.page-644 .relation-conclusion {
+  display: grid;
+  grid-template-rows: auto auto;
+  align-content: center;
+  gap: 9px;
+  min-width: 0;
+  padding: 12px;
+  border: 1.3px solid var(--accent-dark);
+  border-radius: 8px;
+  background: var(--bg-paper);
+}
+.page-644 .relation-equation { text-align: center; font-size: 22px; font-weight: 700; }
+.page-644 .guided-sentence,
+.page-644 .theorem-sentence,
+.page-644 .final-check { font-size: 13.4px; line-height: 1.3; text-align: center; }
+
+/* — משימה 3: משולש 6-8-10 + ארבעה חישובים — */
+.page-644 .reverse-workbench {
+  display: grid;
+  grid-template-columns: minmax(0, .7fr) minmax(0, 1.75fr);
+  gap: 12px;
+  align-items: center;
+  min-width: 0;
+}
+.page-644 .reverse-relation-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px 9px;
+  min-width: 0;
+}
+.page-644 .reverse-relation-card { background: var(--bg-paper); }
+.page-644 .reverse-relation-card .calc-line { font-size: 16.5px; }
+/* שורת דרך: מקום לתלמיד לכתוב את שלב הביניים (למשל 36+64) לפני תיבת התשובה */
+.page-644 .reverse-relation-card .work-line { width: 86%; height: 24px; border-bottom: 1.3px solid #334155; }
+
+/* — משימה 4: הכללה לאותיות — */
+.page-644 .generalize-workbench {
+  display: grid;
+  grid-template-columns: minmax(0, .72fr) minmax(0, 1.78fr);
+  gap: 12px;
+  align-items: center;
+  min-width: 0;
+}
+.page-644 .generalize-card {
+  display: grid;
+  grid-template-rows: auto auto auto auto;
+  gap: 8px;
+  min-width: 0;
+  padding: 12px;
+  border: 1.4px solid var(--accent-dark);
+  border-radius: 9px;
+  background: var(--bg-subtle);
+}
+.page-644 .symbolic-result { background: var(--bg-paper); }
+.page-644 .symbolic-result .calc-line { font-size: 20px; }
+.page-644 .final-equation { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 17px; font-weight: 600; }
+
+@media print {
+  .page-644 .triangle-panel,
+  .page-644 .square-result-card,
+  .page-644 .relation-calc,
+  .page-644 .relation-conclusion,
+  .page-644 .second-triangle-panel,
+  .page-644 .reverse-relation-card,
+  .page-644 .symbolic-panel,
+  .page-644 .generalize-card { break-inside: avoid; }
+}
