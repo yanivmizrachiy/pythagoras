@@ -95,5 +95,6 @@ const vercel=JSON.parse(read('vercel.json'));
 const dep=vercel.git?.deploymentEnabled||{};
 if(dep['gh-pages']!==false)fail('Vercel must ignore gh-pages deployments');
 if(dep['unify/*']!==false)fail('Vercel must ignore retired unify branches');
+if(typeof vercel.ignoreCommand!=='string'||!vercel.ignoreCommand.includes('git diff --quiet HEAD^ HEAD'))fail('Vercel ignoreCommand must skip docs/CI-only deployments');
 
 if(!process.exitCode)console.log('PASS: canonical Pythagoras — 53/53, one SSOT, one loader, one validator/workflow, no orphan pages, guarded deployment.');

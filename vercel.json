@@ -6,6 +6,7 @@
       "unify/*": false
     }
   },
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- index.html book-design.js book-design.css ui-controls.css WORKBOOK_MANIFEST.json 'עמוד-*.html' styles vendor pythagoras-workbook.pdf vercel.json",
   "headers": [
     {
       "source": "/(.*)",
