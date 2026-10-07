@@ -2,18 +2,44 @@ name: Validate canonical Pythagoras
 
 on:
   push:
-    branches: [main]
+    branches: [main, fix/canonical-qa-20261007]
   pull_request:
     branches: [main]
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: pythagoras-canonical-v2-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
+  normalize-fix-branch:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/fix/canonical-qa-20261007'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Normalize all 53 canonical page sources
+        run: node tools/normalize-pages.js
+      - name: Commit normalized sources if needed
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet; then
+            echo "PASS normalize: source already canonical"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- 'עמוד-'*.html
+          git commit -m "qa: normalize all canonical Pythagoras page sources"
+          git push origin HEAD:fix/canonical-qa-20261007
+
   validate:
     runs-on: ubuntu-latest
     steps:
@@ -78,7 +104,10 @@ jobs:
             local base="$1"
             local name="$2"
             for i in {1..30}; do
-              if curl -fsSL --max-time 20 "$base/" -o /tmp/index.html                 && grep -q 'משפט פיתגורס' /tmp/index.html                 && curl -fsSL --max-time 20 "$base/WORKBOOK_MANIFEST.json" -o /tmp/manifest.json                 && python - <<'PY'
+              if curl -fsSL --max-time 20 "$base/" -o /tmp/index.html \
+                && grep -q 'משפט פיתגורס' /tmp/index.html \
+                && curl -fsSL --max-time 20 "$base/WORKBOOK_MANIFEST.json" -o /tmp/manifest.json \
+                && python - <<'PY'
           import json
           d=json.load(open('/tmp/manifest.json',encoding='utf-8'))
           assert d.get('totalPages')==53
