@@ -28,6 +28,20 @@ for(const [i,p] of pages.entries()){
   const html=exists(p.file)?read(p.file):'';
   const mainCount=count(html,/<main[^>]*class=["'][^"']*\ba4-page\b[^>]*>/giu);
   if(mainCount!==1)fail(`${p.file}: expected exactly one main.a4-page, got ${mainCount}`);
+
+  // Page sources are content-only. The reader + manifest are the only navigation source.
+  if(/<nav\s+class=["'][^"']*\bpreview-nav\b/iu.test(html))fail(`${p.file}: legacy preview-nav must not exist in page source`);
+  const pageNo=html.match(/<div\s+class=["']page-number["']>\s*(\d+)\s*<\/div>/iu);
+  if(!pageNo||Number(pageNo[1])!==p.workbookNumber)fail(`${p.file}: static page-number must equal manifest workbookNumber ${p.workbookNumber}`);
+
+  // Canonical typography and math symbols.
+  if(html.includes('×')||/\\times\b/u.test(html))fail(`${p.file}: forbidden multiplication sign; use · or \\cdot`);
+  if(html.includes('ס"מ')||html.includes('סמ"ר'))fail(`${p.file}: non-canonical unit typography; use ס״מ / סמ״ר`);
+  if(/<span[^>]*dir=["']ltr["'][^>]*>[^<]*x²/iu.test(html))fail(`${p.file}: raw x² remains in formula span; use MathJax`);
+
+  // Mixed number + Hebrew-unit SVG labels must have explicit LTR direction.
+  const mixedSvg=[...html.matchAll(/<text([^>]*)>(\s*-?\d+(?:[.,]\d+)?\s+ס״מ\s*)<\/text>/giu)];
+  for(const m of mixedSvg)if(!/\bdirection\s*=\s*["']ltr["']/iu.test(m[1]))fail(`${p.file}: SVG unit label must declare direction="ltr": ${m[2].trim()}`);
 }
 
 const diskHtml=fs.readdirSync(root).filter(x=>/^עמוד-\d+\.html$/u.test(x)).sort();
@@ -44,7 +58,8 @@ for(const x of expectedCss)if(!diskCss.includes(x))fail('manifest CSS missing on
 for(const p of [
   'index.html','book-design.js','book-design.css','ui-controls.css',
   'SOURCE_OF_TRUTH.md','DESIGN.md','README.md','WORKBOOK_MANIFEST.json',
-  'pythagoras-workbook.pdf','vendor/mathjax/tex-mml-chtml.js','vercel.json','package.json'
+  'pythagoras-workbook.pdf','vendor/mathjax/tex-mml-chtml.js','vercel.json','package.json',
+  'styles/topics/pythagoras.css','tools/normalize-pages.js'
 ]) if(!exists(p))fail('missing core file '+p);
 
 if(exists('pythagoras-workbook.js'))fail('legacy duplicate loader exists');
@@ -72,12 +87,30 @@ const dup=[...new Set(ids.filter((x,i)=>ids.indexOf(x)!==i))];
 if(dup.length)fail('duplicate static IDs: '+dup.join(', '));
 if(count(index,/id=["']printHost["']/gu)!==1)fail('printHost must exist exactly once');
 
+// Known page-20 ambiguity is guarded explicitly: each operator choice must identify the hypotenuse.
+const p20=read('עמוד-650.html');
+if(count(p20,/class=["']choice-card["']/gu)!==4)fail('עמוד-650.html: expected four +/− choice cards');
+if(count(p20,/class=["']choice-context["']/gu)!==4)fail('עמוד-650.html: every +/− choice must explicitly identify the hypotenuse');
+if(!p20.includes('x הוא היתר')||!p20.includes('25 הוא היתר'))fail('עמוד-650.html: +/− choices remain semantically ambiguous');
+
+// Shared rendering guard must own root geometry and RTL SVG labels centrally.
+const pytCss=read('styles/topics/pythagoras.css');
+for(const needle of [
+  '.pyt-foundation .sqrt-cell',
+  'border-top: 1.35px solid #334155 !important',
+  'border-bottom: 1.1px solid #334155 !important',
+  '.pyt-live .pyt-fig-svg .pyt-side',
+  'unicode-bidi: isolate'
+]) if(!pytCss.includes(needle))fail('shared Pythagoras rendering guard missing: '+needle);
+
 const pdf=fs.statSync(path.join(root,'pythagoras-workbook.pdf'));
 if(pdf.size<100000)fail('PDF too small');
 
 const truth=read('SOURCE_OF_TRUTH.md');
 if(!truth.includes('מקור האמת היחיד והעליון'))fail('SSOT authority statement missing');
 if(!truth.includes('yanivmizrachiy/pythagoras'))fail('canonical repo missing from SSOT');
+if(!truth.includes('קובצי `עמוד-*.html` הם **תוכן דף בלבד**'))fail('SSOT must define page files as content-only');
+if(!truth.includes('`.sqrt-cell`'))fail('SSOT must define canonical square-root writing component');
 if(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/u.test(truth))fail('SSOT contains control characters');
 if(!read('DESIGN.md').includes('SOURCE_OF_TRUTH.md'))fail('DESIGN is not subordinate to SSOT');
 
@@ -97,4 +130,4 @@ if(dep['gh-pages']!==false)fail('Vercel must ignore gh-pages deployments');
 if(dep['unify/*']!==false)fail('Vercel must ignore retired unify branches');
 if(typeof vercel.ignoreCommand!=='string'||!vercel.ignoreCommand.includes('git diff --quiet HEAD^ HEAD'))fail('Vercel ignoreCommand must skip docs/CI-only deployments');
 
-if(!process.exitCode)console.log('PASS: canonical Pythagoras — 53/53, one SSOT, one loader, one validator/workflow, no orphan pages, guarded deployment.');
+if(!process.exitCode)console.log('PASS: canonical Pythagoras — 53/53, one SSOT, content-only pages, canonical math/units/SVG/root rendering, one loader, one validator/workflow, no orphan pages.');

@@ -13,8 +13,9 @@
   font-display: swap;
 }
 
-/* Scope Guard: aaa הוא חוברת פיתגורס בלבד. ניווט נושאים היסטורי מוסתר בכל דפי החוברת. */
-body:has(:is(.pythagoras, .page-375, .page-376, .page-377, .page-378, .page-379, .page-380)) .preview-nav-topics {
+/* ניווט קנוני קיים רק ב-reader ונבנה מ-WORKBOOK_MANIFEST.json.
+   אם קובץ עמוד ישן עדיין מכיל preview-nav, הוא לעולם לא יוצג. */
+body:has(:is(.pythagoras, .page-375, .page-376, .page-377, .page-378, .page-379, .page-380)) .preview-nav {
   display: none !important;
 }
 
@@ -49,13 +50,58 @@ body:has(:is(.pythagoras, .page-375, .page-376, .page-377, .page-378, .page-379,
   font-weight: 400;
 }
 
+/* תווית מעורבת מספר+יחידה ב-SVG חייבת להיקרא משמאל לימין כיחידה אחת,
+   בלי היפוך של 12 ס״מ / 5 ס״מ בגלל RTL של המסמך. */
+.pythagoras.a4-page :is(.pyt-fig-svg, .pyt-tri-svg, .pyt-rect-svg) :is(.pyt-side, .len, .lbl)[direction="ltr"],
+.pyt-live .pyt-fig-svg .pyt-side {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* סימן שורש קנוני למקום כתיבה: הסימן, קו השורש ומקום הכתיבה נשארים יחידה אחת.
+   important כאן מכוון: הוא גובר על CSS מקומי ישן בדפי 16–20 בלי לשכפל תיקון בכל דף. */
+.pyt-foundation .sqrt-cell {
+  display: inline-flex !important;
+  align-items: flex-start !important;
+  direction: ltr !important;
+  unicode-bidi: isolate !important;
+  min-width: 0;
+  min-height: 22px;
+  white-space: nowrap;
+}
+.pyt-foundation .sqrt-cell > .radic {
+  display: inline-block;
+  font-family: 'PytTeX', Georgia, 'Times New Roman', serif !important;
+  font-size: 22px !important;
+  line-height: 20px !important;
+  padding: 0 !important;
+  margin: 0 -1px 0 0 !important;
+  transform: translateY(-1px);
+  transform-origin: left top;
+}
+.pyt-foundation .sqrt-cell > :is(.root-line, .root-work-fill) {
+  display: inline-block !important;
+  min-height: 19px !important;
+  border-top: 1.35px solid #334155 !important;
+  border-bottom: 1.1px solid #334155 !important;
+  margin: 1px 0 0 0 !important;
+  align-self: flex-start !important;
+  box-sizing: border-box;
+}
+.pyt-foundation .sqrt-cell > .radicand {
+  border-top: 1.35px solid currentColor !important;
+  margin-top: 1px !important;
+  padding: 1px 4px 0 !important;
+  line-height: 1 !important;
+}
+
 /* תיבת התשובה הקנונית של פיתגורס — סגנון 5. */
 :is(.pythagoras, .page-375, .page-376, .page-377, .page-378, .page-379, .page-380) .answer-box {
   height: 30px;
   border: 1.35px solid #1f2a44;
   border-radius: 8px;
   background: linear-gradient(180deg, #ffffff 0%, #fdfefe 100%);
-  box-shadow: 0 1px 0 rgba(15, 23, 42, .13), 0 4px 8px rgba(15, 23, 42, .11), inset 0 1px 0 rgba(255, 255, 255, .98);
+  box-shadow: 0 1px 0 rgba(15, 23, 42, .13), 0 4px 8px rgba(15, 23, 42, .11), inset 0 1px 0 rgba(255,255,255,.98);
   transform: none;
   vertical-align: middle;
 }
@@ -72,6 +118,8 @@ body:has(:is(.pythagoras, .page-375, .page-376, .page-377, .page-378, .page-379,
 :is(.page-375, .page-376, .page-377, .page-378, .page-379, .page-380) svg.chart text[direction="ltr"] {
   font-family: 'PytTeX', Georgia, 'Times New Roman', serif;
   font-weight: 400;
+  direction: ltr;
+  unicode-bidi: isolate;
 }
 
 @media print {
@@ -79,6 +127,12 @@ body:has(:is(.pythagoras, .page-375, .page-376, .page-377, .page-378, .page-379,
     background: #fff;
     box-shadow: none;
     border-color: #1f2a44;
+  }
+  .pyt-foundation .sqrt-cell > :is(.root-line, .root-work-fill) {
+    border-top-color: #334155 !important;
+    border-bottom-color: #334155 !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
   }
 }
 

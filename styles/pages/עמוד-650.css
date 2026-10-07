@@ -59,16 +59,35 @@
 
 .page-650 .choice-card {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 5px;
+  gap: 2px;
   min-width: 0;
   min-height: 0;
-  padding: 5px 6px;
+  padding: 4px 6px;
   border: 1px solid var(--border-light);
   border-radius: 7px;
   background: var(--bg-paper);
   font-size: 13.7px;
+}
+
+.page-650 .choice-context {
+  direction: rtl;
+  unicode-bidi: isolate;
+  font-size: 10.7px;
+  line-height: 1;
+  color: #475569;
+  white-space: nowrap;
+}
+
+.page-650 .choice-equation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  direction: ltr;
+  unicode-bidi: isolate;
   white-space: nowrap;
 }
 

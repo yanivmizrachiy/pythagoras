@@ -78,7 +78,10 @@ jobs:
             local base="$1"
             local name="$2"
             for i in {1..30}; do
-              if curl -fsSL --max-time 20 "$base/" -o /tmp/index.html                 && grep -q 'משפט פיתגורס' /tmp/index.html                 && curl -fsSL --max-time 20 "$base/WORKBOOK_MANIFEST.json" -o /tmp/manifest.json                 && python - <<'PY'
+              if curl -fsSL --max-time 20 "$base/" -o /tmp/index.html \
+                && grep -q 'משפט פיתגורס' /tmp/index.html \
+                && curl -fsSL --max-time 20 "$base/WORKBOOK_MANIFEST.json" -o /tmp/manifest.json \
+                && python - <<'PY'
           import json
           d=json.load(open('/tmp/manifest.json',encoding='utf-8'))
           assert d.get('totalPages')==53
