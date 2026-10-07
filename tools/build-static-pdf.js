@@ -35,7 +35,9 @@ const base=process.env.PYTHAGORAS_BASE_URL||'http://127.0.0.1:8080/';
         && !!window.PythagorasReader;
     },{timeout:120000});
 
-    await page.click('#printColor');
+    // printColor lives inside a collapsed menu, so a physical Puppeteer click is intentionally
+    // unavailable. Dispatch the same native DOM click to the already-bound canonical handler.
+    await page.evaluate(()=>document.getElementById('printColor').click());
     await page.waitForFunction(()=>{
       const host=document.getElementById('printHost');
       return window.__PYTHAGORAS_PRINT_READY__===true
