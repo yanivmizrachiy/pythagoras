@@ -53,18 +53,40 @@ const base=process.env.PYTHAGORAS_BASE_URL||'http://127.0.0.1:8080/';
 
     const qa=await page.evaluate(()=>{
       const host=document.getElementById('printHost');
+      const roots=[...host.querySelectorAll('.sqrt-cell')];
+      const rootGeometryOk=roots.length>0&&roots.every(cell=>{
+        const radic=cell.querySelector('.radic');
+        const line=cell.querySelector('.root-line,.root-work-fill');
+        if(!radic||!line)return false;
+        const c=getComputedStyle(cell),r=getComputedStyle(radic),l=getComputedStyle(line);
+        const cb=cell.getBoundingClientRect(),rb=radic.getBoundingClientRect(),lb=line.getBoundingClientRect();
+        return c.direction==='ltr'
+          && parseFloat(l.borderTopWidth)>=1
+          && parseFloat(l.borderBottomWidth)>=1
+          && parseFloat(r.fontSize)>=20
+          && rb.right>=lb.left-3
+          && Math.abs(cb.top-lb.top)<8;
+      });
+      const unitLabels=[...host.querySelectorAll('svg text')].filter(x=>/\d+(?:[.,]\d+)?\s+ס״מ/u.test(x.textContent||''));
+      const svgUnitsOk=unitLabels.length>0&&unitLabels.every(x=>getComputedStyle(x).direction==='ltr'||x.getAttribute('direction')==='ltr');
       return {
         pages:host.querySelectorAll('.print-page').length,
         a4:host.querySelectorAll('.print-page .a4-page').length,
         rawLatex:/\\\(|\\\[/.test(host.textContent||''),
         legacyNav:host.querySelectorAll('.preview-nav').length,
-        rootCells:host.querySelectorAll('.sqrt-cell').length
+        rootCells:roots.length,
+        rootGeometryOk,
+        unitLabels:unitLabels.length,
+        svgUnitsOk,
+        choiceContexts:host.querySelectorAll('.page-650 .choice-context').length
       };
     });
     if(qa.pages!==53||qa.a4!==53)throw new Error(`print host incomplete: ${JSON.stringify(qa)}`);
     if(qa.rawLatex)throw new Error('raw LaTeX remains in print host');
     if(qa.legacyNav)throw new Error('legacy preview-nav leaked into print host');
-    if(qa.rootCells<1)throw new Error('canonical square-root component missing from print host');
+    if(!qa.rootGeometryOk)throw new Error(`square-root geometry failed before PDF capture: ${JSON.stringify(qa)}`);
+    if(!qa.svgUnitsOk)throw new Error(`SVG unit direction failed before PDF capture: ${JSON.stringify(qa)}`);
+    if(qa.choiceContexts!==4)throw new Error(`page 20 operator choices are not fully disambiguated: ${JSON.stringify(qa)}`);
 
     await page.emulateMediaType('print');
     await page.pdf({
@@ -77,6 +99,7 @@ const base=process.env.PYTHAGORAS_BASE_URL||'http://127.0.0.1:8080/';
     const size=fs.statSync(output).size;
     if(size<100000)throw new Error(`generated PDF suspiciously small: ${size}`);
     console.log(`PASS static PDF generated from canonical reader: ${output} (${size} bytes)`);
+    console.log(`PASS pre-PDF visual guards: ${qa.rootCells} roots, ${qa.unitLabels} SVG unit labels, ${qa.choiceContexts} page-20 contexts`);
     await page.close();
   }finally{
     await browser.close();
