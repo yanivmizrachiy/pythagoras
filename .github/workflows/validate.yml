@@ -2,18 +2,64 @@ name: Validate canonical Pythagoras
 
 on:
   push:
-    branches: [main]
+    branches: [main, fix/static-pdf-sync-20261007]
   pull_request:
     branches: [main]
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: pythagoras-canonical-v2-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
+  build-static-pdf:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/fix/static-pdf-sync-20261007' && github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Build PDF from canonical 53-page reader
+        shell: bash
+        run: |
+          set -euo pipefail
+          npm install --no-save --package-lock=false puppeteer-core
+          node tools/dev-server.js >/tmp/pythagoras-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          for i in {1..60}; do
+            curl -fsS http://127.0.0.1:8080/ >/dev/null && break
+            sleep 0.5
+          done
+          CHROME_BIN="$(command -v google-chrome || command -v chromium || command -v chromium-browser)"
+          test -n "$CHROME_BIN"
+          CHROME_BIN="$CHROME_BIN" npm run pdf:build
+          python -m pip install --disable-pip-version-check -q pypdf
+          python - <<'PY'
+          from pypdf import PdfReader
+          r=PdfReader('pythagoras-workbook.pdf')
+          assert len(r.pages)==53, f"expected 53 PDF pages, got {len(r.pages)}"
+          print('PASS rebuilt PDF: 53 pages')
+          PY
+      - name: Commit rebuilt PDF
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- pythagoras-workbook.pdf; then
+            echo "PASS PDF already matches canonical reader"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add pythagoras-workbook.pdf
+          git commit -m "build: refresh static PDF from canonical pages"
+          git push origin HEAD:fix/static-pdf-sync-20261007
+
   validate:
     runs-on: ubuntu-latest
     steps:
