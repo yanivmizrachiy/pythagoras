@@ -22,6 +22,8 @@ jobs:
         with:
           node-version: "20"
       - run: npm run validate
+      - name: Validate single reader-control ownership
+        run: node tools/validate-control-ownership.js
       - name: Validate static PDF is exactly 53 pages
         run: |
           python -m pip install --disable-pip-version-check -q pypdf
