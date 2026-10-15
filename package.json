@@ -3,7 +3,7 @@
   "private": true,
   "version": "2.3.0",
   "scripts": {
-    "validate": "node tools/validate.js",
+    "validate": "node tools/validate.js && node tools/validate-control-ownership.js",
     "smoke": "node tools/smoke.js",
     "pdf:build": "node tools/build-static-pdf.js",
     "start": "node tools/dev-server.js"
