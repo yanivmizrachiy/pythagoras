@@ -65,6 +65,30 @@ for(const p of [
 if(exists('pythagoras-workbook.js'))fail('legacy duplicate loader exists');
 if(exists('tools/validate-merged.js'))fail('legacy duplicate validator exists');
 
+// Repository hygiene is part of the canonical validator: generated backups, archives,
+// editor leftovers and duplicate authority/runtime files may never accumulate on main.
+function walk(dir,base=''){
+  const out=[];
+  for(const ent of fs.readdirSync(dir,{withFileTypes:true})){
+    if(ent.name==='.git'||ent.name==='node_modules')continue;
+    const rel=base?base+'/'+ent.name:ent.name;
+    const abs=path.join(dir,ent.name);
+    if(ent.isDirectory())out.push(...walk(abs,rel));else out.push(rel);
+  }
+  return out;
+}
+const trackedTree=walk(root);
+const junkPatterns=[
+  /(?:^|\/)(?:tmp|temp|backup|backups|old|copy)(?:\/|$)/iu,
+  /(?:\.bak|\.tmp|\.orig|\.rej|~)$/iu,
+  /\.(?:zip|tar|tgz|tar\.gz|7z|rar)$/iu,
+  /(?:^|\/)pythagoras-workbook(?:-old|-backup|-copy)?\.js$/iu,
+  /(?:^|\/)(?:SSOT|RULES|SPEC|REQUIREMENTS)(?:\.|$)/iu,
+];
+for(const f of trackedTree){
+  for(const re of junkPatterns){if(re.test(f)){fail('repository junk/parallel authority file: '+f);break}}
+}
+
 const runtime=['index.html','book-design.js','book-design.css','ui-controls.css'].map(read).join('\n');
 if(runtime.includes('yanivmizrachiy/aaa'))fail('runtime references deleted repo aaa');
 if(runtime.includes('https://aaa-pythagoras.vercel.app/WORKBOOK_MANIFEST.json'))fail('runtime uses Vercel URL as content source');
@@ -87,6 +111,21 @@ const dup=[...new Set(ids.filter((x,i)=>ids.indexOf(x)!==i))];
 if(dup.length)fail('duplicate static IDs: '+dup.join(', '));
 if(count(index,/id=["']printHost["']/gu)!==1)fail('printHost must exist exactly once');
 
+// Single visible reader-control ownership. The embedded booklet's modern readerTools
+// owns scroll/single/spread + page jump + download. The older outer mode/zoom/fullscreen
+// controls must stay hidden in iframe/embed mode; index.html may not define another view set.
+const readerJs=read('book-design.js');
+const controlsCss=read('ui-controls.css');
+for(const token of ['body.reader-embed .mode-area','body.reader-embed .reader-zoom','body.reader-embed #readerFullscreen']){
+  if(!controlsCss.includes(token))fail('missing embed control-ownership guard: '+token);
+}
+if(!controlsCss.includes('body.reader-embed .reader-download{display:flex!important'))fail('embedded reader must expose its single download control');
+for(const mode of ['scroll','single','spread']){
+  const n=count(readerJs,new RegExp(`data-reader-view-button="${mode}"`,'g'));
+  if(n!==1)fail(`${mode} reader view control must be generated exactly once, got ${n}`);
+}
+if(/data-reader-view-button/u.test(index))fail('index.html defines a duplicate reader view segment');
+
 // Known page-20 ambiguity is guarded explicitly: each operator choice must identify the hypotenuse.
 const p20=read('עמוד-650.html');
 if(count(p20,/class=["']choice-card["']/gu)!==4)fail('עמוד-650.html: expected four +/− choice cards');
@@ -97,6 +136,8 @@ if(!p20.includes('x הוא היתר')||!p20.includes('25 הוא היתר'))fail(
 const pytCss=read('styles/topics/pythagoras.css');
 for(const needle of [
   '.pyt-foundation .sqrt-cell',
+  '.sqrt-cell > .radic',
+  '.sqrt-cell > :is(.root-line, .root-work-fill)',
   'border-top: 1.35px solid #334155 !important',
   'border-bottom: 1.1px solid #334155 !important',
   '.pyt-live .pyt-fig-svg .pyt-side',
@@ -111,6 +152,8 @@ if(!truth.includes('מקור האמת היחיד והעליון'))fail('SSOT aut
 if(!truth.includes('yanivmizrachiy/pythagoras'))fail('canonical repo missing from SSOT');
 if(!truth.includes('קובצי `עמוד-*.html` הם **תוכן דף בלבד**'))fail('SSOT must define page files as content-only');
 if(!truth.includes('`.sqrt-cell`'))fail('SSOT must define canonical square-root writing component');
+if(!truth.includes('יש בעלים יחיד לפעולות reader'))fail('SSOT must define single reader-control ownership');
+if(!truth.includes('ה-host אינו רשאי להציג סט שני'))fail('SSOT must forbid a second host control set');
 if(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/u.test(truth))fail('SSOT contains control characters');
 if(!read('DESIGN.md').includes('SOURCE_OF_TRUTH.md'))fail('DESIGN is not subordinate to SSOT');
 
@@ -130,4 +173,4 @@ if(dep['gh-pages']!==false)fail('Vercel must ignore gh-pages deployments');
 if(dep['unify/*']!==false)fail('Vercel must ignore retired unify branches');
 if(typeof vercel.ignoreCommand!=='string'||!vercel.ignoreCommand.includes('git diff --quiet HEAD^ HEAD'))fail('Vercel ignoreCommand must skip docs/CI-only deployments');
 
-if(!process.exitCode)console.log('PASS: canonical Pythagoras — 53/53, one SSOT, content-only pages, canonical math/units/SVG/root rendering, one loader, one validator/workflow, no orphan pages.');
+if(!process.exitCode)console.log('PASS: canonical Pythagoras — 53/53, one SSOT, one reader-control owner, canonical roots/math/units/SVG, one loader/validator/workflow, no orphan or junk files.');
