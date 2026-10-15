@@ -95,6 +95,46 @@ body:has(:is(.pythagoras, .page-375, .page-376, .page-377, .page-378, .page-379,
   line-height: 1 !important;
 }
 
+/* אותו סימן שורש קנוני גם בדפי הפתרון (647–653 וכו'), לא רק בדפי היסודות: הסימן √,
+   קו השורש העליון (vinculum) ומקום הכתיבה נשארים יחידה אחת. בלי זה ל-fill היה רק
+   border-bottom, והסימן נראה מנותק מהריק. important גובר על ה-CSS המקומי לכל דף
+   (למשל .page-647 .root-work-fill שמגדיר רק border-bottom). חוקי .pyt-foundation
+   לעיל ספציפיים יותר, ולכן דפי היסודות אינם מושפעים. (תיקון הבעלים 15/10/2026) */
+.sqrt-cell {
+  display: inline-flex !important;
+  align-items: flex-start !important;
+  direction: ltr !important;
+  unicode-bidi: isolate !important;
+  min-width: 0;
+  min-height: 22px;
+  white-space: nowrap;
+}
+.sqrt-cell > .radic {
+  display: inline-block;
+  font-family: 'PytTeX', Georgia, 'Times New Roman', serif !important;
+  font-size: 22px !important;
+  line-height: 20px !important;
+  padding: 0 !important;
+  margin: 0 -1px 0 0 !important;
+  transform: translateY(-1px);
+  transform-origin: left top;
+}
+.sqrt-cell > :is(.root-line, .root-work-fill) {
+  display: inline-block !important;
+  min-height: 19px !important;
+  border-top: 1.35px solid #334155 !important;
+  border-bottom: 1.1px solid #334155 !important;
+  margin: 1px 0 0 0 !important;
+  align-self: flex-start !important;
+  box-sizing: border-box;
+}
+.sqrt-cell > .radicand {
+  border-top: 1.35px solid currentColor !important;
+  margin-top: 1px !important;
+  padding: 1px 4px 0 !important;
+  line-height: 1 !important;
+}
+
 /* תיבת התשובה הקנונית של פיתגורס — סגנון 5. */
 :is(.pythagoras, .page-375, .page-376, .page-377, .page-378, .page-379, .page-380) .answer-box {
   height: 30px;
@@ -128,7 +168,8 @@ body:has(:is(.pythagoras, .page-375, .page-376, .page-377, .page-378, .page-379,
     box-shadow: none;
     border-color: #1f2a44;
   }
-  .pyt-foundation .sqrt-cell > :is(.root-line, .root-work-fill) {
+  .pyt-foundation .sqrt-cell > :is(.root-line, .root-work-fill),
+  .sqrt-cell > :is(.root-line, .root-work-fill) {
     border-top-color: #334155 !important;
     border-bottom-color: #334155 !important;
     -webkit-print-color-adjust: exact;
