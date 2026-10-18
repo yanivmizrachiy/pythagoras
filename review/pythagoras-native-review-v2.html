@@ -11,11 +11,23 @@
 window.MathJax={tex:{inlineMath:[["\\(","\\)"]],displayMath:[["\\[","\\]"]]},chtml:{fontURL:"https://yanivmizrachiy.github.io/pythagoras/vendor/mathjax/tex-font/chtml/woff2"},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']},startup:{typeset:false}};
 </script>
 <style>
+/* REVIEW_CHECKLIST_START
+Review-only acceptance points, never a second source of truth:
+- Native HTML worksheet pages from the canonical manifest (53 A4) without iframe.
+- Unique controls: contents, print, export full/range; do not duplicate host controls.
+- Exact visible title: משפט פיתגורס דפים להדפסה.
+- Full-width dark navy separator flush against both adjacent pages; none in print.
+- No separate textual "עמוד N מתוך 53" captions between pages.
+- Contents header: תוכן עניינים – משפט פיתגורס; grouped educational chapters and page access.
+- The contents button stays accessible while scrolling; panel stays open until explicit close/chapter selection/Escape.
+- Jump chapters without animated document scrolling; unobtrusive fade, reduced-motion respected.
+- Preserve original formulas, diagrams, and original page content; no production changes before approval.
+REVIEW_CHECKLIST_END */
 /* Host-only design. The 53 worksheet contents and their page-level styles stay untouched. */
 :root { --control-bg:#fff; --control-ink:#15304d; --control-border:#dae3ee; --review-bg:#edf2f8; --a4w:793.7008; --a4h:1122.5197; }
-html,html body{display:block!important;min-width:0!important;align-items:initial!important;justify-content:initial!important;background:var(--review-bg)!important;margin:0!important;padding:0!important;color:var(--control-ink)!important;font-family:Rubik,Arial,sans-serif!important;overflow-x:hidden!important;font-size:16px!important}
+html,html body{display:block!important;min-width:0!important;align-items:initial!important;justify-content:initial!important;background:var(--review-bg)!important;margin:0!important;padding:0!important;color:var(--control-ink)!important;font-family:Rubik,Arial,sans-serif!important;overflow-x:clip!important;overflow-y:visible!important;font-size:16px!important}
 *,*::before,*::after{box-sizing:border-box}
-body>#reviewBar{position:sticky;top:0;z-index:70;width:100%;border-bottom:1px solid var(--control-border);background:rgba(255,255,255,.97);box-shadow:0 5px 25px rgba(23,48,77,.06);backdrop-filter:blur(12px)}
+body>#reviewBar{position:sticky;top:0;z-index:700;width:100%;border-bottom:1px solid var(--control-border);background:rgba(255,255,255,.97);box-shadow:0 5px 25px rgba(23,48,77,.06);backdrop-filter:blur(12px)}
 #reviewBar .review-width{max-width:1050px;margin:auto;padding:11px 15px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
 .review-title{font-size:clamp(16px,2.6vw,20px);font-weight:800;color:#143454}
 .review-sub{font-size:11px;font-weight:600;color:#64748b}
@@ -39,8 +51,8 @@ body>#reviewBar{position:sticky;top:0;z-index:70;width:100%;border-bottom:1px so
 .native-sheet{display:block;position:absolute;top:0;left:0;width:210mm;height:297mm;transform-origin:top left;overflow:hidden;background:white}
 .native-sheet .a4-page{width:210mm!important;height:297mm!important;margin:0!important;box-shadow:none!important;border:0!important;page-break-after:initial!important}
 .loading-paper{position:absolute;inset:14%;display:flex;align-items:center;justify-content:center;font-size:12px;color:#7b8898;font-weight:650}
-#toc{display:none;position:fixed;top:min(120px,20vh);inset-inline-start:12px;z-index:85;width:min(310px,calc(100vw - 25px));max-height:75dvh;overflow-y:auto;padding:15px;background:#fff;border:1px solid var(--control-border);border-radius:13px;box-shadow:0 15px 40px rgba(19,43,70,.15)}
-#toc.open{display:block}
+#toc{display:none;position:fixed;top:min(120px,20vh);inset-inline-start:12px;z-index:1000;width:min(310px,calc(100vw - 25px));max-height:75dvh;overflow-y:auto;padding:15px;background:#fff;border:1px solid var(--control-border);border-radius:13px;box-shadow:0 15px 40px rgba(19,43,70,.15)}
+#toc.open{display:block!important;visibility:visible!important;opacity:1!important}
 #toc strong{display:block;font-size:16px;margin:0 0 12px}
 #tocGrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}
 #tocGrid .action{padding:8px 0;font-size:12px;text-align:center;min-height:35px}
@@ -64,8 +76,14 @@ body>#reviewBar{position:sticky;top:0;z-index:70;width:100%;border-bottom:1px so
 .sheet-slot:not(:last-child)::after{content:"";position:absolute;left:0;right:0;width:100%;bottom:0;transform:translateY(50%);height:3px;z-index:4;border-radius:0;background:#173c61;box-shadow:none;pointer-events:none}
 #toc{width:min(430px,calc(100vw - 24px));top:min(95px,12vh);max-height:82dvh;padding:24px 18px 17px;border:1px solid #dfe7f0;box-shadow:0 22px 65px rgba(12,35,63,.19)}
 #toc .toc-kicker{font-size:11px;letter-spacing:.09em;font-weight:700;color:#778da3;margin-bottom:4px}
-#toc strong{font-size:22px;font-weight:800;color:#153454;margin:0 0 4px}
+#toc strong{font-size:19px;font-weight:800;color:#153454;margin:0 0 4px}
 #toc .toc-description{margin:0 0 17px;font-size:12px;line-height:1.6;color:#65768b}
+#toc .toc-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+#toc .toc-close{font:inherit;flex:none;font-size:22px;line-height:1;width:32px;height:32px;border:1px solid #dbe5ee;background:#f8fafc;color:#244768;border-radius:8px;cursor:pointer}
+#toc .toc-close:hover{background:#edf4fa}
+#toc{overscroll-behavior:contain;contain:layout style}
+body>#reviewBar{isolation:isolate}
+@supports not (overflow:clip){html,html body{overflow-x:visible!important}}
 #tocGrid{display:flex;flex-direction:column;gap:9px}
 .toc-chapter{border:1px solid #e2eaf2;border-radius:11px;background:#fff;overflow:hidden;transition:border-color .15s,box-shadow .15s}
 .toc-chapter:hover{border-color:#abc3d9;box-shadow:0 5px 16px rgba(20,53,86,.05)}
@@ -108,7 +126,7 @@ body.nav-transition #pageTransition{opacity:1;pointer-events:auto}
  </div>
  <div id="notice">תצוגת בדיקה מבודדת · טעינה מהמקור בלבד · האתר המחוזי לא שונה</div>
 </header>
-<aside id="toc" aria-label="תוכן עניינים לפי פרקים"><div class="toc-kicker">תוכן עניינים</div><strong>פרקי החוברת</strong><p class="toc-description">בחרו פרק למעבר שקט, או פתחו את רשימת העמודים בפרק.</p><nav id="tocGrid" aria-label="פרקי משפט פיתגורס"></nav><button id="showAll" type="button" class="toc-top-btn">חזרה לתחילת החוברת</button></aside>
+<aside id="toc" aria-label="תוכן עניינים – משפט פיתגורס" role="dialog" aria-modal="false"><div class="toc-kicker">ניווט בחומר הלימוד</div><div class="toc-heading"><strong>תוכן עניינים – משפט פיתגורס</strong><button id="closeToc" class="toc-close" type="button" aria-label="סגירת תוכן עניינים">×</button></div><p class="toc-description">בחרו פרק למעבר שקט, או פתחו את רשימת העמודים בפרק.</p><nav id="tocGrid" aria-label="פרקי משפט פיתגורס"></nav><button id="showAll" type="button" class="toc-top-btn">חזרה לתחילת החוברת</button></aside>
 <div id="pageTransition" aria-hidden="true"></div>
 <p id="status" role="status">מכין את החוברת המקורית…</p>
 <div id="reviewError" role="alert"></div>
@@ -216,9 +234,10 @@ body.nav-transition #pageTransition{opacity:1;pointer-events:auto}
   }catch(e){showError(e)}finally{document.body.classList.remove('nav-transition');jumpBusy=false}
  }
  const toggle=(node,btn)=>{const open=node.classList.toggle('open');btn.setAttribute('aria-expanded',String(open));return open};
+ document.querySelector('#closeToc').addEventListener('click',closeContents);
  document.querySelector('#tocBtn').addEventListener('click',()=>{document.querySelector('#downloadOptions').classList.remove('open');document.querySelector('#downloadBtn').setAttribute('aria-expanded','false');toggle(dom.toc,document.querySelector('#tocBtn'))});
  document.querySelector('#downloadBtn').addEventListener('click',()=>{dom.toc.classList.remove('open');document.querySelector('#tocBtn').setAttribute('aria-expanded','false');toggle(document.querySelector('#downloadOptions'),document.querySelector('#downloadBtn'))});
- document.addEventListener('click',e=>{if(!e.target.closest('#actions #downloadOptions')&&!e.target.closest('#downloadBtn')){document.querySelector('#downloadOptions').classList.remove('open');document.querySelector('#downloadBtn').setAttribute('aria-expanded','false')}if(!e.target.closest('#toc')&&!e.target.closest('#tocBtn')){dom.toc.classList.remove('open');document.querySelector('#tocBtn').setAttribute('aria-expanded','false')}});
+ document.addEventListener('click',e=>{if(!e.target.closest('#downloadOptions')&&!e.target.closest('#downloadBtn')){document.querySelector('#downloadOptions').classList.remove('open');document.querySelector('#downloadBtn').setAttribute('aria-expanded','false')}});
  document.addEventListener('keydown',e=>{if(e.key==='Escape'){dom.toc.classList.remove('open');document.querySelector('#downloadOptions').classList.remove('open');document.querySelector('#tocBtn').setAttribute('aria-expanded','false');document.querySelector('#downloadBtn').setAttribute('aria-expanded','false')}});
  document.querySelector('#showAll').addEventListener('click',()=>{navigateToPage(1)});
  window.addEventListener('resize',()=>{cancelAnimationFrame(resizeRaf);resizeRaf=requestAnimationFrame(scaleAll)},{passive:true});
