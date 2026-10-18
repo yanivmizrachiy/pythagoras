@@ -132,17 +132,34 @@ if(count(p20,/class=["']choice-card["']/gu)!==4)fail('עמוד-650.html: expecte
 if(count(p20,/class=["']choice-context["']/gu)!==4)fail('עמוד-650.html: every +/− choice must explicitly identify the hypotenuse');
 if(!p20.includes('x הוא היתר')||!p20.includes('25 הוא היתר'))fail('עמוד-650.html: +/− choices remain semantically ambiguous');
 
-// Shared rendering guard must own root geometry and RTL SVG labels centrally.
+// One canonical radical owner; text matching alone previously missed visible failures.
 const pytCss=read('styles/topics/pythagoras.css');
 for(const needle of [
-  '.pyt-foundation .sqrt-cell',
-  '.sqrt-cell > .radic',
+  '.sqrt-cell {',
+  '.sqrt-cell > .radic::before',
+  'data:image/svg+xml,',
   '.sqrt-cell > :is(.root-line, .root-work-fill)',
   'border-top: 1.35px solid #334155 !important',
   'border-bottom: 1.1px solid #334155 !important',
   '.pyt-live .pyt-fig-svg .pyt-side',
   'unicode-bidi: isolate'
 ]) if(!pytCss.includes(needle))fail('shared Pythagoras rendering guard missing: '+needle);
+if(count(pytCss,/\\.sqrt-cell\\s*\\{/gu)!==1)fail('square-root geometry must have exactly one canonical definition');
+if(/\\.pyt-foundation\\s+\\.sqrt-cell/u.test(read('styles/topics/pythagoras-foundations.css')))fail('legacy foundations CSS still overrides canonical square roots');
+const radicalPages=[647,648,649,650,653];
+for(const n of radicalPages){
+  const html=read('עמוד-'+n+'.html');
+  const cells=count(html,/class=["']sqrt-cell["']/gu);
+  const complete=count(html,/<span class="sqrt-cell"><span class="radic">√<\\/span><span class="(?:root-line|root-work-fill)"><\\/span><\\/span>/gu);
+  if(!cells||cells!==complete)fail('page '+n+': missing/fragmented canonical radical; found '+complete+'/'+cells);
+  const css=read('styles/pages/עמוד-'+n+'.css');
+  if(new RegExp('\\.page-'+n+'\\s+\\.root-(?:line|work-fill)\\s*\\{[^}]*\\b(?:border|height|font-size)\\s*:','u').test(css)){
+    fail('page '+n+': competing radical geometry must live only in shared CSS');
+  }
+  if(new RegExp('\\.page-'+n+'\\s+\\.root-(?:line|work-fill)\\s*,','u').test(css)){
+    fail('page '+n+': root geometry mixed with ordinary handwriting lines');
+  }
+}
 
 const pdf=fs.statSync(path.join(root,'pythagoras-workbook.pdf'));
 if(pdf.size<100000)fail('PDF too small');
