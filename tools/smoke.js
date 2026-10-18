@@ -74,7 +74,7 @@ const cases=[
               const cb=cell.getBoundingClientRect(),rb=radic.getBoundingClientRect(),lb=line.getBoundingClientRect();
               const checks={
                 ltr:c.direction==='ltr',
-                oneVector:/data:image\\/svg\\+xml/.test(vector.content),
+                oneVector:/data:image\/svg\+xml/.test(vector.content),
                 vectorVisible:vector.display!=='none'&&parseFloat(vector.width)>=18,
                 notDoublePrinted:parseFloat(r.fontSize)===0,
                 topBorder:parseFloat(l.borderTopWidth)>=1,
