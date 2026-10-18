@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>בדיקת רגרסיה — שורש פיתגורס</title>
+<link rel="stylesheet" href="../vendor/fonts/rubik.css">
+<link rel="stylesheet" href="../styles/a4-base.css">
+<style>
+html,html body{display:block!important;background:#e7edf4!important;margin:0!important;color:#142f4a!important;font-family:Rubik,Arial,sans-serif!important}
+h1,#status,#results{max-width:950px;margin:18px auto;direction:rtl}
+#status{font-size:18px;font-weight:700}
+#results{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+#results article{background:#fff;border:2px solid #d8e1eb;border-radius:9px;padding:12px}
+#results article.ok{border-color:#19865b}
+#results article.bad{border-color:#c93b3b}
+#cases{max-width:960px;margin:auto}
+#cases .a4-page{margin:16px auto!important;transform-origin:top center}
+</style>
+</head>
+<body>
+<h1>בדיקת שורשים — 5 דפי מקור, מסך אמיתי</h1>
+<p id="status" role="status">טוען מקורות…</p>
+<div id="results" aria-label="תוצאות"></div>
+<div id="cases"></div>
+<script>
+(async function(){
+ const ids=[647,648,649,650,653];
+ const cases=document.getElementById('cases'),results=document.getElementById('results'),status=document.getElementById('status');
+ let all=true;
+ for(const id of ids){
+  const entry=document.createElement('article');entry.textContent='עמוד '+id+': טוען';results.append(entry);
+  try{
+   const [resp]=await Promise.all([fetch('../עמוד-'+id+'.html')]);
+   if(!resp.ok)throw new Error('HTML '+resp.status);
+   const doc=new DOMParser().parseFromString(await resp.text(),'text/html');
+   const page=doc.querySelector('.a4-page');if(!page)throw new Error('אין A4');
+   cases.append(document.importNode(page,true));
+   const sheet=document.createElement('link');sheet.rel='stylesheet';sheet.href='../styles/pages/עמוד-'+id+'.css';
+   await new Promise((resolve,reject)=>{sheet.onload=resolve;sheet.onerror=()=>reject(new Error('CSS לא נטען'));document.head.append(sheet)});
+   await document.fonts.ready;
+   await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)));
+   const cells=[...cases.lastElementChild.querySelectorAll('.sqrt-cell')];
+   if(!cells.length)throw new Error('אין סימני שורש');
+   const errors=[];
+   cells.forEach((cell,i)=>{
+    const root=cell.querySelector('.radic'),fill=cell.querySelector('.root-line,.root-work-fill');
+    if(!root||!fill){errors.push(i+': חסר רכיב');return}
+    const b1=root.getBoundingClientRect(),b2=fill.getBoundingClientRect();
+    const pseudo=getComputedStyle(root,'::before'),fs=getComputedStyle(root),ls=getComputedStyle(fill);
+    if(!pseudo.content.includes('data:image/svg+xml'))errors.push(i+': שורש וקטורי חסר');
+    if(parseFloat(fs.fontSize)!==0)errors.push(i+': גליף כפול');
+    if(parseFloat(ls.borderTopWidth)<1||parseFloat(ls.borderBottomWidth)<1)errors.push(i+': קווים חסרים');
+    if(b2.left>b1.right+2||b2.left<b1.right-4)errors.push(i+': שורש מנותק');
+    if(Math.abs((b1.top+1.5)-(b2.top+parseFloat(ls.borderTopWidth)))>3)errors.push(i+': קו עליון לא מיושר');
+   });
+   if(errors.length)throw new Error(errors.join('; '));
+   entry.className='ok';entry.textContent='PASS — עמוד '+id+' · '+cells.length+' שורשים';
+  }catch(error){all=false;entry.className='bad';entry.textContent='FAIL — עמוד '+id+' · '+error.message}
+ }
+ status.textContent=all?'PASS — כל סימני השורש תקינים ב־5 דפי הבדיקה':'FAIL — זוהו שגיאות, ראו פרטים';
+ status.style.color=all?'#126647':'#ab2323';
+})();
+</script>
+</body></html>
