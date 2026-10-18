@@ -128,8 +128,18 @@ body.nav-transition #pageTransition{opacity:1;pointer-events:auto}
  function scaleAll(){const width=Math.max(1,Math.min(document.documentElement.clientWidth-18,SHEET_W));const sc=width/SHEET_W;slots.forEach(({slot,inner})=>{slot.style.width=(SHEET_W*sc)+'px';slot.style.height=(SHEET_H*sc)+'px';inner.style.transform=`scale(${sc})`})}
  function makeSlots(){dom.pages.replaceChildren();slots=manifest.pages.map((p,i)=>{const slot=el('section','sheet-slot'),inner=el('div','native-sheet'),placeholder=el('div','loading-paper');slot.id='a4-'+(i+1);slot.dataset.page=String(i+1);slot.setAttribute('aria-label','עמוד '+(i+1)+' מתוך '+manifest.pages.length);placeholder.textContent='טוען את עמוד '+(i+1)+'…';inner.append(placeholder);slot.append(inner);dom.pages.append(slot);return {slot,inner,p,page:i+1}});scaleAll()}
  const stylesheetCache=new Map();
- async function installStylesFor(pageFile){const path='styles/pages/'+pageFile.replace(/\.html$/i,'.css');if(stylesheetCache.has(path))return stylesheetCache.get(path);
-  const task=new Promise((resolve,reject)=>{const l=document.createElement('link');l.rel='stylesheet';l.href=SRC+path;l.onload=resolve;l.onerror=()=>reject(new Error('העיצוב לא נטען: '+path));document.head.append(l)});
+ async function installStylesFor(pageFile){
+  const path='styles/pages/'+pageFile.replace(/\.html$/i,'.css');
+  if(stylesheetCache.has(path))return stylesheetCache.get(path);
+  const cdn='https://cdn.jsdelivr.net/gh/yanivmizrachiy/pythagoras@'+REVIEW_SHA+'/';
+  const tryLink=base=>new Promise((resolve,reject)=>{
+   const l=document.createElement('link');l.rel='stylesheet';l.href=base+path;
+   let finished=false;const finish=error=>{if(finished)return;finished=true;clearTimeout(timer);l.onload=null;l.onerror=null;if(error){l.remove();reject(error)}else resolve()};
+   const timer=setTimeout(()=>finish(new Error('תם זמן טעינת העיצוב')),10000);
+   l.onload=()=>finish();l.onerror=()=>finish(new Error('קובץ CSS אינו זמין'));
+   document.head.append(l);
+  });
+  const task=(async()=>{let last;for(const source of [SRC,cdn]){try{await tryLink(source);return}catch(e){last=e}}throw new Error('העיצוב לא נטען גם ממקור חלופי: '+path+' ('+(last?.message||'שגיאה')+')')})();
   stylesheetCache.set(path,task);task.catch(()=>stylesheetCache.delete(path));return task;
  }
  async function getMath(){if(mathReady)return mathReady;mathReady=new Promise((resolve,reject)=>{const script=document.createElement('script');script.defer=true;script.src=SRC+'vendor/mathjax/tex-mml-chtml.js';script.onload=()=>resolve(window.MathJax);script.onerror=()=>{mathReady=null;reject(new Error('מנוע המתמטיקה לא נטען'));};document.head.append(script)});return mathReady}
