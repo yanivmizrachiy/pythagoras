@@ -49,3 +49,30 @@ body.reader-embed[data-reader-view="scroll"] .scroll-sheet + .scroll-sheet::befo
 @media(orientation:landscape) and (max-height:520px){.reader-tools{display:flex;flex-wrap:wrap}.reader-toc{top:78px;max-height:calc(100dvh - 88px)}body>.stage{padding-top:6px!important}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
 @media print{.reader-toc,.reader-tools{display:none!important}}
+
+/* Native connected A4 reading: one full-width navy boundary, zero space between sheets.
+   Other view modes (single/spread) keep their own geometry. No separator in print. */
+html{scroll-behavior:auto!important}
+body[data-reader-view="scroll"]>.stage .scroll-stack{row-gap:0!important;gap:0!important}
+body.reader-embed[data-reader-view="scroll"]>.stage .scroll-stack{row-gap:0!important}
+body[data-reader-view="scroll"]>.stage .scroll-sheet{box-shadow:none!important;border-radius:0!important}
+body[data-reader-view="scroll"]>.stage .scroll-sheet + .scroll-sheet::after{
+  content:"";display:block;position:absolute;z-index:3;inset-inline:0;top:0;
+  width:100%;height:3px;background:var(--ui-navy);pointer-events:none
+}
+body.reader-embed[data-reader-view="scroll"] .scroll-sheet + .scroll-sheet::before{display:none!important}
+/* One book's chapter index: no parallel navigation or controls. */
+.reader-toc{width:min(400px,calc(100vw - 24px));max-height:calc(100dvh - 135px)}
+.reader-toc-list{display:flex;flex-direction:column;gap:7px}
+.reader-toc-chapter{background:#fff;border:1px solid var(--ui-line);border-radius:9px;overflow:hidden}
+.reader-toc-chapter-jump{display:block;text-align:start;width:100%;padding:13px;border:0;background:#fff;color:var(--ui-navy);font:inherit;font-size:12px;font-weight:800;line-height:1.4;cursor:pointer}
+.reader-toc-chapter-jump:hover{background:var(--ui-focus)}
+.reader-toc-chapter-pages{border-top:1px solid var(--ui-line);padding:8px}
+.reader-toc-chapter-pages summary{font-size:11px;font-weight:700;color:var(--ui-navy);cursor:pointer;padding:5px}
+.reader-toc-chapter-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
+.reader-toc-chapter-grid .reader-toc-item{display:grid;place-items:center;min-height:30px;padding:4px;border:1px solid var(--ui-line);border-radius:6px;text-align:center}
+.reader-toc-chapter-grid .reader-toc-item[aria-current=page]{color:#fff;background:var(--ui-navy)}
+#readerTransition{position:fixed;inset:0;z-index:10050;opacity:0;pointer-events:none;background:var(--ui-surface);transition:opacity .23s cubic-bezier(.4,0,.2,1)}
+#readerTransition.is-active{opacity:1}
+@media(prefers-reduced-motion:reduce){#readerTransition{transition:none}}
+@media print{#readerTransition{display:none!important}body[data-reader-view="scroll"]>.stage .scroll-sheet + .scroll-sheet::after{display:none!important}}
