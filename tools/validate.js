@@ -44,6 +44,29 @@ for(const [i,p] of pages.entries()){
   for(const m of mixedSvg)if(!/\bdirection\s*=\s*["']ltr["']/iu.test(m[1]))fail(`${p.file}: SVG unit label must declare direction="ltr": ${m[2].trim()}`);
 }
 
+// All stylesheet dependencies must resolve before any multi-page print/export starts.
+// A single dangling @import previously broke page 6 and aborted the entire 53-page PDF.
+const cssDirectories=['styles/pages','styles/topics','styles','vendor/fonts'];
+const cssSeen=new Set();
+for(const directory of cssDirectories){
+  const abs=path.join(root,directory);
+  if(!fs.existsSync(abs))continue;
+  for(const file of fs.readdirSync(abs)){
+    if(!file.endsWith('.css'))continue;
+    const rel=path.join(directory,file);
+    if(cssSeen.has(rel))continue;
+    cssSeen.add(rel);
+    for(const imp of read(rel).matchAll(/@import\s+(?:url\(\s*)?["']([^"']+)["']\s*\)?/gu)){
+      const target=imp[1].split(/[?#]/u)[0];
+      if(/^(?:data:|https?:)/iu.test(target))continue;
+      const resolved=path.resolve(root,path.dirname(rel),target);
+      if(!resolved.startsWith(root+path.sep)||!fs.existsSync(resolved)){
+        fail(rel+': dangling stylesheet import '+imp[1]);
+      }
+    }
+  }
+}
+
 const diskHtml=fs.readdirSync(root).filter(x=>/^עמוד-\d+\.html$/u.test(x)).sort();
 const diskCss=fs.readdirSync(path.join(root,'styles','pages')).filter(x=>/^עמוד-\d+\.css$/u.test(x)).sort();
 const expectedHtml=[...files].sort();
