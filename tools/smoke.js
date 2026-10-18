@@ -33,13 +33,22 @@ const cases=[
           readerTools:!!document.querySelector('#readerTools'),
           viewButtons:document.querySelectorAll('[data-reader-view-button]').length,
           toc:!!document.querySelector('#readerToc'),
-          fullscreen:!!document.querySelector('#readerFullscreen')
+          fullscreen:!!document.querySelector('#readerFullscreen'),
+          navCounter:document.querySelectorAll('.nav-group #counter').length,
+          counterText:document.querySelector('#counter')?.textContent||'',
+          previous:document.querySelectorAll('.nav-group #prev').length,
+          next:document.querySelectorAll('.nav-group #next').length,
+          secondaryCounterCount:document.querySelectorAll('#readerPageJump,#readerPageLabel,#readerPageInput,.reader-page-jump').length,
+          chapterCount:document.querySelectorAll('#readerTocList .reader-toc-chapter').length
         };
       });
       if(state.scrollWidth>state.clientWidth+2)throw new Error(`${t.name}: horizontal overflow ${state.scrollWidth}/${state.clientWidth}`);
       if(state.sheets!==53)throw new Error(`${t.name}: expected 53 sheets`);
       if(state.duplicateIds.length)throw new Error(`${t.name}: duplicate IDs ${state.duplicateIds.join(',')}`);
       if(!state.readerTools||state.viewButtons!==3||!state.toc||!state.fullscreen)throw new Error(`${t.name}: reader controls incomplete`);
+      if(state.navCounter!==1||state.previous!==1||state.next!==1||state.secondaryCounterCount!==0||state.chapterCount!==7||!/^עמוד [0-9]+ \/ 53$/.test(state.counterText)){
+        throw new Error(t.name + ': page counter duplicated or contents not complete: ' + JSON.stringify(state));
+      }
       // The owner's 18/10 rule: print theme is disclosed only AFTER pressing Print.
       const printUi=await page.evaluate(()=>{
         const main=document.getElementById('printOptionsBtn');
