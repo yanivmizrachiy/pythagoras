@@ -40,6 +40,23 @@ const cases=[
       if(state.sheets!==53)throw new Error(`${t.name}: expected 53 sheets`);
       if(state.duplicateIds.length)throw new Error(`${t.name}: duplicate IDs ${state.duplicateIds.join(',')}`);
       if(!state.readerTools||state.viewButtons!==3||!state.toc||!state.fullscreen)throw new Error(`${t.name}: reader controls incomplete`);
+      // The owner's 18/10 rule: print theme is disclosed only AFTER pressing Print.
+      const printUi=await page.evaluate(()=>{
+        const main=document.getElementById('printOptionsBtn');
+        const download=document.getElementById('downloadMain');
+        const panel=document.getElementById('printOptions');
+        const legacy=document.querySelectorAll('#colorMode,#monoMode,.mode-choices').length;
+        const initial=!!main&&!!download&&!!panel&&panel.hidden&&main.getAttribute('aria-expanded')==='false';
+        main?.click();
+        const revealed=!panel?.hidden&&main?.getAttribute('aria-expanded')==='true'&&
+          !!panel.querySelector('#printColor')&&!!panel.querySelector('#printMono');
+        document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true}));
+        return {initial,revealed,legacy,closed:panel.hidden&&main.getAttribute('aria-expanded')==='false'};
+      });
+      if(!printUi.initial||!printUi.revealed||printUi.legacy||!printUi.closed){
+        throw new Error(`${t.name}: print-only color choices contract failed: ${JSON.stringify(printUi)}`);
+      }
+
 
       if(t.width>=900){
         await page.evaluate(()=>{window.PythagorasReader.setView('spread');window.PythagorasReader.setZoom(1.25);window.PythagorasReader.openToc(true)});
