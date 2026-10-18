@@ -99,6 +99,17 @@ const cases=[
         const scope=document.querySelector(selector);
         return scope&&scope.querySelectorAll('mjx-container[jax="CHTML"] mjx-sqrt').length>=10;
       },{timeout:60000},target.scope);
+      // The reader virtualizes off-screen sheets via content-visibility:auto:
+      // their DOM exists but getBoundingClientRect() can be zero until visible.
+      await page.evaluate(selector=>{
+        document.querySelector(selector)?.scrollIntoView({block:'center',behavior:'instant'});
+      },target.scope);
+      await page.waitForFunction(selector=>{
+        const root=document.querySelector(selector)?.querySelector('mjx-sqrt');
+        const box=root?.querySelector('mjx-box');
+        return !!(box&&box.getBoundingClientRect().width>0);
+      },{timeout:20000},target.scope);
+      await page.evaluate(()=>document.fonts.ready);
       const qa=await page.evaluate(selector=>{
         const scope=document.querySelector(selector);
         const containers=[...scope.querySelectorAll('mjx-container[jax="CHTML"]')];
@@ -114,6 +125,13 @@ const cases=[
           count:roots.length,
           allLtr:containers.length>0&&containers.every(m=>getComputedStyle(m).direction==='ltr'),
           radicalOk,
+          invalidRoots:roots.map((root,i)=>{
+            const surd=root.querySelector('mjx-surd');
+            const box=root.querySelector('mjx-box');
+            const a=surd?.getBoundingClientRect(),b=box?.getBoundingClientRect();
+            const border=box?parseFloat(getComputedStyle(box).borderTopWidth):0;
+            return {i,border,surdLeft:a?.left,boxLeft:b?.left,width:b?.width,dir:getComputedStyle(root).direction};
+          }).filter(x=>!(x.border>0&&x.surdLeft<x.boxLeft)).slice(0,4),
           textIsolated:scope.querySelectorAll('bdi[dir="ltr"]').length===7,
           rawLatex:(scope.textContent||'').includes(String.raw`\(\sqrt`)
         };
