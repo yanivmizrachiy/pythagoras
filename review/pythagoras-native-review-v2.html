@@ -34,8 +34,8 @@ body>#reviewBar{position:sticky;top:0;z-index:70;width:100%;border-bottom:1px so
 #downloadOptions .full{display:block;text-align:center;margin-bottom:12px;width:100%}
 #notice{margin:0;padding:10px 15px;text-align:center;color:#495e75;font-size:12px;border-top:1px solid #e7edf4;background:#f8fafc}
 #status{margin:0 auto;max-width:1050px;padding:12px 18px;font-size:13px;font-weight:600;color:#52677d;text-align:center}
-#pages{display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;align-items:start;gap:12px;width:100%;padding:4px 0 70px;margin:0!important}
-.sheet-slot{display:block;position:relative;max-width:calc(100vw - 14px);overflow:visible;border-radius:2px;background:#fff;box-shadow:0 0 0 1px rgba(40,62,92,.08),0 12px 28px rgba(24,55,85,.12)}
+#pages{display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;align-items:start;gap:0;width:100%;padding:4px 0 70px;margin:0!important}
+.sheet-slot{display:block;position:relative;max-width:calc(100vw - 14px);overflow:visible;border-radius:0;background:#fff;box-shadow:none;margin:0!important;padding:0!important}
 .native-sheet{display:block;position:absolute;top:0;left:0;width:210mm;height:297mm;transform-origin:top left;overflow:hidden;background:white}
 .native-sheet .a4-page{width:210mm!important;height:297mm!important;margin:0!important;box-shadow:none!important;border:0!important;page-break-after:initial!important}
 .loading-paper{position:absolute;inset:14%;display:flex;align-items:center;justify-content:center;font-size:12px;color:#7b8898;font-weight:650}
@@ -48,7 +48,7 @@ body>#reviewBar{position:sticky;top:0;z-index:70;width:100%;border-bottom:1px so
 #showAll{font:inherit;font-size:12px;color:#44637f;text-align:center;width:100%;margin-top:12px}
 #reviewError{display:none;max-width:700px;margin:20px auto;padding:20px;background:#fff5f5;color:#963b3b;border:1px solid #ecc3c3;border-radius:10px;font-size:14px;line-height:1.8}
 #reviewError.show{display:block}
-@media(max-width:560px){#reviewBar .review-width{padding:8px;gap:8px}#actions{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}#actions .action{padding:9px 6px;text-align:center;font-size:12px}#pages{gap:10px}.review-sub{display:none}}
+@media(max-width:560px){#reviewBar .review-width{padding:8px;gap:8px}#actions{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}#actions .action{padding:9px 6px;text-align:center;font-size:12px}#pages{gap:0}.review-sub{display:none}}
 @media print{
  @page{size:A4;margin:0}
  html,html body{background:#fff!important;display:block!important;margin:0!important;overflow:visible!important}
@@ -61,7 +61,7 @@ body>#reviewBar{position:sticky;top:0;z-index:70;width:100%;border-bottom:1px so
 }
 
 /* Minimal navy chapter separators: purely between sheets, never in print. */
-.sheet-slot:not(:last-child)::after{content:"";position:absolute;left:0;right:0;width:100%;bottom:-7px;height:3px;border-radius:0;background:#173c61;box-shadow:none;pointer-events:none}
+.sheet-slot:not(:last-child)::after{content:"";position:absolute;left:0;right:0;width:100%;bottom:0;transform:translateY(50%);height:3px;z-index:4;border-radius:0;background:#173c61;box-shadow:none;pointer-events:none}
 #toc{width:min(430px,calc(100vw - 24px));top:min(95px,12vh);max-height:82dvh;padding:24px 18px 17px;border:1px solid #dfe7f0;box-shadow:0 22px 65px rgba(12,35,63,.19)}
 #toc .toc-kicker{font-size:11px;letter-spacing:.09em;font-weight:700;color:#778da3;margin-bottom:4px}
 #toc strong{font-size:22px;font-weight:800;color:#153454;margin:0 0 4px}
@@ -83,7 +83,7 @@ body>#reviewBar{position:sticky;top:0;z-index:70;width:100%;border-bottom:1px so
 .toc-top-btn{font:inherit;width:100%;border:0;background:transparent;color:#416281;text-decoration:underline;text-underline-offset:4px;margin-top:15px;padding:10px;cursor:pointer;font-size:12px}
 #pageTransition{position:fixed;inset:0;z-index:110;background:linear-gradient(145deg,#f7f9fc 0%,#edf3f8 100%);opacity:0;pointer-events:none;transition:opacity 260ms cubic-bezier(.4,0,.2,1)}
 body.nav-transition #pageTransition{opacity:1;pointer-events:auto}
-@media(max-width:560px){#toc{top:7vh;max-height:86dvh;padding:17px 12px}.toc-chapter-btn{min-height:56px}.sheet-slot:not(:last-child)::after{bottom:-6px}}
+@media(max-width:560px){#toc{top:7vh;max-height:86dvh;padding:17px 12px}.toc-chapter-btn{min-height:56px}}
 @media(prefers-reduced-motion:reduce){#pageTransition{transition:none!important}}
 @media print{.sheet-slot::after{display:none!important}#pageTransition{display:none!important}}
 </style>
