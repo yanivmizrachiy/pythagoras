@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<meta name="robots" content="noindex,nofollow" />
+<title>משפט פיתגורס — דפי A4 מקוריים | בדיקה לפני אישור</title>
+<link rel="stylesheet" href="https://yanivmizrachiy.github.io/pythagoras/vendor/fonts/rubik.css" />
+<link rel="stylesheet" href="https://yanivmizrachiy.github.io/pythagoras/styles/a4-base.css" />
+<script>
+window.MathJax={tex:{inlineMath:[["\\(","\\)"]],displayMath:[["\\[","\\]"]]},chtml:{fontURL:"https://yanivmizrachiy.github.io/pythagoras/vendor/mathjax/tex-font/chtml/woff2"},options:{skipHtmlTags:['script','noscript','style','textarea','pre','code']},startup:{typeset:false}};
+</script>
+<style>
+/* Host-only design. The 53 worksheet contents and their page-level styles stay untouched. */
+:root { --control-bg:#fff; --control-ink:#15304d; --control-border:#dae3ee; --review-bg:#edf2f8; --a4w:793.7008; --a4h:1122.5197; }
+html,html body{display:block!important;min-width:0!important;align-items:initial!important;justify-content:initial!important;background:var(--review-bg)!important;margin:0!important;padding:0!important;color:var(--control-ink)!important;font-family:Rubik,Arial,sans-serif!important;overflow-x:hidden!important;font-size:16px!important}
+*,*::before,*::after{box-sizing:border-box}
+body>#reviewBar{position:sticky;top:0;z-index:70;width:100%;border-bottom:1px solid var(--control-border);background:rgba(255,255,255,.97);box-shadow:0 5px 25px rgba(23,48,77,.06);backdrop-filter:blur(12px)}
+#reviewBar .review-width{max-width:1050px;margin:auto;padding:11px 15px;display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.review-title{font-size:clamp(16px,2.6vw,20px);font-weight:800;color:#143454}
+.review-sub{font-size:11px;font-weight:600;color:#64748b}
+#actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.action{font:inherit;font-size:13px;font-weight:750;line-height:1.2;padding:10px 14px;border:1px solid var(--control-border);border-radius:9px;background:#fff;color:var(--control-ink);text-decoration:none;cursor:pointer;white-space:nowrap;min-height:40px}
+.action:hover{border-color:#7ba7d0;background:#f7fafd}.action:focus-visible{outline:3px solid #7ba7d0;outline-offset:2px}
+.action.main{background:#173e65;border-color:#173e65;color:#fff}.action:disabled{opacity:.5;cursor:wait}
+#downloadOptions{display:none;position:absolute;top:calc(100% + 3px);inset-inline-end:0;z-index:90;padding:18px;min-width:min(350px,calc(100vw - 30px));border:1px solid var(--control-border);border-radius:12px;background:#fff;box-shadow:0 16px 40px rgba(18,43,70,.17)}
+#downloadOptions.open{display:block}
+#downloadOptions strong{font-size:14px;color:#173a5b}
+#downloadOptions p{font-size:12px;color:#576779;margin:7px 0 12px;line-height:1.6}
+#downloadOptions .range-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+#downloadOptions label{font-size:12px;font-weight:700;display:flex;gap:5px;align-items:center}
+#downloadOptions input[type=number]{font:inherit;max-width:67px;padding:7px;border:1px solid #cbd5e1;border-radius:7px;direction:ltr;text-align:center;background:#fff}
+#downloadOptions .range-row .action{flex:1}
+#downloadOptions .full{display:block;text-align:center;margin-bottom:12px;width:100%}
+#notice{margin:0;padding:10px 15px;text-align:center;color:#495e75;font-size:12px;border-top:1px solid #e7edf4;background:#f8fafc}
+#status{margin:0 auto;max-width:1050px;padding:12px 18px;font-size:13px;font-weight:600;color:#52677d;text-align:center}
+#pages{display:grid;grid-template-columns:minmax(0,1fr);justify-items:center;align-items:start;gap:28px;width:100%;padding:4px 0 70px;margin:0!important}
+.sheet-slot{display:block;position:relative;max-width:calc(100vw - 14px);overflow:visible;border-radius:2px;background:#fff;box-shadow:0 0 0 1px rgba(40,62,92,.08),0 12px 28px rgba(24,55,85,.12)}
+.native-sheet{display:block;position:absolute;top:0;left:0;width:210mm;height:297mm;transform-origin:top left;overflow:hidden;background:white}
+.native-sheet .a4-page{width:210mm!important;height:297mm!important;margin:0!important;box-shadow:none!important;border:0!important;page-break-after:initial!important}
+.sheet-caption{display:block;text-align:center;color:#5d7187;font-size:11px;padding:5px 0;background:#f7fafd;position:absolute;bottom:-22px;inset-inline:0;height:22px;white-space:nowrap}
+.loading-paper{position:absolute;inset:14%;display:flex;align-items:center;justify-content:center;font-size:12px;color:#7b8898;font-weight:650}
+#toc{display:none;position:fixed;top:min(120px,20vh);inset-inline-start:12px;z-index:85;width:min(310px,calc(100vw - 25px));max-height:75dvh;overflow-y:auto;padding:15px;background:#fff;border:1px solid var(--control-border);border-radius:13px;box-shadow:0 15px 40px rgba(19,43,70,.15)}
+#toc.open{display:block}
+#toc strong{display:block;font-size:16px;margin:0 0 12px}
+#tocGrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px}
+#tocGrid .action{padding:8px 0;font-size:12px;text-align:center;min-height:35px}
+#tocGrid .action[aria-current=page]{background:#173e65;color:#fff}
+#showAll{font:inherit;font-size:12px;color:#44637f;text-align:center;width:100%;margin-top:12px}
+#reviewError{display:none;max-width:700px;margin:20px auto;padding:20px;background:#fff5f5;color:#963b3b;border:1px solid #ecc3c3;border-radius:10px;font-size:14px;line-height:1.8}
+#reviewError.show{display:block}
+@media(max-width:560px){#reviewBar .review-width{padding:8px;gap:8px}#actions{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}#actions .action{padding:9px 6px;text-align:center;font-size:12px}#pages{gap:18px}.review-sub{display:none}.sheet-caption{font-size:9px}}
+@media print{
+ @page{size:A4;margin:0}
+ html,html body{background:#fff!important;display:block!important;margin:0!important;overflow:visible!important}
+ #reviewBar,#status,#toc,#reviewError,.sheet-caption{display:none!important}
+ #pages{display:block!important;padding:0!important;gap:0!important;margin:0!important}
+ .sheet-slot{height:297mm!important;width:210mm!important;margin:0!important;max-width:none!important;box-shadow:none!important;page-break-after:always!important;break-after:page!important;overflow:visible!important}
+ .native-sheet{transform:none!important;height:297mm!important;width:210mm!important;position:static!important}
+ .native-sheet .a4-page{overflow:hidden!important;box-shadow:none!important}
+ .sheet-slot:last-child{page-break-after:auto!important;break-after:auto!important}
+}
+</style>
+</head>
+<body>
+<header id="reviewBar" aria-label="פקדי החוברת">
+ <div class="review-width">
+  <div><div class="review-title">משפט פיתגורס · החוברת המלאה</div><div class="review-sub">מקור GitHub קנוני · 53 דפי A4 · גלילה רציפה</div></div>
+  <div id="actions">
+   <button id="tocBtn" class="action" type="button" aria-expanded="false" aria-controls="toc">תוכן עניינים</button>
+   <button id="printBtn" class="action" type="button">הדפסה</button>
+   <div style="position:relative"><button id="downloadBtn" class="action main" type="button" aria-expanded="false" aria-controls="downloadOptions">הורדה</button>
+    <section id="downloadOptions" aria-label="אפשרויות הורדה">
+     <strong>הורדת חוברת כ־PDF</strong>
+     <p>ניתן להוריד את כל 53 הדפים, או לבחור טווח רציף של דפים לפי המספור בחוברת.</p>
+     <a id="downloadFull" class="action main full" href="https://yanivmizrachiy.github.io/pythagoras/pythagoras-workbook.pdf" download="pythagoras-workbook.pdf">הורדת כל החוברת (53 דפים)</a>
+     <div class="range-row"><label>מעמוד <input id="fromPage" type="number" min="1" max="53" value="1" /></label><label>עד עמוד <input id="toPage" type="number" min="1" max="53" value="10" /></label></div>
+     <button id="downloadPart" class="action" type="button" style="margin-top:11px;width:100%">הורדת הדפים שנבחרו</button>
+    </section>
+   </div>
+  </div>
+ </div>
+ <div id="notice">תצוגת בדיקה מבודדת · טעינה מהמקור בלבד · האתר המחוזי לא שונה</div>
+</header>
+<aside id="toc" aria-label="ניווט לעמודים"><strong>בחירת עמוד</strong><div id="tocGrid"></div><button id="showAll" type="button" class="action">הצגת כל הדפים בגלילה</button></aside>
+<p id="status" role="status">מכין את החוברת המקורית…</p>
+<div id="reviewError" role="alert"></div>
+<main id="pages" aria-label="חוברת פיתגורס — 53 דפי A4"></main>
+<script>
+(()=>{'use strict';
+ const SRC='https://yanivmizrachiy.github.io/pythagoras/';
+ const RAW='https://raw.githubusercontent.com/yanivmizrachiy/pythagoras/7ce52e67c25f623ce144dd9dab3dd29cb2e796e1/';
+ const REVIEW_SHA='7ce52e67c25f623ce144dd9dab3dd29cb2e796e1';
+ const PAGES_EXPECTED=53, SHEET_W=210/25.4*96, SHEET_H=297/25.4*96;
+ const dom={pages:document.querySelector('#pages'),status:document.querySelector('#status'),error:document.querySelector('#reviewError'),toc:document.querySelector('#toc'),grid:document.querySelector('#tocGrid')};
+ let manifest,slots=[],mathReady=null,mathQueue=Promise.resolve(),observer,loaded=0,loadedPages=new Set(),loadTasks=new Map(),resizeRaf;
+ const el=(tag,cls)=>{const e=document.createElement(tag);if(cls)e.className=cls;return e};
+ const setStatus=s=>dom.status.textContent=s;
+ const showError=e=>{dom.error.classList.add('show');dom.error.textContent='הטעינה או ההורדה נכשלה: '+String(e?.message||e)+'. אם פתחת את הקובץ ללא חיבור אינטרנט, יש להתחבר ולפתוח מחדש. המקור: '+SRC;setStatus('נדרשת בדיקה · '+loaded+' דפים נטענו')};
+ async function getText(file){let error;for(const u of [RAW+file,SRC+file]){try{const r=await fetch(u,{mode:'cors',credentials:'omit'});if(!r.ok)throw new Error('HTTP '+r.status+' '+file);return await r.text()}catch(e){error=e}}throw error||new Error('נכשל: '+file)}
+ function scaleAll(){const width=Math.max(1,Math.min(document.documentElement.clientWidth-18,SHEET_W));const sc=width/SHEET_W;slots.forEach(({slot,inner})=>{slot.style.width=(SHEET_W*sc)+'px';slot.style.height=(SHEET_H*sc)+'px';inner.style.transform=`scale(${sc})`})}
+ function makeSlots(){dom.pages.replaceChildren();slots=manifest.pages.map((p,i)=>{const slot=el('section','sheet-slot'),inner=el('div','native-sheet'),placeholder=el('div','loading-paper');slot.id='a4-'+(i+1);slot.dataset.page=String(i+1);slot.setAttribute('aria-label','עמוד '+(i+1)+' מתוך '+manifest.pages.length);placeholder.textContent='טוען את עמוד '+(i+1)+'…';inner.append(placeholder);slot.append(inner);const caption=el('span','sheet-caption');caption.textContent='עמוד '+(i+1)+' מתוך '+manifest.pages.length;slot.append(caption);dom.pages.append(slot);return {slot,inner,p,page:i+1}});scaleAll()}
+ const stylesheetCache=new Map();
+ async function installStylesFor(pageFile){const path='styles/pages/'+pageFile.replace(/\.html$/i,'.css');if(stylesheetCache.has(path))return stylesheetCache.get(path);
+  const task=new Promise((resolve,reject)=>{const l=document.createElement('link');l.rel='stylesheet';l.href=SRC+path;l.onload=resolve;l.onerror=()=>reject(new Error('העיצוב לא נטען: '+path));document.head.append(l)});
+  stylesheetCache.set(path,task);task.catch(()=>stylesheetCache.delete(path));return task;
+ }
+ async function getMath(){if(mathReady)return mathReady;mathReady=new Promise((resolve,reject)=>{const script=document.createElement('script');script.defer=true;script.src=SRC+'vendor/mathjax/tex-mml-chtml.js';script.onload=()=>resolve(window.MathJax);script.onerror=()=>{mathReady=null;reject(new Error('מנוע המתמטיקה לא נטען'));};document.head.append(script)});return mathReady}
+ function typeset(node){mathQueue=mathQueue.catch(()=>{}).then(async()=>{const mj=await getMath();if(typeof mj?.typesetPromise!=='function')throw new Error('MathJax אינו מוכן');await mj.typesetPromise([node]);});return mathQueue}
+ async function loadPage(n){if(!manifest||n<1||n>manifest.pages.length)return;if(loadTasks.has(n))return loadTasks.get(n);
+  const task=(async()=>{const entry=slots[n-1];if(loadedPages.has(n))return;const [html]=await Promise.all([getText(entry.p.file),installStylesFor(entry.p.file)]);
+   const parsed=new DOMParser().parseFromString(html,'text/html');const original=parsed.querySelector('main.a4-page');if(!original)throw new Error('לא נמצא דף A4 בקובץ '+entry.p.file);
+   const content=document.importNode(original,true);content.querySelectorAll('script,iframe,object,embed').forEach(node=>node.remove());
+   // No rewriting of formulas, text, shapes or page-number content.
+   entry.inner.replaceChildren(content);await typeset(content);loadedPages.add(n);loaded++;setStatus('נטענו '+loaded+' מתוך 53 דפים מקוריים · כל יתר העמודים נפתחים אוטומטית בגלילה');entry.slot.dataset.ready='true';
+  })().catch(e=>{const entry=slots[n-1];entry.inner.textContent='שגיאה בטעינת דף '+n;showError(e);loadTasks.delete(n);throw e});loadTasks.set(n,task);return task}
+ async function loadAll(){const jobs=slots.map(s=>s.page);for(let i=0;i<jobs.length;i+=5){await Promise.all(jobs.slice(i,i+5).map(loadPage))}await mathQueue}
+ async function boot(){const data=JSON.parse(await getText('WORKBOOK_MANIFEST.json'));if(!Array.isArray(data.pages)||data.pages.length!==PAGES_EXPECTED||data.totalPages!==PAGES_EXPECTED)throw new Error('חוברת המקור אינה כוללת 53 עמודים — התצוגה נעצרה למניעת השמטות');
+  for(let i=0;i<data.pages.length;i++){const p=data.pages[i];if(p.workbookNumber!==i+1||!/^עמוד-\d+\.html$/.test(p.file))throw new Error('מספור או זהות שגויים בעמוד '+(i+1))}
+  manifest=data;makeSlots();dom.grid.replaceChildren();slots.forEach((s,i)=>{const b=el('button','action');b.type='button';b.textContent=String(i+1);b.setAttribute('aria-label','מעבר לעמוד '+(i+1));b.addEventListener('click',()=>{dom.grid.querySelectorAll('[aria-current]').forEach(x=>x.removeAttribute('aria-current'));b.setAttribute('aria-current','page');dom.toc.classList.remove('open');document.querySelector('#tocBtn').setAttribute('aria-expanded','false');s.slot.scrollIntoView({behavior:'smooth',block:'start'});loadPage(i+1).catch(()=>{})});dom.grid.append(b)});
+  observer=new IntersectionObserver(entries=>{for(const e of entries){if(!e.isIntersecting)continue;const n=Number(e.target.dataset.page);for(let d=-1;d<=2;d++)loadPage(n+d).catch(()=>{})}},{rootMargin:'1200px 0px',threshold:0});slots.forEach(s=>observer.observe(s.slot));
+  await loadPage(1);setStatus('חוברת מקורית — 53 דפי HTML. גרסת מקור '+REVIEW_SHA.slice(0,8)+'; הדפים הנוספים נטענים בזמן הגלילה.');
+ }
+ const toggle=(node,btn)=>{const open=node.classList.toggle('open');btn.setAttribute('aria-expanded',String(open));return open};
+ document.querySelector('#tocBtn').addEventListener('click',()=>{document.querySelector('#downloadOptions').classList.remove('open');document.querySelector('#downloadBtn').setAttribute('aria-expanded','false');toggle(dom.toc,document.querySelector('#tocBtn'))});
+ document.querySelector('#downloadBtn').addEventListener('click',()=>{dom.toc.classList.remove('open');document.querySelector('#tocBtn').setAttribute('aria-expanded','false');toggle(document.querySelector('#downloadOptions'),document.querySelector('#downloadBtn'))});
+ document.addEventListener('click',e=>{if(!e.target.closest('#actions #downloadOptions')&&!e.target.closest('#downloadBtn')){document.querySelector('#downloadOptions').classList.remove('open');document.querySelector('#downloadBtn').setAttribute('aria-expanded','false')}if(!e.target.closest('#toc')&&!e.target.closest('#tocBtn')){dom.toc.classList.remove('open');document.querySelector('#tocBtn').setAttribute('aria-expanded','false')}});
+ document.addEventListener('keydown',e=>{if(e.key==='Escape'){dom.toc.classList.remove('open');document.querySelector('#downloadOptions').classList.remove('open');document.querySelector('#tocBtn').setAttribute('aria-expanded','false');document.querySelector('#downloadBtn').setAttribute('aria-expanded','false')}});
+ document.querySelector('#showAll').addEventListener('click',()=>{dom.toc.classList.remove('open');document.querySelector('#tocBtn').setAttribute('aria-expanded','false');window.scrollTo({top:0,behavior:'smooth'})});
+ window.addEventListener('resize',()=>{cancelAnimationFrame(resizeRaf);resizeRaf=requestAnimationFrame(scaleAll)},{passive:true});
+ document.querySelector('#printBtn').addEventListener('click',async e=>{if(!manifest)return;e.target.disabled=true;try{setStatus('מכין את כל 53 דפי החוברת להדפסה…');await loadAll();window.print()}catch(err){showError(err)}finally{e.target.disabled=false}});
+ const pdfUrl=SRC+'pythagoras-workbook.pdf';
+ let pdfBytesPromise=null;
+ async function getPdfBytes(){if(!pdfBytesPromise)pdfBytesPromise=(async()=>{const response=await fetch(pdfUrl,{credentials:'omit',mode:'cors'});if(!response.ok)throw new Error('PDF המקור אינו זמין (HTTP '+response.status+')');return response.arrayBuffer()})().catch(e=>{pdfBytesPromise=null;throw e});return pdfBytesPromise;}
+ function saveBytes(bytes,name){const url=URL.createObjectURL(new Blob([bytes],{type:'application/pdf'}));const link=el('a');link.href=url;link.download=name;document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),60000)}
+ document.querySelector('#downloadFull').addEventListener('click',async e=>{const button=e.currentTarget;if(button.dataset.direct==='true')return;e.preventDefault();if(button.dataset.pending==='true')return;button.dataset.pending='true';button.textContent='מכין PDF…';setStatus('מוריד את PDF המקור בן 53 העמודים…');try{saveBytes(await getPdfBytes(),'pythagoras-workbook.pdf');setStatus('החוברת המלאה הוכנה להורדה.')}catch(err){showError(err);button.dataset.direct='true';button.href=pdfUrl;button.target='_blank';button.rel='noopener noreferrer';setStatus('לא ניתן היה להוריד אוטומטית. ניתן ללחוץ על ״פתיחת PDF המקור״ ולשמור דרך הדפדפן.')}finally{button.dataset.pending='false';button.textContent=button.dataset.direct==='true'?'פתיחת PDF המקור':'הורדת כל החוברת (53 דפים)'}});
+ async function pdfLibrary(){if(window.PDFLib?.PDFDocument)return window.PDFLib;
+  return new Promise((resolve,reject)=>{const tag=document.createElement('script');tag.src='https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js';tag.onload=()=>window.PDFLib?resolve(window.PDFLib):reject(new Error('ספריית PDF לא זמינה'));tag.onerror=()=>reject(new Error('ספריית חלוקת PDF לא זמינה'));document.head.append(tag)})}
+ async function selectedPdf(from,to){const [lib,bytes]=await Promise.all([pdfLibrary(),getPdfBytes()]);const original=await lib.PDFDocument.load(bytes.slice(0));if(original.getPageCount()!==53)throw new Error('קובץ PDF המקור אינו בן 53 דפים');const output=await lib.PDFDocument.create();const indices=Array.from({length:to-from+1},(_,i)=>from-1+i);const pages=await output.copyPages(original,indices);pages.forEach(p=>output.addPage(p));return output.save()}
+ document.querySelector('#downloadPart').addEventListener('click',async e=>{const a=document.querySelector('#fromPage'),b=document.querySelector('#toPage');const from=a.valueAsNumber,to=b.valueAsNumber;if(!Number.isInteger(from)||!Number.isInteger(to)||from<1||to<1||from>53||to>53||from>to){alert('יש לבחור טווח דפים תקין מ־1 עד 53');return}
+  if(from===1&&to===53){document.querySelector('#downloadFull').click();return}
+  const button=e.currentTarget;button.disabled=true;button.textContent='מכין קובץ PDF…';setStatus('מכין להורדה דפים '+from+'–'+to+' מתוך החוברת המקורית…');try{const bytes=await selectedPdf(from,to);saveBytes(bytes,`pythagoras-pages-${from}-${to}.pdf`);setStatus('קובץ עמודים '+from+'–'+to+' הוכן להורדה.')}catch(err){showError(err)}finally{button.disabled=false;button.textContent='הורדת הדפים שנבחרו'}});
+ boot().catch(showError);
+})();
+</script>
+</body>
+</html>
