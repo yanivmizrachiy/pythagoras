@@ -58,70 +58,46 @@ body:has(:is(.pythagoras, .page-375, .page-376, .page-377, .page-378, .page-379,
   unicode-bidi: isolate;
 }
 
-/* סימן שורש קנוני למקום כתיבה: הסימן, קו השורש ומקום הכתיבה נשארים יחידה אחת.
-   important כאן מכוון: הוא גובר על CSS מקומי ישן בדפי 16–20 בלי לשכפל תיקון בכל דף. */
-.pyt-foundation .sqrt-cell {
-  display: inline-flex !important;
-  align-items: flex-start !important;
-  direction: ltr !important;
-  unicode-bidi: isolate !important;
-  min-width: 0;
-  min-height: 22px;
-  white-space: nowrap;
-}
-.pyt-foundation .sqrt-cell > .radic {
-  display: inline-block;
-  font-family: 'PytTeX', Georgia, 'Times New Roman', serif !important;
-  font-size: 22px !important;
-  line-height: 20px !important;
-  padding: 0 !important;
-  margin: 0 -1px 0 0 !important;
-  transform: translateY(-1px);
-  transform-origin: left top;
-}
-.pyt-foundation .sqrt-cell > :is(.root-line, .root-work-fill) {
-  display: inline-block !important;
-  min-height: 19px !important;
-  border-top: 1.35px solid #334155 !important;
-  border-bottom: 1.1px solid #334155 !important;
-  margin: 1px 0 0 0 !important;
-  align-self: flex-start !important;
-  box-sizing: border-box;
-}
-.pyt-foundation .sqrt-cell > .radicand {
-  border-top: 1.35px solid currentColor !important;
-  margin-top: 1px !important;
-  padding: 1px 4px 0 !important;
-  line-height: 1 !important;
-}
-
-/* אותו סימן שורש קנוני גם בדפי הפתרון (647–653 וכו'), לא רק בדפי היסודות: הסימן √,
-   קו השורש העליון (vinculum) ומקום הכתיבה נשארים יחידה אחת. בלי זה ל-fill היה רק
-   border-bottom, והסימן נראה מנותק מהריק. important גובר על ה-CSS המקומי לכל דף
-   (למשל .page-647 .root-work-fill שמגדיר רק border-bottom). חוקי .pyt-foundation
-   לעיל ספציפיים יותר, ולכן דפי היסודות אינם מושפעים. (תיקון הבעלים 15/10/2026) */
+/* מקור יחיד לרדיקל: העיצוב כאן בלבד — ללא העתקים בקובצי עמוד או יסודות.
+   רדיקל SVG מוטמע נצמד פיזית לקו העליון ללא תלות בצורת הגליף, בפונט, ברזולוציה
+   או במצב הדפסה. התו √ נשאר ב-DOM עבור נגישות אך אינו מצויר פעמיים. */
 .sqrt-cell {
   display: inline-flex !important;
   align-items: flex-start !important;
   direction: ltr !important;
   unicode-bidi: isolate !important;
   min-width: 0;
-  min-height: 22px;
+  min-height: 23px;
   white-space: nowrap;
+  vertical-align: middle;
 }
 .sqrt-cell > .radic {
-  display: inline-block;
-  font-family: 'PytTeX', Georgia, 'Times New Roman', serif !important;
-  font-size: 22px !important;
-  line-height: 20px !important;
+  position: relative !important;
+  display: inline-block !important;
+  width: 19px !important;
+  min-width: 19px !important;
+  height: 23px !important;
+  flex: 0 0 19px !important;
+  font-size: 0 !important;
+  line-height: 0 !important;
+  color: transparent !important;
   padding: 0 !important;
   margin: 0 -1px 0 0 !important;
-  transform: translateY(-1px);
-  transform-origin: left top;
+  transform: none !important;
+}
+.sqrt-cell > .radic::before {
+  content: url("data:image/svg+xml,%3Csvg xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22 width%3D%2220%22 height%3D%2223%22 viewBox%3D%220 0 20 23%22%3E%3Cpath d%3D%22M1 12 L4.5 10 L9.4 21 L17.4 1.5 L20 1.5%22 fill%3D%22none%22 stroke%3D%22%23334155%22 stroke-width%3D%221.45%22 stroke-linecap%3D%22round%22 stroke-linejoin%3D%22round%22%2F%3E%3C%2Fsvg%3E");
+  display: block !important;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 20px;
+  height: 23px;
 }
 .sqrt-cell > :is(.root-line, .root-work-fill) {
   display: inline-block !important;
-  min-height: 19px !important;
+  height: 20px !important;
+  min-height: 20px !important;
   border-top: 1.35px solid #334155 !important;
   border-bottom: 1.1px solid #334155 !important;
   margin: 1px 0 0 0 !important;
