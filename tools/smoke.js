@@ -115,7 +115,7 @@ const cases=[
           allLtr:containers.length>0&&containers.every(m=>getComputedStyle(m).direction==='ltr'),
           radicalOk,
           textIsolated:scope.querySelectorAll('bdi[dir="ltr"]').length===7,
-          rawLatex:/\\\\\(\\\\sqrt/.test(scope.textContent||'')
+          rawLatex:(scope.textContent||'').includes(String.raw`\(\sqrt`)
         };
       },target.scope);
       if(!qa.allLtr||!qa.radicalOk||!qa.textIsolated||qa.rawLatex){
