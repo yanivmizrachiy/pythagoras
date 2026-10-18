@@ -13,6 +13,13 @@
   font-display: swap;
 }
 
+/* MathJax CHTML: isolate mathematics from Hebrew bidi without reversing radicals.
+   Shared by the reader, direct HTML pages, screen and print. */
+:is(.pythagoras, .page-375, .page-376, .page-377, .page-378, .page-379, .page-380).a4-page mjx-container[jax="CHTML"] {
+  direction: ltr !important;
+  unicode-bidi: isolate !important;
+}
+
 /* ניווט קנוני קיים רק ב-reader ונבנה מ-WORKBOOK_MANIFEST.json.
    אם קובץ עמוד ישן עדיין מכיל preview-nav, הוא לעולם לא יוצג. */
 body:has(:is(.pythagoras, .page-375, .page-376, .page-377, .page-378, .page-379, .page-380)) .preview-nav {
