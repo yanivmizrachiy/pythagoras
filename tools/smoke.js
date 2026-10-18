@@ -86,6 +86,45 @@ const cases=[
       console.log('PASS smoke: canonical square-root + determinate page 20 choices');
     }
 
+    // Regression: square roots in Hebrew RTL must keep the radical on the left,
+    // with a visible vinculum, both when opened directly and inside the reader.
+    for (const target of [
+      {url:'http://127.0.0.1:8080/עמוד-642.html',scope:'.page-642',label:'direct page 10'},
+      {url:'http://127.0.0.1:8080/#10',scope:'#app .scroll-sheet[data-index="9"] .page-642',label:'reader page 10'}
+    ]) {
+      const page=await browser.newPage();
+      await page.setViewport({width:1100,height:900,deviceScaleFactor:1});
+      await page.goto(target.url,{waitUntil:'domcontentloaded',timeout:60000});
+      await page.waitForFunction(selector=>{
+        const scope=document.querySelector(selector);
+        return scope&&scope.querySelectorAll('mjx-container[jax="CHTML"] mjx-sqrt').length>=10;
+      },{timeout:60000},target.scope);
+      const qa=await page.evaluate(selector=>{
+        const scope=document.querySelector(selector);
+        const containers=[...scope.querySelectorAll('mjx-container[jax="CHTML"]')];
+        const roots=[...scope.querySelectorAll('mjx-container[jax="CHTML"] mjx-sqrt')];
+        const radicalOk=roots.length>=10&&roots.every(root=>{
+          const surd=root.querySelector('mjx-surd');
+          const box=root.querySelector('mjx-box');
+          return !!(surd&&box&&
+            parseFloat(getComputedStyle(box).borderTopWidth)>0 &&
+            surd.getBoundingClientRect().left<box.getBoundingClientRect().left);
+        });
+        return {
+          count:roots.length,
+          allLtr:containers.length>0&&containers.every(m=>getComputedStyle(m).direction==='ltr'),
+          radicalOk,
+          textIsolated:scope.querySelectorAll('bdi[dir="ltr"]').length===7,
+          rawLatex:/\\\\\(\\\\sqrt/.test(scope.textContent||'')
+        };
+      },target.scope);
+      if(!qa.allLtr||!qa.radicalOk||!qa.textIsolated||qa.rawLatex){
+        throw new Error(target.label+': RTL/MathJax radical regression '+JSON.stringify(qa));
+      }
+      await page.close();
+      console.log('PASS smoke: square roots in Hebrew RTL — '+target.label);
+    }
+
     // Focused regression: mixed number+Hebrew-unit SVG labels must not reverse in RTL.
     {
       const page=await browser.newPage();
