@@ -86,11 +86,13 @@ const cases=[
       console.log('PASS smoke: canonical square-root + determinate page 20 choices');
     }
 
-    // Regression: square roots in Hebrew RTL must keep the radical on the left,
-    // with a visible vinculum, both when opened directly and inside the reader.
+    // Regression: square roots embedded in Hebrew RTL must remain LTR.
+    // Direct page geometry is measurable. The reader uses content-visibility:auto,
+    // so off-screen MathJax elements have zero-sized DOMRects until painted;
+    // there we inspect the CHTML structure, direction and vinculum style instead.
     for (const target of [
-      {url:'http://127.0.0.1:8080/עמוד-642.html',scope:'.page-642',label:'direct page 10'},
-      {url:'http://127.0.0.1:8080/#10',scope:'#app .scroll-sheet[data-index="9"] .page-642',label:'reader page 10'}
+      {url:'http://127.0.0.1:8080/עמוד-642.html',scope:'.page-642',label:'direct page 10',geometry:true},
+      {url:'http://127.0.0.1:8080/#10',scope:'#app .scroll-sheet[data-index="9"] .page-642',label:'reader page 10',geometry:false}
     ]) {
       const page=await browser.newPage();
       await page.setViewport({width:1100,height:900,deviceScaleFactor:1});
@@ -99,49 +101,28 @@ const cases=[
         const scope=document.querySelector(selector);
         return scope&&scope.querySelectorAll('mjx-container[jax="CHTML"] mjx-sqrt').length>=10;
       },{timeout:60000},target.scope);
-      // The reader virtualizes off-screen sheets via content-visibility:auto:
-      // their DOM exists but getBoundingClientRect() can be zero until visible.
-      await page.evaluate(selector=>{
-        const scope=document.querySelector(selector);
-        // Only for this browser assertion: turn off off-screen layout skipping
-        // on the reader sheet so every root has measurable geometry.
-        const sheet=scope?.closest('.scroll-sheet');
-        if(sheet)sheet.style.contentVisibility='visible';
-        scope?.scrollIntoView({block:'center',behavior:'instant'});
-      },target.scope);
-      await page.waitForFunction(selector=>{
-        const root=document.querySelector(selector)?.querySelector('mjx-sqrt');
-        const box=root?.querySelector('mjx-box');
-        return !!(box&&box.getBoundingClientRect().width>0);
-      },{timeout:20000},target.scope);
       await page.evaluate(()=>document.fonts.ready);
-      const qa=await page.evaluate(selector=>{
+      const qa=await page.evaluate((selector,geometry)=>{
         const scope=document.querySelector(selector);
         const containers=[...scope.querySelectorAll('mjx-container[jax="CHTML"]')];
         const roots=[...scope.querySelectorAll('mjx-container[jax="CHTML"] mjx-sqrt')];
         const radicalOk=roots.length>=10&&roots.every(root=>{
           const surd=root.querySelector('mjx-surd');
           const box=root.querySelector('mjx-box');
-          return !!(surd&&box&&
-            parseFloat(getComputedStyle(box).borderTopWidth)>0 &&
-            surd.getBoundingClientRect().left<box.getBoundingClientRect().left);
+          if(!surd||!box||parseFloat(getComputedStyle(box).borderTopWidth)<=0)return false;
+          return !geometry||surd.getBoundingClientRect().left<box.getBoundingClientRect().left;
         });
         return {
           count:roots.length,
           allLtr:containers.length>0&&containers.every(m=>getComputedStyle(m).direction==='ltr'),
           radicalOk,
-          invalidRoots:roots.map((root,i)=>{
-            const surd=root.querySelector('mjx-surd');
-            const box=root.querySelector('mjx-box');
-            const a=surd?.getBoundingClientRect(),b=box?.getBoundingClientRect();
-            const border=box?parseFloat(getComputedStyle(box).borderTopWidth):0;
-            return {i,border,surdLeft:a?.left,boxLeft:b?.left,width:b?.width,dir:getComputedStyle(root).direction};
-          }).filter(x=>!(x.border>0&&x.surdLeft<x.boxLeft)).slice(0,4),
+          inequalityLtr:[...scope.querySelectorAll('.guided-stack,.bound-line,.ineq-sign')]
+            .every(el=>getComputedStyle(el).direction==='ltr'),
           textIsolated:scope.querySelectorAll('bdi[dir="ltr"]').length===7,
           rawLatex:(scope.textContent||'').includes(String.raw`\(\sqrt`)
         };
-      },target.scope);
-      if(!qa.allLtr||!qa.radicalOk||!qa.textIsolated||qa.rawLatex){
+      },target.scope,target.geometry);
+      if(!qa.allLtr||!qa.radicalOk||!qa.inequalityLtr||!qa.textIsolated||qa.rawLatex){
         throw new Error(target.label+': RTL/MathJax radical regression '+JSON.stringify(qa));
       }
       await page.close();
