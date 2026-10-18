@@ -99,7 +99,7 @@ async function boot(){
   if('scrollRestoration' in history)history.scrollRestoration='manual';
   window.scrollTo({top:0,behavior:'instant'});
   manifest=await fetchJson('WORKBOOK_MANIFEST.json',true);pages=Array.isArray(manifest.pages)?manifest.pages:[];if(!pages.length)throw new Error('המניפסט אינו מכיל דפים');if(Number(manifest.totalPages)&&Number(manifest.totalPages)!==pages.length)throw new Error('מספר הדפים במניפסט אינו תואם');const direct=location.hash.match(/^#(?:page=)?([1-9]\d*)$/);
-idx=Math.max(0,Math.min(pages.length-1,(direct?Number(direct[1]):1)-1));buildShells();setupObservers();updateCurrent(idx,false);syncStatus.textContent='טוען את העמוד הראשון…';await loadPage(idx);syncStatus.textContent='מוכן · שאר הדפים נטענים לפי הגלילה';if(idx>0)setTimeout(()=>app.querySelector('.scroll-sheet[data-index="'+idx+'"]')?.scrollIntoView({behavior:'instant',block:'start'}),20);warmAround(idx);
+idx=Math.max(0,Math.min(pages.length-1,(direct?Number(direct[1]):1)-1));buildShells();updateCurrent(idx,false);syncStatus.textContent='טוען את העמוד הראשון…';await loadPage(idx);syncStatus.textContent='מוכן · שאר הדפים נטענים לפי הגלילה';if(idx>0){await new Promise(resolve=>requestAnimationFrame(resolve));app.querySelector('.scroll-sheet[data-index="'+idx+'"]')?.scrollIntoView({behavior:'instant',block:'start'})}setupObservers();warmAround(idx);
 const printMode=new URL(location.href).searchParams.get('printMode');
 if(printMode==='color'||printMode==='mono'){
   const url=new URL(location.href);url.searchParams.delete('printMode');
