@@ -49,6 +49,32 @@ const cases=[
       if(state.navCounter!==1||state.previous!==1||state.next!==1||state.secondaryCounterCount!==0||state.chapterCount!==7||!/^(?:עמוד )?[0-9]+ \/ 53$/.test(state.counterText)){
         throw new Error(t.name + ': page counter duplicated or contents not complete: ' + JSON.stringify(state));
       }
+      // Contract: chapter contents on physical right, all action buttons grouped left.
+      // Top of the first HTML sheet is visible below (never hidden by) sticky chrome.
+      const layout=await page.evaluate(()=>{
+        const toc=document.querySelector('#tocToggle')?.getBoundingClientRect();
+        const actions=document.querySelector('#readerTools')?.getBoundingClientRect();
+        const print=document.querySelector('#printOptionsBtn')?.getBoundingClientRect();
+        const shell=document.querySelector('.toolbar-shell')?.getBoundingClientRect();
+        const top=document.querySelector('body>.top')?.getBoundingClientRect();
+        const first=document.querySelector('.scroll-sheet[data-index="0"]')?.getBoundingClientRect();
+        return {toc:toc&&{left:toc.left,right:toc.right},
+          actions:actions&&{left:actions.left,right:actions.right,top:actions.top},
+          print:print&&{left:print.left,right:print.right},
+          shell:shell&&{left:shell.left,right:shell.right},
+          first:first&&{top:first.top},
+          headerBottom:top?.bottom,
+          scrollY:window.scrollY,
+          restoration:history.scrollRestoration,
+          smooth:getComputedStyle(document.documentElement).scrollBehavior};
+      });
+      if(!layout.toc||!layout.actions||!layout.print||layout.restoration!=='manual'||layout.smooth!=='auto'||
+         layout.toc.right < layout.shell.right-100||
+         layout.actions.left>layout.toc.left||layout.scrollY>4||
+         layout.first.top<layout.headerBottom-12){
+        throw new Error(t.name+': bad right TOC / left actions / top-of-page contract: '+JSON.stringify(layout));
+      }
+
       // The owner's 18/10 rule: print theme is disclosed only AFTER pressing Print.
       const printUi=await page.evaluate(()=>{
         const main=document.getElementById('printOptionsBtn');
