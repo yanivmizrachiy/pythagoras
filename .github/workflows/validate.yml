@@ -45,6 +45,33 @@ jobs:
           CHROME_BIN="$(command -v google-chrome || command -v chromium || command -v chromium-browser)"
           test -n "$CHROME_BIN"
           CHROME_BIN="$CHROME_BIN" npm run smoke
+      - name: Rebuild canonical PDF in CI without publishing
+        if: github.event_name == 'pull_request'
+        run: |
+          node tools/dev-server.js >/tmp/pythagoras-pdf-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          for i in {1..60}; do
+            curl -fsS http://127.0.0.1:8080/ >/dev/null && break
+            sleep 0.5
+          done
+          CHROME_BIN="$(command -v google-chrome || command -v chromium || command -v chromium-browser)"
+          test -n "$CHROME_BIN"
+          CHROME_BIN="$CHROME_BIN" npm run pdf:build
+          python - <<'PY'
+          from pypdf import PdfReader
+          r=PdfReader("pythagoras-workbook.pdf")
+          assert len(r.pages)==53, f"reconstructed PDF should contain 53 pages; got {len(r.pages)}"
+          print("PASS reconstructed PDF: 53 pages")
+          PY
+      - name: Preserve rebuilt PDF for human comparison, not production
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: pythagoras-review-pdf
+          path: pythagoras-workbook.pdf
+          retention-days: 7
+          if-no-files-found: error
 
   sync-pages:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
