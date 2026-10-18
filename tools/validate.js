@@ -144,13 +144,13 @@ for(const needle of [
   '.pyt-live .pyt-fig-svg .pyt-side',
   'unicode-bidi: isolate'
 ]) if(!pytCss.includes(needle))fail('shared Pythagoras rendering guard missing: '+needle);
-if(count(pytCss,/\\.sqrt-cell\\s*\\{/gu)!==1)fail('square-root geometry must have exactly one canonical definition');
+if(count(pytCss,/\.sqrt-cell\s*\{/gu)!==1)fail('square-root geometry must have exactly one canonical definition');
 if(/\\.pyt-foundation\\s+\\.sqrt-cell/u.test(read('styles/topics/pythagoras-foundations.css')))fail('legacy foundations CSS still overrides canonical square roots');
 const radicalPages=[647,648,649,650,653];
 for(const n of radicalPages){
   const html=read('עמוד-'+n+'.html');
   const cells=count(html,/class=["']sqrt-cell["']/gu);
-  const complete=count(html,/<span class="sqrt-cell"><span class="radic">√<\\/span><span class="(?:root-line|root-work-fill)"><\\/span><\\/span>/gu);
+  const complete=count(html,/<span class="sqrt-cell"><span class="radic">√<\/span><span class="(?:root-line|root-work-fill)"><\/span><\/span>/gu);
   if(!cells||cells!==complete)fail('page '+n+': missing/fragmented canonical radical; found '+complete+'/'+cells);
   const css=read('styles/pages/עמוד-'+n+'.css');
   if(new RegExp('\\.page-'+n+'\\s+\\.root-(?:line|work-fill)\\s*\\{[^}]*\\b(?:border|height|font-size)\\s*:','u').test(css)){
