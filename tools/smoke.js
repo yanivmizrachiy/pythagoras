@@ -102,7 +102,12 @@ const cases=[
       // The reader virtualizes off-screen sheets via content-visibility:auto:
       // their DOM exists but getBoundingClientRect() can be zero until visible.
       await page.evaluate(selector=>{
-        document.querySelector(selector)?.scrollIntoView({block:'center',behavior:'instant'});
+        const scope=document.querySelector(selector);
+        // Only for this browser assertion: turn off off-screen layout skipping
+        // on the reader sheet so every root has measurable geometry.
+        const sheet=scope?.closest('.scroll-sheet');
+        if(sheet)sheet.style.contentVisibility='visible';
+        scope?.scrollIntoView({block:'center',behavior:'instant'});
       },target.scope);
       await page.waitForFunction(selector=>{
         const root=document.querySelector(selector)?.querySelector('mjx-sqrt');
