@@ -83,36 +83,6 @@
 .pyt-foundation .worked-example.compact .solution-step, .pyt-foundation .worked-example.compact .final-answer { font-size: 18px; }
 @media print { .pyt-foundation .worked-example, .pyt-foundation .equation-practice-card { break-inside: avoid; } }
 
-/* סימן שורש שלם: √ עם קו עליון (vinculum) מעל מקום הרדיקנד. פותר גם את הגלישה של
-   מקום־הכתיבה לשורה נפרדת: √ והרדיקנד יושבים בתא אחד ונקראים כשורש אחד (הוראת יניב). */
-.pyt-foundation .sqrt-cell {
-  display: inline-flex;
-  align-items: flex-start;
-  min-width: 0;
-  direction: ltr;
-  unicode-bidi: isolate;
-}
-.pyt-foundation .sqrt-cell > .radic {
-  font-size: 1.3em;
-  line-height: 0.86;
-  padding-inline-end: 1px;
-}
-.pyt-foundation .sqrt-cell > .root-line,
-.pyt-foundation .sqrt-cell > .root-work-fill {
-  border-top: 1.35px solid #334155;
-  border-bottom: 0;
-  margin-top: 2px;
-  align-self: flex-start;
-}
-.pyt-foundation .sqrt-cell > .radicand {
-  border-top: 1.35px solid currentColor;
-  margin-top: 2px;
-  padding: 1px 4px 0;
-  line-height: 1;
-}
-@media print {
-  .pyt-foundation .sqrt-cell > .root-line,
-  .pyt-foundation .sqrt-cell > .root-work-fill { border-top-color: #334155; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-}
+/* גאומטריית שורש מוגדרת פעם אחת בלבד ב-pythagoras.css המיובא בראש קובץ זה. */
 
 }

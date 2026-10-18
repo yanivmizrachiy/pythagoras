@@ -44,6 +44,29 @@ for(const [i,p] of pages.entries()){
   for(const m of mixedSvg)if(!/\bdirection\s*=\s*["']ltr["']/iu.test(m[1]))fail(`${p.file}: SVG unit label must declare direction="ltr": ${m[2].trim()}`);
 }
 
+// All stylesheet dependencies must resolve before any multi-page print/export starts.
+// A single dangling @import previously broke page 6 and aborted the entire 53-page PDF.
+const cssDirectories=['styles/pages','styles/topics','styles','vendor/fonts'];
+const cssSeen=new Set();
+for(const directory of cssDirectories){
+  const abs=path.join(root,directory);
+  if(!fs.existsSync(abs))continue;
+  for(const file of fs.readdirSync(abs)){
+    if(!file.endsWith('.css'))continue;
+    const rel=path.join(directory,file);
+    if(cssSeen.has(rel))continue;
+    cssSeen.add(rel);
+    for(const imp of read(rel).matchAll(/@import\s+(?:url\(\s*)?["']([^"']+)["']\s*\)?/gu)){
+      const target=imp[1].split(/[?#]/u)[0];
+      if(/^(?:data:|https?:)/iu.test(target))continue;
+      const resolved=path.resolve(root,path.dirname(rel),target);
+      if(!resolved.startsWith(root+path.sep)||!fs.existsSync(resolved)){
+        fail(rel+': dangling stylesheet import '+imp[1]);
+      }
+    }
+  }
+}
+
 const diskHtml=fs.readdirSync(root).filter(x=>/^עמוד-\d+\.html$/u.test(x)).sort();
 const diskCss=fs.readdirSync(path.join(root,'styles','pages')).filter(x=>/^עמוד-\d+\.css$/u.test(x)).sort();
 const expectedHtml=[...files].sort();
@@ -132,17 +155,34 @@ if(count(p20,/class=["']choice-card["']/gu)!==4)fail('עמוד-650.html: expecte
 if(count(p20,/class=["']choice-context["']/gu)!==4)fail('עמוד-650.html: every +/− choice must explicitly identify the hypotenuse');
 if(!p20.includes('x הוא היתר')||!p20.includes('25 הוא היתר'))fail('עמוד-650.html: +/− choices remain semantically ambiguous');
 
-// Shared rendering guard must own root geometry and RTL SVG labels centrally.
+// One canonical radical owner; text matching alone previously missed visible failures.
 const pytCss=read('styles/topics/pythagoras.css');
 for(const needle of [
-  '.pyt-foundation .sqrt-cell',
-  '.sqrt-cell > .radic',
+  '.sqrt-cell {',
+  '.sqrt-cell > .radic::before',
+  'data:image/svg+xml,',
   '.sqrt-cell > :is(.root-line, .root-work-fill)',
   'border-top: 1.35px solid #334155 !important',
   'border-bottom: 1.1px solid #334155 !important',
   '.pyt-live .pyt-fig-svg .pyt-side',
   'unicode-bidi: isolate'
 ]) if(!pytCss.includes(needle))fail('shared Pythagoras rendering guard missing: '+needle);
+if(count(pytCss,/\.sqrt-cell\s*\{/gu)!==1)fail('square-root geometry must have exactly one canonical definition');
+if(/\\.pyt-foundation\\s+\\.sqrt-cell/u.test(read('styles/topics/pythagoras-foundations.css')))fail('legacy foundations CSS still overrides canonical square roots');
+const radicalPages=[647,648,649,650,653];
+for(const n of radicalPages){
+  const html=read('עמוד-'+n+'.html');
+  const cells=count(html,/class=["']sqrt-cell["']/gu);
+  const complete=count(html,/<span class="sqrt-cell"><span class="radic">√<\/span><span class="(?:root-line|root-work-fill)(?: [^"]+)?"><\/span><\/span>/gu);
+  if(!cells||cells!==complete)fail('page '+n+': missing/fragmented canonical radical; found '+complete+'/'+cells);
+  const css=read('styles/pages/עמוד-'+n+'.css');
+  if(new RegExp('\\.page-'+n+'\\s+\\.root-(?:line|work-fill)\\s*\\{[^}]*\\b(?:border|height|font-size)\\s*:','u').test(css)){
+    fail('page '+n+': competing radical geometry must live only in shared CSS');
+  }
+  if(new RegExp('\\.page-'+n+'\\s+\\.root-(?:line|work-fill)\\s*,','u').test(css)){
+    fail('page '+n+': root geometry mixed with ordinary handwriting lines');
+  }
+}
 
 // RTL MathJax regression: math stays LTR even inside Hebrew text on every page.
 const rootCss=read('styles/topics/pythagoras.css');
