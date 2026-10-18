@@ -38,7 +38,6 @@ body>#reviewBar{position:sticky;top:0;z-index:70;width:100%;border-bottom:1px so
 .sheet-slot{display:block;position:relative;max-width:calc(100vw - 14px);overflow:visible;border-radius:2px;background:#fff;box-shadow:0 0 0 1px rgba(40,62,92,.08),0 12px 28px rgba(24,55,85,.12)}
 .native-sheet{display:block;position:absolute;top:0;left:0;width:210mm;height:297mm;transform-origin:top left;overflow:hidden;background:white}
 .native-sheet .a4-page{width:210mm!important;height:297mm!important;margin:0!important;box-shadow:none!important;border:0!important;page-break-after:initial!important}
-.sheet-caption{display:block;text-align:center;color:#5d7187;font-size:11px;padding:5px 0;background:#f7fafd;position:absolute;bottom:-22px;inset-inline:0;height:22px;white-space:nowrap}
 .loading-paper{position:absolute;inset:14%;display:flex;align-items:center;justify-content:center;font-size:12px;color:#7b8898;font-weight:650}
 #toc{display:none;position:fixed;top:min(120px,20vh);inset-inline-start:12px;z-index:85;width:min(310px,calc(100vw - 25px));max-height:75dvh;overflow-y:auto;padding:15px;background:#fff;border:1px solid var(--control-border);border-radius:13px;box-shadow:0 15px 40px rgba(19,43,70,.15)}
 #toc.open{display:block}
@@ -49,17 +48,44 @@ body>#reviewBar{position:sticky;top:0;z-index:70;width:100%;border-bottom:1px so
 #showAll{font:inherit;font-size:12px;color:#44637f;text-align:center;width:100%;margin-top:12px}
 #reviewError{display:none;max-width:700px;margin:20px auto;padding:20px;background:#fff5f5;color:#963b3b;border:1px solid #ecc3c3;border-radius:10px;font-size:14px;line-height:1.8}
 #reviewError.show{display:block}
-@media(max-width:560px){#reviewBar .review-width{padding:8px;gap:8px}#actions{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}#actions .action{padding:9px 6px;text-align:center;font-size:12px}#pages{gap:18px}.review-sub{display:none}.sheet-caption{font-size:9px}}
+@media(max-width:560px){#reviewBar .review-width{padding:8px;gap:8px}#actions{width:100%;display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}#actions .action{padding:9px 6px;text-align:center;font-size:12px}#pages{gap:18px}.review-sub{display:none}}
 @media print{
  @page{size:A4;margin:0}
  html,html body{background:#fff!important;display:block!important;margin:0!important;overflow:visible!important}
- #reviewBar,#status,#toc,#reviewError,.sheet-caption{display:none!important}
+ #reviewBar,#status,#toc,#reviewError,#pageTransition{display:none!important}
  #pages{display:block!important;padding:0!important;gap:0!important;margin:0!important}
  .sheet-slot{height:297mm!important;width:210mm!important;margin:0!important;max-width:none!important;box-shadow:none!important;page-break-after:always!important;break-after:page!important;overflow:visible!important}
  .native-sheet{transform:none!important;height:297mm!important;width:210mm!important;position:static!important}
  .native-sheet .a4-page{overflow:hidden!important;box-shadow:none!important}
  .sheet-slot:last-child{page-break-after:auto!important;break-after:auto!important}
 }
+
+/* Minimal navy chapter separators: purely between sheets, never in print. */
+.sheet-slot:not(:last-child)::after{content:"";position:absolute;left:11%;right:11%;bottom:-15px;height:2px;border-radius:999px;background:#173c61;box-shadow:0 1px 3px rgba(18,50,82,.10);pointer-events:none}
+#toc{width:min(430px,calc(100vw - 24px));top:min(95px,12vh);max-height:82dvh;padding:24px 18px 17px;border:1px solid #dfe7f0;box-shadow:0 22px 65px rgba(12,35,63,.19)}
+#toc .toc-kicker{font-size:11px;letter-spacing:.09em;font-weight:700;color:#778da3;margin-bottom:4px}
+#toc strong{font-size:22px;font-weight:800;color:#153454;margin:0 0 4px}
+#toc .toc-description{margin:0 0 17px;font-size:12px;line-height:1.6;color:#65768b}
+#tocGrid{display:flex;flex-direction:column;gap:9px}
+.toc-chapter{border:1px solid #e2eaf2;border-radius:11px;background:#fff;overflow:hidden;transition:border-color .15s,box-shadow .15s}
+.toc-chapter:hover{border-color:#abc3d9;box-shadow:0 5px 16px rgba(20,53,86,.05)}
+.toc-chapter-btn{font:inherit;text-align:start;color:#1b3856;background:transparent;border:0;width:100%;min-height:60px;padding:11px 13px;display:grid;grid-template-columns:30px 1fr;column-gap:11px;align-items:center;cursor:pointer}
+.toc-chapter-btn:focus-visible,.toc-page-btn:focus-visible,.toc-top-btn:focus-visible{outline:3px solid #84a9cb;outline-offset:-3px}
+.toc-chapter-index{grid-row:span 2;font-size:14px;font-weight:600;color:#91a4b7;align-self:center;direction:ltr}
+.toc-chapter-heading{font-size:13px;font-weight:750;line-height:1.5}
+.toc-chapter-range{font-size:11px;color:#74859a;margin-top:2px}
+.toc-chapter-btn[aria-current="location"]{background:#f0f5fa}
+.toc-subpages{border-top:1px solid #edf1f5;background:#fafbfd;padding:0 13px}
+.toc-subpages summary{padding:10px 2px;color:#60768d;font-size:11px;font-weight:650;cursor:pointer}
+.toc-page-grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;padding:1px 0 12px}
+.toc-page-btn{font:inherit;border:1px solid #dbe4ed;border-radius:7px;background:white;color:#304e6a;cursor:pointer;min-height:34px;font-size:11px}
+.toc-page-btn:hover,.toc-page-btn[aria-current="page"]{background:#173c61;color:#fff;border-color:#173c61}
+.toc-top-btn{font:inherit;width:100%;border:0;background:transparent;color:#416281;text-decoration:underline;text-underline-offset:4px;margin-top:15px;padding:10px;cursor:pointer;font-size:12px}
+#pageTransition{position:fixed;inset:0;z-index:110;background:linear-gradient(145deg,#f7f9fc 0%,#edf3f8 100%);opacity:0;pointer-events:none;transition:opacity 260ms cubic-bezier(.4,0,.2,1)}
+body.nav-transition #pageTransition{opacity:1;pointer-events:auto}
+@media(max-width:560px){#toc{top:7vh;max-height:86dvh;padding:17px 12px}.toc-chapter-btn{min-height:56px}.sheet-slot:not(:last-child)::after{left:9%;right:9%}}
+@media(prefers-reduced-motion:reduce){#pageTransition{transition:none!important}}
+@media print{.sheet-slot::after{display:none!important}#pageTransition{display:none!important}}
 </style>
 </head>
 <body>
@@ -82,7 +108,8 @@ body>#reviewBar{position:sticky;top:0;z-index:70;width:100%;border-bottom:1px so
  </div>
  <div id="notice">תצוגת בדיקה מבודדת · טעינה מהמקור בלבד · האתר המחוזי לא שונה</div>
 </header>
-<aside id="toc" aria-label="ניווט לעמודים"><strong>בחירת עמוד</strong><div id="tocGrid"></div><button id="showAll" type="button" class="action">הצגת כל הדפים בגלילה</button></aside>
+<aside id="toc" aria-label="תוכן עניינים לפי פרקים"><div class="toc-kicker">תוכן עניינים</div><strong>פרקי החוברת</strong><p class="toc-description">בחרו פרק למעבר שקט, או פתחו את רשימת העמודים בפרק.</p><nav id="tocGrid" aria-label="פרקי משפט פיתגורס"></nav><button id="showAll" type="button" class="toc-top-btn">חזרה לתחילת החוברת</button></aside>
+<div id="pageTransition" aria-hidden="true"></div>
 <p id="status" role="status">מכין את החוברת המקורית…</p>
 <div id="reviewError" role="alert"></div>
 <main id="pages" aria-label="חוברת פיתגורס — 53 דפי A4"></main>
@@ -99,7 +126,7 @@ body>#reviewBar{position:sticky;top:0;z-index:70;width:100%;border-bottom:1px so
  const showError=e=>{dom.error.classList.add('show');dom.error.textContent='הטעינה או ההורדה נכשלה: '+String(e?.message||e)+'. אם פתחת את הקובץ ללא חיבור אינטרנט, יש להתחבר ולפתוח מחדש. המקור: '+SRC;setStatus('נדרשת בדיקה · '+loaded+' דפים נטענו')};
  async function getText(file){let error;for(const u of [RAW+file,SRC+file]){try{const r=await fetch(u,{mode:'cors',credentials:'omit'});if(!r.ok)throw new Error('HTTP '+r.status+' '+file);return await r.text()}catch(e){error=e}}throw error||new Error('נכשל: '+file)}
  function scaleAll(){const width=Math.max(1,Math.min(document.documentElement.clientWidth-18,SHEET_W));const sc=width/SHEET_W;slots.forEach(({slot,inner})=>{slot.style.width=(SHEET_W*sc)+'px';slot.style.height=(SHEET_H*sc)+'px';inner.style.transform=`scale(${sc})`})}
- function makeSlots(){dom.pages.replaceChildren();slots=manifest.pages.map((p,i)=>{const slot=el('section','sheet-slot'),inner=el('div','native-sheet'),placeholder=el('div','loading-paper');slot.id='a4-'+(i+1);slot.dataset.page=String(i+1);slot.setAttribute('aria-label','עמוד '+(i+1)+' מתוך '+manifest.pages.length);placeholder.textContent='טוען את עמוד '+(i+1)+'…';inner.append(placeholder);slot.append(inner);const caption=el('span','sheet-caption');caption.textContent='עמוד '+(i+1)+' מתוך '+manifest.pages.length;slot.append(caption);dom.pages.append(slot);return {slot,inner,p,page:i+1}});scaleAll()}
+ function makeSlots(){dom.pages.replaceChildren();slots=manifest.pages.map((p,i)=>{const slot=el('section','sheet-slot'),inner=el('div','native-sheet'),placeholder=el('div','loading-paper');slot.id='a4-'+(i+1);slot.dataset.page=String(i+1);slot.setAttribute('aria-label','עמוד '+(i+1)+' מתוך '+manifest.pages.length);placeholder.textContent='טוען את עמוד '+(i+1)+'…';inner.append(placeholder);slot.append(inner);dom.pages.append(slot);return {slot,inner,p,page:i+1}});scaleAll()}
  const stylesheetCache=new Map();
  async function installStylesFor(pageFile){const path='styles/pages/'+pageFile.replace(/\.html$/i,'.css');if(stylesheetCache.has(path))return stylesheetCache.get(path);
   const task=new Promise((resolve,reject)=>{const l=document.createElement('link');l.rel='stylesheet';l.href=SRC+path;l.onload=resolve;l.onerror=()=>reject(new Error('העיצוב לא נטען: '+path));document.head.append(l)});
@@ -117,16 +144,73 @@ body>#reviewBar{position:sticky;top:0;z-index:70;width:100%;border-bottom:1px so
  async function loadAll(){const jobs=slots.map(s=>s.page);for(let i=0;i<jobs.length;i+=5){await Promise.all(jobs.slice(i,i+5).map(loadPage))}await mathQueue}
  async function boot(){const data=JSON.parse(await getText('WORKBOOK_MANIFEST.json'));if(!Array.isArray(data.pages)||data.pages.length!==PAGES_EXPECTED||data.totalPages!==PAGES_EXPECTED)throw new Error('חוברת המקור אינה כוללת 53 עמודים — התצוגה נעצרה למניעת השמטות');
   for(let i=0;i<data.pages.length;i++){const p=data.pages[i];if(p.workbookNumber!==i+1||!/^עמוד-\d+\.html$/.test(p.file))throw new Error('מספור או זהות שגויים בעמוד '+(i+1))}
-  manifest=data;makeSlots();dom.grid.replaceChildren();slots.forEach((s,i)=>{const b=el('button','action');b.type='button';b.textContent=String(i+1);b.setAttribute('aria-label','מעבר לעמוד '+(i+1));b.addEventListener('click',()=>{dom.grid.querySelectorAll('[aria-current]').forEach(x=>x.removeAttribute('aria-current'));b.setAttribute('aria-current','page');dom.toc.classList.remove('open');document.querySelector('#tocBtn').setAttribute('aria-expanded','false');s.slot.scrollIntoView({behavior:'smooth',block:'start'});loadPage(i+1).catch(()=>{})});dom.grid.append(b)});
+  manifest=data;makeSlots();buildContents();
   observer=new IntersectionObserver(entries=>{for(const e of entries){if(!e.isIntersecting)continue;const n=Number(e.target.dataset.page);for(let d=-1;d<=2;d++)loadPage(n+d).catch(()=>{})}},{rootMargin:'1200px 0px',threshold:0});slots.forEach(s=>observer.observe(s.slot));
   await loadPage(1);setStatus('חוברת מקורית — 53 דפי HTML. גרסת מקור '+REVIEW_SHA.slice(0,8)+'; הדפים הנוספים נטענים בזמן הגלילה.');
+ }
+ // Editorial chapter groupings are mapped only onto the canonical manifest order.
+ // Page text, drawings and formulas are never modified.
+ const CHAPTERS=[
+  {title:'מושגים בסיסיים ומשולש ישר־זווית',start:1,end:5},
+  {title:'ריבועים, שורשים ומשוואות',start:6,end:12},
+  {title:'מגלים ומנסחים את משפט פיתגורס',start:13,end:17},
+  {title:'חישוב היתר והניצב',start:18,end:20},
+  {title:'תרגול משפט פיתגורס',start:21,end:44},
+  {title:'שאלות מתוך תוכנית הלימודים',start:45,end:47},
+  {title:'יישומים בגאומטריה ובמערכת צירים',start:48,end:53}
+ ];
+ const delay=ms=>new Promise(resolve=>setTimeout(resolve,ms));
+ let jumpBusy=false;
+ function closeContents(){dom.toc.classList.remove('open');document.querySelector('#tocBtn').setAttribute('aria-expanded','false')}
+ function buildContents(){
+  dom.grid.replaceChildren();
+  CHAPTERS.forEach((ch,index)=>{
+   const section=el('section','toc-chapter');
+   const btn=el('button','toc-chapter-btn');btn.type='button';btn.dataset.chapter=String(index);
+   const num=el('span','toc-chapter-index');num.textContent=String(index+1).padStart(2,'0');
+   const heading=el('span','toc-chapter-heading');heading.textContent=ch.title;
+   const range=el('span','toc-chapter-range');range.textContent='עמודים '+ch.start+'–'+ch.end;
+   btn.append(num,heading,range);btn.addEventListener('click',()=>navigateToPage(ch.start));
+   const details=el('details','toc-subpages');
+   const summary=el('summary');summary.textContent='מעבר לעמוד מסוים בפרק';
+   const grid=el('div','toc-page-grid');
+   for(let n=ch.start;n<=ch.end;n++){
+    const pageBtn=el('button','toc-page-btn');pageBtn.type='button';pageBtn.textContent=String(n);
+    pageBtn.dataset.pageTarget=String(n);pageBtn.setAttribute('aria-label','מעבר לעמוד '+n);
+    pageBtn.addEventListener('click',()=>navigateToPage(n));grid.append(pageBtn);
+   }
+   details.append(summary,grid);section.append(btn,details);dom.grid.append(section);
+  });
+ }
+ async function navigateToPage(n){
+  if(jumpBusy||!Number.isInteger(n)||!slots[n-1])return;
+  jumpBusy=true;
+  const target=slots[n-1];
+  closeContents();
+  try{
+   setStatus('מכין את עמוד '+n+'…');
+   await loadPage(n);
+   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+   if(!reduced){document.body.classList.add('nav-transition');await delay(270)}
+   const top=Math.max(0,target.slot.getBoundingClientRect().top+window.scrollY-document.querySelector('#reviewBar').offsetHeight-16);
+   // Instant jump is fully hidden behind the opacity curtain; no moving document.
+   window.scrollTo({top,behavior:'instant'});
+   dom.grid.querySelectorAll('[aria-current]').forEach(node=>node.removeAttribute('aria-current'));
+   const current=dom.grid.querySelector('[data-page-target="'+n+'"]');
+   if(current)current.setAttribute('aria-current','page');
+   const chapterIndex=CHAPTERS.findIndex(ch=>n>=ch.start&&n<=ch.end);
+   const chapter=dom.grid.querySelector('[data-chapter="'+chapterIndex+'"]');
+   if(chapter)chapter.setAttribute('aria-current','location');
+   if(!reduced){await delay(75);document.body.classList.remove('nav-transition');await delay(310)}
+   setStatus('עמוד '+n+' פתוח · ניווט בין פרקים ללא גלילה מונפשת');
+  }catch(e){showError(e)}finally{document.body.classList.remove('nav-transition');jumpBusy=false}
  }
  const toggle=(node,btn)=>{const open=node.classList.toggle('open');btn.setAttribute('aria-expanded',String(open));return open};
  document.querySelector('#tocBtn').addEventListener('click',()=>{document.querySelector('#downloadOptions').classList.remove('open');document.querySelector('#downloadBtn').setAttribute('aria-expanded','false');toggle(dom.toc,document.querySelector('#tocBtn'))});
  document.querySelector('#downloadBtn').addEventListener('click',()=>{dom.toc.classList.remove('open');document.querySelector('#tocBtn').setAttribute('aria-expanded','false');toggle(document.querySelector('#downloadOptions'),document.querySelector('#downloadBtn'))});
  document.addEventListener('click',e=>{if(!e.target.closest('#actions #downloadOptions')&&!e.target.closest('#downloadBtn')){document.querySelector('#downloadOptions').classList.remove('open');document.querySelector('#downloadBtn').setAttribute('aria-expanded','false')}if(!e.target.closest('#toc')&&!e.target.closest('#tocBtn')){dom.toc.classList.remove('open');document.querySelector('#tocBtn').setAttribute('aria-expanded','false')}});
  document.addEventListener('keydown',e=>{if(e.key==='Escape'){dom.toc.classList.remove('open');document.querySelector('#downloadOptions').classList.remove('open');document.querySelector('#tocBtn').setAttribute('aria-expanded','false');document.querySelector('#downloadBtn').setAttribute('aria-expanded','false')}});
- document.querySelector('#showAll').addEventListener('click',()=>{dom.toc.classList.remove('open');document.querySelector('#tocBtn').setAttribute('aria-expanded','false');window.scrollTo({top:0,behavior:'smooth'})});
+ document.querySelector('#showAll').addEventListener('click',()=>{navigateToPage(1)});
  window.addEventListener('resize',()=>{cancelAnimationFrame(resizeRaf);resizeRaf=requestAnimationFrame(scaleAll)},{passive:true});
  document.querySelector('#printBtn').addEventListener('click',async e=>{if(!manifest)return;e.target.disabled=true;try{setStatus('מכין את כל 53 דפי החוברת להדפסה…');await loadAll();window.print()}catch(err){showError(err)}finally{e.target.disabled=false}});
  const pdfUrl=SRC+'pythagoras-workbook.pdf';
