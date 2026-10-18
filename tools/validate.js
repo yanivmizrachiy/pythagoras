@@ -153,7 +153,7 @@ if(!rootCss.includes('.a4-page mjx-container[jax="CHTML"]')||
 }
 const approximation=read('עמוד-642.html');
 for(const n of [10,20,30,50,70]){
-  if(!approximation.includes('\\\\sqrt{'+n+'}'))fail('page 10: missing canonical MathJax sqrt '+n);
+  if(!approximation.includes(String.raw`\sqrt{${n}}`))fail('page 10: missing canonical MathJax sqrt '+n);
 }
 if(count(approximation,/<bdi dir="ltr">/g)!==7){
   fail('page 10: MathJax in Hebrew prose must be explicitly bidi-isolated');
