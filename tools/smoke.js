@@ -109,6 +109,32 @@ const cases=[
       console.log('PASS smoke:',t.name);
     }
 
+    // Direct links are owned only by the canonical index loader. Verify page-top, not just counter text.
+    {
+      const deep=await browser.newPage();
+      try{
+        await deep.setViewport({width:1366,height:900,deviceScaleFactor:1});
+        await deep.goto('http://127.0.0.1:8080/#page=19',{waitUntil:'domcontentloaded',timeout:60000});
+        await deep.waitForFunction(()=>{
+          const c=document.querySelector('#counter')?.textContent||'';
+          const sheet=document.querySelector('.scroll-sheet[data-index="18"]');
+          return /19\s*\/\s*53/.test(c)&&!!sheet?.querySelector('.a4-page');
+        },{timeout:60000});
+        const result=await deep.evaluate(()=>{
+          const header=document.querySelector('body>.top')?.getBoundingClientRect();
+          const sheet=document.querySelector('.scroll-sheet[data-index="18"]')?.getBoundingClientRect();
+          return {hash:location.hash,counter:document.querySelector('#counter')?.textContent,
+            sheetTop:sheet?.top,sheetHeight:sheet?.height,headerBottom:header?.bottom,
+            heading:document.querySelector('.scroll-sheet[data-index="18"] .page-title')?.textContent};
+        });
+        if(result.hash!=='#page=19'||!result.heading||result.sheetHeight<300||
+           result.sheetTop<result.headerBottom-15||result.sheetTop>result.headerBottom+80){
+          throw new Error('page-19 deep-link not aligned at its own top: '+JSON.stringify(result));
+        }
+        console.log('PASS smoke: #page=19 starts at top of its real A4 sheet');
+      }finally{await deep.close()}
+    }
+
     // Screen AND print regression for every worksheet containing writable radicals.
     // Checks actual browser-computed vector source/geometry rather than CSS source strings.
     for(const source of [647,648,649,650,653]){
