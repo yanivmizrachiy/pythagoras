@@ -49,6 +49,9 @@ const cases=[
       if(state.navCounter!==1||state.previous!==1||state.next!==1||state.secondaryCounterCount!==0||state.chapterCount!==7||!/^(?:עמוד )?[0-9]+ \/ 53$/.test(state.counterText)){
         throw new Error(t.name + ': page counter duplicated or contents not complete: ' + JSON.stringify(state));
       }
+      // Normalize the view for this layout assertion; previous device sizes may persist spread mode.
+      await page.evaluate(()=>window.PythagorasReader.setView('scroll',{persist:false}));
+      await page.waitForFunction(()=>document.body.dataset.readerView==='scroll');
       // Contract: chapter contents on physical right, all action buttons grouped left.
       // Top of the first HTML sheet is visible below (never hidden by) sticky chrome.
       const layout=await page.evaluate(()=>{
@@ -62,7 +65,7 @@ const cases=[
           actions:actions&&{left:actions.left,right:actions.right,top:actions.top},
           print:print&&{left:print.left,right:print.right},
           shell:shell&&{left:shell.left,right:shell.right},
-          first:first&&{top:first.top},
+          first:first&&{top:first.top,width:first.width,height:first.height},
           headerBottom:top?.bottom,
           scrollY:window.scrollY,
           restoration:history.scrollRestoration,
