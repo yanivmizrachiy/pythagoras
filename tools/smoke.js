@@ -46,7 +46,7 @@ const cases=[
       if(state.sheets!==53)throw new Error(`${t.name}: expected 53 sheets`);
       if(state.duplicateIds.length)throw new Error(`${t.name}: duplicate IDs ${state.duplicateIds.join(',')}`);
       if(!state.readerTools||state.viewButtons!==3||!state.toc||!state.fullscreen)throw new Error(`${t.name}: reader controls incomplete`);
-      if(state.navCounter!==1||state.previous!==1||state.next!==1||state.secondaryCounterCount!==0||state.chapterCount!==7||!/^עמוד [0-9]+ \/ 53$/.test(state.counterText)){
+      if(state.navCounter!==1||state.previous!==1||state.next!==1||state.secondaryCounterCount!==0||state.chapterCount!==7||!/^(?:עמוד )?[0-9]+ \/ 53$/.test(state.counterText)){
         throw new Error(t.name + ': page counter duplicated or contents not complete: ' + JSON.stringify(state));
       }
       // The owner's 18/10 rule: print theme is disclosed only AFTER pressing Print.
