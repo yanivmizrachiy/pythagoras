@@ -40,7 +40,7 @@ const base=process.env.PYTHAGORAS_BASE_URL||'http://127.0.0.1:8080/';
           direction:c.direction==='ltr',
           topBorder:parseFloat(l.borderTopWidth)>=1,
           bottomBorder:parseFloat(l.borderBottomWidth)>=1,
-          vector:/data:image\\/svg\\+xml/.test(getComputedStyle(radic,'::before').content),
+          vector:/data:image\/svg\+xml/.test(getComputedStyle(radic,'::before').content),
           noDoubleGlyph:parseFloat(r.fontSize)===0,
           touching:lb.left<=rb.right+2&&lb.left>=rb.right-4,
           topAlign:Math.abs((rb.top+1.5)-(lb.top+parseFloat(l.borderTopWidth)))<=3
@@ -66,7 +66,7 @@ const base=process.env.PYTHAGORAS_BASE_URL||'http://127.0.0.1:8080/';
       return {cells:cells.length,invalid:cells.filter(cell=>{
         const r=cell.querySelector('.radic');
         const line=cell.querySelector('.root-line,.root-work-fill');
-        return !r||!line||!/data:image\\/svg\\+xml/.test(getComputedStyle(r,'::before').content)||
+        return !r||!line||!/data:image\/svg\+xml/.test(getComputedStyle(r,'::before').content)||
           parseFloat(getComputedStyle(line).borderTopWidth)<1||parseFloat(getComputedStyle(line).borderBottomWidth)<1;
       }).length};
     });
