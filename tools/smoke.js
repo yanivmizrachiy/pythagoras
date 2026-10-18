@@ -135,6 +135,61 @@ const cases=[
       }finally{await deep.close()}
     }
 
+    // Page 6 regression: all worksheet instructions and math writing cards must fit
+    // within their allocated tracks. The old 220/150px tracks overlapped the next tasks.
+    {
+      const page=await browser.newPage();
+      try{
+        await page.setViewport({width:1100,height:900,deviceScaleFactor:1});
+        await page.goto('http://127.0.0.1:8080/עמוד-639.html',{waitUntil:'networkidle0',timeout:60000});
+        await page.waitForFunction(()=>!!window.MathJax?.typesetPromise,{timeout:30000});
+        await page.evaluate(()=>document.fonts.ready);
+        const modes=['screen','print'];
+        for(const medium of modes){
+          await page.emulateMediaType(medium);
+          const result=await page.evaluate(()=>{
+            const query=selector=>document.querySelector('.page-639 '+selector);
+            const rect=x=>{const r=x?.getBoundingClientRect();return r?{top:r.top,bottom:r.bottom,height:r.height}:null};
+            const selectors=['.page6-summary','.page6-basic-task','.page6-thinking-zone','.page6-calculator-task','.page6-error-task','.page6-pattern-task'];
+            const sections=selectors.map(selector=>({selector,...rect(query(selector))}));
+            const fail=[];
+            for(let i=1;i<sections.length;i++){
+              if(sections[i-1].bottom>sections[i].top+1)fail.push('adjacent sections overlap: '+sections[i-1].selector+' '+sections[i].selector);
+            }
+            const cardSelectors=['.square-card','.hard-square-card','.compare-card','.claim-card','.power-error-card','.pattern-expression'];
+            const overflowing={};
+            for(const cls of cardSelectors){
+              let broken=0;for(const el of document.querySelectorAll('.page-639 '+cls)){
+                if(el.scrollHeight>el.clientHeight+3)broken++;
+              }
+              if(broken)overflowing[cls]=broken;
+            }
+            const pairs=[
+              ['.page6-basic-task .q-main','.page6-basic-grid'],
+              ['.compare-task .q-main','.compare-example'],
+              ['.compare-example','.compare-grid'],
+              ['.misconception-task .q-main','.student-claims'],
+              ['.page6-calculator-task .q-main','.hard-square-grid'],
+              ['.page6-error-task .q-main','.power-error-grid'],
+              ['.page6-pattern-task .q-main','.pattern-row']
+            ];
+            for(const [a,b] of pairs){
+              const ar=rect(query(a)),br=rect(query(b));
+              if(!ar||!br||ar.bottom>br.top+1)fail.push('instructions overlap work: '+a+' '+b+': '+JSON.stringify({ar,br}));
+            }
+            const footer=rect(query('.gz-footer'));
+            const pattern=rect(query('.page6-pattern-task'));
+            if(footer&&pattern&&pattern.bottom>footer.top+1)fail.push('worksheet overlaps footer');
+            return {sections,overflowing,fail};
+          });
+          if(result.fail.length||Object.keys(result.overflowing).length){
+            throw new Error('page 6 / '+medium+' layout overflow: '+JSON.stringify(result));
+          }
+        }
+        console.log('PASS smoke: page 6 cards/instructions fit with no overlap in screen+print');
+      }finally{await page.close()}
+    }
+
     // Screen AND print regression for every worksheet containing writable radicals.
     // Checks actual browser-computed vector source/geometry rather than CSS source strings.
     for(const source of [647,648,649,650,653]){
