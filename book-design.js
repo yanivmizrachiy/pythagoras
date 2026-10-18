@@ -2,7 +2,7 @@
 if(!document.querySelector('link[data-pythagoras-ui-controls]')){
   const l=document.createElement('link');
   l.rel='stylesheet';
-  l.href='ui-controls.css?v=10';
+  l.href='ui-controls.css?v=11';
   l.dataset.pythagorasUiControls='1';
   document.head.append(l);
 }
@@ -62,7 +62,51 @@ function setZoom(value,{persist=true}={}){const nearest=ZOOMS.reduce((a,b)=>Math
 function shiftZoom(dir){const i=Math.max(0,ZOOMS.indexOf(zoom));setZoom(ZOOMS[Math.max(0,Math.min(ZOOMS.length-1,i+dir))])}
 function navigateByControls(target){const total=totalPages();target=Math.max(1,Math.min(total||target,target));const before=currentPage();if(before===target)return;const original=viewMode;if(original!=='scroll')document.body.dataset.readerView='scroll';const sheet=sheetForPage(target);if(sheet){sheet.scrollIntoView({block:'start',behavior:'auto'});sheet.classList.add('reader-target-page')}setTimeout(()=>{const after=currentPage();if(after!==target){const id=target>after?'next':'prev';const btn=document.getElementById(id);let steps=Math.min(60,Math.abs(target-after));const tick=()=>{if(!steps--||currentPage()===target)return finish();btn?.click();requestAnimationFrame(tick)};const finish=()=>{if(original!=='scroll')setView(original,{persist:false});sheet?.classList.remove('reader-target-page');updateProgress()};tick()}else{if(original!=='scroll')setView(original,{persist:false});sheet?.classList.remove('reader-target-page');updateProgress()}},180)}
 function openToc(open=true){const drawer=$('#readerToc');if(!drawer)return;drawer.hidden=!open;document.body.classList.toggle('reader-toc-open',open);$('#tocToggle')?.setAttribute('aria-expanded',String(open));if(open){buildToc();setTimeout(()=>drawer.querySelector('[aria-current="page"]')?.scrollIntoView({block:'nearest'}),20)}}
-function buildToc(){const sheets=[...document.querySelectorAll('#app .scroll-sheet')];if(!sheets.length||sheets.length===tocBuiltFor)return;tocBuiltFor=sheets.length;const list=$('#readerTocList');if(!list)return;list.innerHTML='';sheets.forEach((sheet,i)=>{const b=document.createElement('button');b.type='button';b.className='reader-toc-item';b.dataset.page=String(i+1);b.innerHTML=`<span class="reader-toc-number">${i+1}</span><span class="reader-toc-text">${sheet.dataset.label||`עמוד ${i+1}`}</span>`;b.addEventListener('click',()=>{navigateByControls(i+1);if(matchMedia('(max-width: 899px)').matches)openToc(false)});list.appendChild(b)});updateProgress()}
+const TOC_CHAPTERS=[
+  {label:'מושגים בסיסיים ומשולש ישר־זווית',start:1,end:5},
+  {label:'ריבועים, שורשים ומשוואות',start:6,end:12},
+  {label:'מגלים ומנסחים את משפט פיתגורס',start:13,end:17},
+  {label:'חישוב היתר והניצב',start:18,end:20},
+  {label:'תרגול משפט פיתגורס',start:21,end:44},
+  {label:'שאלות מתוך תוכנית הלימודים',start:45,end:47},
+  {label:'יישומים בגאומטריה ובמערכת צירים',start:48,end:53}
+];
+function navigateFromContents(n){
+ const reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+ const curtain=$('#readerTransition');
+ if(!curtain||reduced){navigateByControls(n);openToc(false);return}
+ curtain.classList.add('is-active');
+ setTimeout(()=>{
+   navigateByControls(n);openToc(false);
+   setTimeout(()=>curtain.classList.remove('is-active'),120);
+ },230);
+}
+function buildToc(){
+ const sheets=[...document.querySelectorAll('#app .scroll-sheet')];
+ if(!sheets.length||sheets.length===tocBuiltFor)return;
+ tocBuiltFor=sheets.length;
+ const list=$('#readerTocList');if(!list)return;
+ list.replaceChildren();
+ TOC_CHAPTERS.forEach(({label,start,end},groupIndex)=>{
+   const section=document.createElement('section');section.className='reader-toc-chapter';
+   const head=document.createElement('button');head.type='button';head.className='reader-toc-chapter-jump';
+   head.textContent=label+' · עמודים '+start+'–'+end;
+   head.addEventListener('click',()=>navigateFromContents(start));
+   const details=document.createElement('details');details.className='reader-toc-chapter-pages';
+   const summary=document.createElement('summary');summary.textContent='בחירת עמוד מתוך הפרק';
+   const inside=document.createElement('div');inside.className='reader-toc-chapter-grid';
+   for(let n=start;n<=end;n++){
+     if(!sheets[n-1])continue;
+     const b=document.createElement('button');b.type='button';b.className='reader-toc-item';
+     b.dataset.page=String(n);b.textContent=String(n);
+     b.setAttribute('aria-label','מעבר לעמוד '+n);
+     b.addEventListener('click',()=>navigateFromContents(n));
+     inside.appendChild(b);
+   }
+   details.append(summary,inside);section.append(head,details);list.append(section);
+ });
+ updateProgress();
+}
 function filterToc(value){const q=(value||'').trim();document.querySelectorAll('.reader-toc-item').forEach(item=>{item.hidden=!!q&&!item.textContent.includes(q)})}
 async function toggleFullscreen(){try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen()}catch{}}
 function injectUi(){const shell=$('.top .toolbar-shell');if(!shell||$('#readerTools'))return;document.body.classList.add('reader-v2');const head=shell.querySelector('.toolbar-head');const nav=head?.querySelector('.nav-group');if(nav&&!$('#tocToggle')){const b=document.createElement('button');b.id='tocToggle';b.type='button';b.className='nav-button reader-icon-button';b.setAttribute('aria-label','תוכן עניינים');b.setAttribute('aria-controls','readerToc');b.setAttribute('aria-expanded','false');b.innerHTML='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 6h11M8 12h11M8 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/></svg>';b.addEventListener('click',()=>openToc($('#readerToc')?.hidden!==false));nav.prepend(b)}const tools=document.createElement('div');tools.id='readerTools';tools.className='reader-tools';tools.innerHTML=`
@@ -75,7 +119,7 @@ function injectUi(){const shell=$('.top .toolbar-shell');if(!shell||$('#readerTo
     <div class="reader-zoom" role="group" aria-label="זום"><button type="button" id="readerZoomOut" aria-label="הקטנת זום">−</button><span id="readerZoomLabel">100%</span><button type="button" id="readerZoomIn" aria-label="הגדלת זום">+</button><button type="button" id="readerZoomFit" aria-label="התאמה למסך">התאם</button></div>
     <button type="button" id="readerFullscreen" class="reader-tool-button" aria-label="מסך מלא"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9V4h5M15 4h5v5M20 15v5h-5M9 20H4v-5"/></svg><span>מסך מלא</span></button>
     <button type="button" id="readerDownload" class="reader-tool-button reader-download" aria-label="הורדת החוברת כ־PDF"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v12m0 0 4-4m-4 4-4-4M5 20h14"/></svg><span>הורדה</span></button>
-    <div id="readerProgressBar" class="reader-progress" aria-hidden="true"></div>`;shell.appendChild(tools);tools.querySelectorAll('[data-reader-view-button]').forEach(btn=>btn.addEventListener('click',()=>setView(btn.dataset.readerViewButton)));$('#readerZoomOut')?.addEventListener('click',()=>shiftZoom(-1));$('#readerZoomIn')?.addEventListener('click',()=>shiftZoom(1));$('#readerZoomFit')?.addEventListener('click',()=>setZoom(1));$('#readerFullscreen')?.addEventListener('click',toggleFullscreen);$('#readerDownload')?.addEventListener('click',()=>document.getElementById('downloadColor')?.click());$('#readerPageJump')?.addEventListener('submit',e=>{e.preventDefault();const n=Number($('#readerPageInput')?.value);if(Number.isFinite(n))navigateByControls(n)});const drawer=document.createElement('aside');drawer.id='readerToc';drawer.className='reader-toc';drawer.hidden=true;drawer.setAttribute('aria-label','תוכן עניינים');drawer.innerHTML=`<div class="reader-toc-head"><div><strong>משפט פיתגורס</strong><span>תוכן עניינים</span></div><button type="button" id="readerTocClose" aria-label="סגירת תוכן עניינים">×</button></div><label class="reader-toc-search"><span class="sr-only">חיפוש עמוד</span><input id="readerTocSearch" type="search" inputmode="search" placeholder="חיפוש מספר עמוד"></label><div id="readerTocList" class="reader-toc-list"></div>`;document.body.appendChild(drawer);$('#readerTocClose')?.addEventListener('click',()=>openToc(false));$('#readerTocSearch')?.addEventListener('input',e=>filterToc(e.target.value))}
+    <div id="readerProgressBar" class="reader-progress" aria-hidden="true"></div>`;shell.appendChild(tools);tools.querySelectorAll('[data-reader-view-button]').forEach(btn=>btn.addEventListener('click',()=>setView(btn.dataset.readerViewButton)));$('#readerZoomOut')?.addEventListener('click',()=>shiftZoom(-1));$('#readerZoomIn')?.addEventListener('click',()=>shiftZoom(1));$('#readerZoomFit')?.addEventListener('click',()=>setZoom(1));$('#readerFullscreen')?.addEventListener('click',toggleFullscreen);$('#readerDownload')?.addEventListener('click',()=>document.getElementById('downloadColor')?.click());$('#readerPageJump')?.addEventListener('submit',e=>{e.preventDefault();const n=Number($('#readerPageInput')?.value);if(Number.isFinite(n))navigateByControls(n)});const drawer=document.createElement('aside');drawer.id='readerToc';drawer.className='reader-toc';drawer.hidden=true;drawer.setAttribute('aria-label','תוכן עניינים');drawer.innerHTML=`<div class="reader-toc-head"><div><strong>תוכן עניינים – משפט פיתגורס</strong></div><button type="button" id="readerTocClose" aria-label="סגירת תוכן עניינים">×</button></div><label class="reader-toc-search"><span class="sr-only">חיפוש עמוד</span><input id="readerTocSearch" type="search" inputmode="search" placeholder="חיפוש מספר עמוד"></label><div id="readerTocList" class="reader-toc-list"></div>`;document.body.appendChild(drawer);const curtain=document.createElement('div');curtain.id='readerTransition';curtain.setAttribute('aria-hidden','true');document.body.appendChild(curtain);$('#readerTocClose')?.addEventListener('click',()=>openToc(false));$('#readerTocSearch')?.addEventListener('input',e=>filterToc(e.target.value))}
 function observeWorkbook(){const app=$('#app');if(!app)return;tocObserver?.disconnect();tocObserver=new MutationObserver(()=>{buildToc();updateProgress()});tocObserver.observe(app,{childList:true,subtree:true,attributes:true,attributeFilter:['class','data-label']});const counter=$('#counter');if(counter){counterObserver?.disconnect();counterObserver=new MutationObserver(updateProgress);counterObserver.observe(counter,{childList:true,characterData:true,subtree:true})}}
 function wireKeyboard(){addEventListener('keydown',e=>{if(e.defaultPrevented||e.ctrlKey||e.metaKey||e.altKey)return;const tag=e.target?.tagName;if(tag==='INPUT'||tag==='TEXTAREA'||tag==='SELECT'||e.target?.isContentEditable)return;if(e.key==='Home'){e.preventDefault();navigateByControls(1)}else if(e.key==='End'){e.preventDefault();navigateByControls(totalPages())}else if(e.key==='+'||e.key==='='){e.preventDefault();shiftZoom(1)}else if(e.key==='-'){e.preventDefault();shiftZoom(-1)}else if(e.key==='0'){e.preventDefault();setZoom(1)}else if(e.key.toLowerCase()==='f'){e.preventDefault();toggleFullscreen()}else if(e.key.toLowerCase()==='t'){e.preventDefault();openToc($('#readerToc')?.hidden!==false)}else if(e.key==='Escape'&&!$('#readerToc')?.hidden){openToc(false)}})}
 function restoreHash(){const m=location.hash.match(/page=(\d+)/);if(!m)return;const n=Number(m[1]);if(n>1){let tries=0;const wait=()=>{if(sheetForPage(n))navigateByControls(n);else if(tries++<40)setTimeout(wait,100)};wait()}}
