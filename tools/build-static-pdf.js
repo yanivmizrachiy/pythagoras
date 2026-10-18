@@ -17,11 +17,33 @@ const base=process.env.PYTHAGORAS_BASE_URL||'http://127.0.0.1:8080/';
   try{
     const page=await browser.newPage();
     await page.setViewport({width:1280,height:900,deviceScaleFactor:1});
+    const browserProblems=[];
+    page.on('pageerror',error=>{browserProblems.push('pageerror: '+error.message);console.error('PDF pageerror:',error.message)});
+    page.on('console',message=>{if(message.type()==='error'||message.type()==='warning'){browserProblems.push('console '+message.type()+': '+message.text());console.error('PDF console:',message.text())}});
+    page.on('dialog',async dialog=>{const msg=dialog.message();browserProblems.push('dialog: '+msg);console.error('PDF dialog:',msg);await dialog.dismiss()});
+
     await page.evaluateOnNewDocument(()=>{window.print=()=>{window.__PYTHAGORAS_PRINT_READY__=true}});
     await page.goto(base,{waitUntil:'networkidle0',timeout:120000});
     await page.waitForFunction(()=>document.querySelectorAll('#app .scroll-sheet').length===53&&!!document.getElementById('printColor')&&!!window.PythagorasReader,{timeout:120000});
     await page.evaluate(()=>document.getElementById('printColor').click());
-    await page.waitForFunction(()=>{const h=document.getElementById('printHost');return window.__PYTHAGORAS_PRINT_READY__===true&&h&&h.querySelectorAll('.print-page').length===53&&h.querySelectorAll('.print-page .a4-page').length===53},{timeout:180000});
+    try{
+      await page.waitForFunction(()=>{const h=document.getElementById('printHost');return window.__PYTHAGORAS_PRINT_READY__===true&&h&&h.querySelectorAll('.print-page').length===53&&h.querySelectorAll('.print-page .a4-page').length===53},{timeout:90000});
+    }catch(error){
+      const state=await page.evaluate(()=>{
+        const host=document.getElementById('printHost');
+        return {
+          status:document.querySelector('.sync')?.textContent||'',
+          printReady:window.__PYTHAGORAS_PRINT_READY__===true,
+          pages:host?.querySelectorAll('.print-page').length||0,
+          a4:host?.querySelectorAll('.a4-page').length||0,
+          buttonDisabled:document.getElementById('printColor')?.disabled,
+          mathReady:!!window.MathJax?.typesetPromise,
+          printClass:host?.className||'',
+          view:document.body.dataset.readerView||''
+        }
+      });
+      throw new Error('PDF rendering did not finish; state='+JSON.stringify(state)+'; browserErrors='+JSON.stringify(browserProblems.slice(-8))+'; '+error.message);
+    }
     await page.evaluate(async()=>{if(document.fonts?.ready)await document.fonts.ready;await new Promise(r=>requestAnimationFrame(()=>requestAnimationFrame(r)))});
 
     const qa=await page.evaluate(()=>{
