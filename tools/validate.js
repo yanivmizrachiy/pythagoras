@@ -93,7 +93,8 @@ if(exists('tools/validate-merged.js'))fail('legacy duplicate validator exists');
 function walk(dir,base=''){
   const out=[];
   for(const ent of fs.readdirSync(dir,{withFileTypes:true})){
-    if(ent.name==='.git'||ent.name==='node_modules')continue;
+    // .edit-backups is the single, gitignored backup folder of the local edit mode (SSOT §12).
+    if(ent.name==='.git'||ent.name==='node_modules'||(base===''&&ent.name==='.edit-backups'))continue;
     const rel=base?base+'/'+ent.name:ent.name;
     const abs=path.join(dir,ent.name);
     if(ent.isDirectory())out.push(...walk(abs,rel));else out.push(rel);
