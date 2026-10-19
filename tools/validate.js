@@ -38,6 +38,16 @@ for(const [i,p] of pages.entries()){
   if(html.includes('×')||/\\times\b/u.test(html))fail(`${p.file}: forbidden multiplication sign; use · or \\cdot`);
   if(html.includes('ס"מ')||html.includes('סמ"ר'))fail(`${p.file}: non-canonical unit typography; use ס״מ / סמ״ר`);
   if(/<span[^>]*dir=["']ltr["'][^>]*>[^<]*x²/iu.test(html))fail(`${p.file}: raw x² remains in formula span; use MathJax`);
+  // Exponents and radicals are canonical only: MathJax for powers, .sqrt-cell/MathJax for roots.
+  // These guards make the recurring "invalid math notation" regressions impossible to re-merge.
+  if(/<su[bp]\b/iu.test(html))fail(`${p.file}: raw <sup>/<sub> exponent; powers must be MathJax \\(x^{2}\\)`);
+  // Raw Unicode exponents (x², c², a²) in body prose/headings must be MathJax. <title> (unprocessable
+  // by MathJax) and SVG <text> labels are the only places a superscript glyph may remain.
+  const bodyScan=html.replace(/<head[\s\S]*?<\/head>/iu,'').replace(/<text\b[^>]*>[\s\S]*?<\/text>/giu,'');
+  if(/[²³¹⁰⁴⁵⁶⁷⁸⁹]/u.test(bodyScan))fail(`${p.file}: raw Unicode exponent in body; powers must be MathJax \\(x^{2}\\)`);
+  const rootGlyphs=count(html,/√/gu);
+  const canonicalRadics=count(html,/<span class="radic">√<\/span>/gu);
+  if(rootGlyphs!==canonicalRadics)fail(`${p.file}: ${rootGlyphs-canonicalRadics} stray √ glyph(s); every √ must be a canonical .sqrt-cell radical (prose/fixed roots use MathJax \\sqrt)`);
 
   // Mixed number + Hebrew-unit SVG labels must have explicit LTR direction.
   const mixedSvg=[...html.matchAll(/<text([^>]*)>(\s*-?\d+(?:[.,]\d+)?\s+ס״מ\s*)<\/text>/giu)];
@@ -170,11 +180,23 @@ for(const needle of [
 ]) if(!pytCss.includes(needle))fail('shared Pythagoras rendering guard missing: '+needle);
 if(count(pytCss,/\.sqrt-cell\s*\{/gu)!==1)fail('square-root geometry must have exactly one canonical definition');
 if(/\\.pyt-foundation\\s+\\.sqrt-cell/u.test(read('styles/topics/pythagoras-foundations.css')))fail('legacy foundations CSS still overrides canonical square roots');
-const radicalPages=[647,648,649,650,653];
+// No competing radical glyph anywhere: a √ may only be the shared SVG data-URI, never a CSS text pseudo-element.
+for(const dir of ['styles/pages','styles/topics']){
+  const abs=path.join(root,dir);
+  if(!fs.existsSync(abs))continue;
+  for(const file of fs.readdirSync(abs)){
+    if(!file.endsWith('.css'))continue;
+    const css=read(path.join(dir,file));
+    if(/content\s*:\s*["'][^"']*(?:√|\\221[aA])/u.test(css))fail(dir+'/'+file+': non-canonical √ text-glyph (content:"√"); radicals must use the shared .sqrt-cell SVG');
+  }
+}
+// Canonical radical enforced on EVERY page that uses it — list derived from disk, not hardcoded,
+// so a new radical page (or a migrated one like 640) can never slip past unchecked.
+const radicalPages=diskHtml.filter(f=>read(f).includes('class="sqrt-cell"')).map(f=>f.replace(/^עמוד-/u,'').replace(/\.html$/u,''));
 for(const n of radicalPages){
   const html=read('עמוד-'+n+'.html');
-  const cells=count(html,/class=["']sqrt-cell["']/gu);
-  const complete=count(html,/<span class="sqrt-cell"><span class="radic">√<\/span><span class="(?:root-line|root-work-fill)(?: [^"]+)?"><\/span><\/span>/gu);
+  const cells=count(html,/class="sqrt-cell"/gu);
+  const complete=count(html,/<span class="sqrt-cell"><span class="radic">√<\/span><span class="(?:root-line|root-work-fill)(?:\s[^"]*)?"[^>]*><\/span><\/span>/gu);
   if(!cells||cells!==complete)fail('page '+n+': missing/fragmented canonical radical; found '+complete+'/'+cells);
   const css=read('styles/pages/עמוד-'+n+'.css');
   if(new RegExp('\\.page-'+n+'\\s+\\.root-(?:line|work-fill)\\s*\\{[^}]*\\b(?:border|height|font-size)\\s*:','u').test(css)){
@@ -208,6 +230,7 @@ if(!truth.includes('מקור האמת היחיד והעליון'))fail('SSOT aut
 if(!truth.includes('yanivmizrachiy/pythagoras'))fail('canonical repo missing from SSOT');
 if(!truth.includes('קובצי `עמוד-*.html` הם **תוכן דף בלבד**'))fail('SSOT must define page files as content-only');
 if(!truth.includes('`.sqrt-cell`'))fail('SSOT must define canonical square-root writing component');
+if(!truth.includes('מעריכים נכתבים ב-MathJax בלבד'))fail('SSOT must forbid raw <sup>/<sub> and mandate canonical √ (notation single source)');
 if(!truth.includes('יש בעלים יחיד לפעולות reader'))fail('SSOT must define single reader-control ownership');
 if(!truth.includes('ה-host אינו רשאי להציג סט שני'))fail('SSOT must forbid a second host control set');
 if(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/u.test(truth))fail('SSOT contains control characters');
