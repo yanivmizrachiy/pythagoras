@@ -50,7 +50,9 @@ html, body {
     /* הסמל והקרדיט כיחידה ממורכזת אחת: הסמל בעמודה הימנית (RTL), הקרדיט בשתי שורות משמאלו */
     display: grid;
     grid-template-columns: auto auto;
+    grid-template-rows: auto auto;
     justify-content: center;
+    align-content: center;
     align-items: center;
     column-gap: 10px;
     border-top: 1px solid var(--title-blue);

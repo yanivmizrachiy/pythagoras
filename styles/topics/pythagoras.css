@@ -160,9 +160,9 @@ body:has(:is(.pythagoras, .page-375, .page-376, .page-377, .page-378, .page-379,
   }
 }
 
-/* הקרדיט באותו מיקום בכל דפי חוברת פיתגורס. */
+/* הקרדיט ממורכז ברצועה שבין הקו התחתון לקצה הדף בכל דפי חוברת פיתגורס. */
 :is(.pythagoras, .page-375, .page-376, .page-377, .page-378, .page-379, .page-380).a4-page > .gz-footer {
-  transform: translateY(9px);
+  transform: translateY(0);
 }
 
 }
