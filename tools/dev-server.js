@@ -10,7 +10,8 @@
  * מצב עריכת מלל (אופציונלי, מקומי בלבד — לעולם לא נכלל בפרודקשן):
  *   פתחו כל עמוד עם ?edit=1  →  http://localhost:8080/עמוד-9.html?edit=1
  *   לוחצים על טקסט, כותבים, ושומרים. הנוסחאות מוצגות כקוד \(x\) כדי שאפשר לערוך אותן.
- *   השמירה מדויקת (מחליפה רק את הטקסט של האלמנט שנערך) ושומרת גיבוי .bak לצד הקובץ.
+ *   השמירה מדויקת (מחליפה רק את הטקסט של האלמנט שנערך) ושומרת גיבוי של הקובץ הקודם
+ *   בתיקייה המקומית `.edit-backups/` (gitignored; הוולידטור מדלג עליה) — לעולם לא לצד הדפים.
  */
 'use strict';
 
@@ -20,6 +21,7 @@ const path = require('path');
 
 const root = path.resolve(__dirname, '..');
 const port = Number(process.env.PORT) || 8080;
+const BACKUP_DIR = path.join(root, '.edit-backups'); // תיקיית הגיבויים היחידה של מצב העריכה
 
 const MIME = {
   '.html': 'text/html; charset=utf-8',
@@ -144,12 +146,18 @@ function applyEdits(fileAbs, edits) {
     changed++;
     results.push({ ed: e.ed, ok: true });
   }
+  let backup = null;
   if (changed > 0) {
+    // הגיבוי נכתב רק ל-.edit-backups/ (gitignored, מחוץ לבדיקת ה-junk) — אף פעם לא ליד הדפים,
+    // כדי שלא יצטברו קובצי *.bak בעץ ולא יגיעו ל-main (SOURCE_OF_TRUTH §11, §12).
     const stamp = new Date().toISOString().replace(/[:.]/g, '-');
-    fs.writeFileSync(fileAbs + '.bak-' + stamp, fs.readFileSync(fileAbs));
+    fs.mkdirSync(BACKUP_DIR, { recursive: true });
+    const backupAbs = path.join(BACKUP_DIR, path.basename(fileAbs) + '.' + stamp + '.bak');
+    fs.writeFileSync(backupAbs, fs.readFileSync(fileAbs));
     fs.writeFileSync(fileAbs, html, 'utf8');
+    backup = path.relative(root, backupAbs).split(path.sep).join('/');
   }
-  return { changed, results };
+  return { changed, results, backup };
 }
 
 function sendJson(res, code, obj) {

@@ -4,3 +4,5 @@ node_modules/
 .env.*
 *.tmp
 *.log
+# local edit-mode backups (tools/dev-server.js ?edit=1) — never committed
+.edit-backups/
