@@ -1,0 +1,53 @@
+/* עורך־הטקסט המקומי של חוברת פיתגורס — נטען רק במצב ?edit=1, לעולם לא בפרודקשן. */
+:root { --ed-blue: #1d4ed8; --ed-ink: #0f2741; --ed-line: #d7e0ea; }
+
+body.ped-on { padding-top: 60px !important; }
+
+.ped-bar {
+  position: fixed; inset-block-start: 0; inset-inline: 0; z-index: 2147483000;
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  padding: 8px 16px; min-height: 44px; box-sizing: border-box;
+  background: linear-gradient(180deg, #ffffff, #f3f8ff);
+  border-block-end: 1px solid var(--ed-line);
+  box-shadow: 0 2px 10px rgba(15, 39, 65, .08);
+  font-family: "Rubik", system-ui, sans-serif; color: var(--ed-ink); direction: rtl;
+}
+.ped-brand { font-weight: 800; font-size: 14px; display: flex; align-items: center; gap: 7px; white-space: nowrap; }
+.ped-brand .ped-dot { width: 9px; height: 9px; border-radius: 50%; background: var(--ed-blue); }
+.ped-nav { display: flex; align-items: center; gap: 6px; }
+.ped-nav label { font-size: 12.5px; font-weight: 600; color: #475569; }
+.ped-nav select {
+  font: inherit; font-size: 13px; padding: 5px 8px; border-radius: 9px;
+  border: 1px solid var(--ed-line); background: #fff; color: var(--ed-ink); min-width: 190px;
+}
+.ped-btn {
+  font: inherit; font-weight: 700; font-size: 13px; cursor: pointer;
+  padding: 7px 14px; min-height: 36px; border-radius: 10px;
+  border: 1px solid color-mix(in srgb, var(--ed-blue) 25%, var(--ed-line));
+  background: #fff; color: var(--ed-ink); transition: background .15s, box-shadow .15s, transform .05s;
+}
+.ped-btn:hover:not(:disabled) { border-color: var(--ed-blue); background: #eef4ff; }
+.ped-btn:active:not(:disabled) { transform: translateY(1px); }
+.ped-save { background: var(--ed-blue); color: #fff; border-color: var(--ed-blue); }
+.ped-save:hover:not(:disabled) { background: #1a44c0; box-shadow: 0 6px 16px rgba(29, 78, 216, .22); }
+.ped-btn:disabled { opacity: .5; cursor: default; }
+.ped-hint { font-size: 12px; color: #64748b; margin-inline-start: auto; max-width: 40ch; }
+
+/* הדגשת אלמנטים הניתנים לעריכה */
+[data-ed] { border-radius: 6px; transition: box-shadow .12s, background .12s; cursor: text; }
+[data-ed]:hover { box-shadow: 0 0 0 2px #bcd3ff; background: rgba(59, 130, 246, .06); }
+[data-ed]:focus { outline: none; box-shadow: 0 0 0 2px var(--ed-blue); background: rgba(59, 130, 246, .08); white-space: pre-wrap; }
+[data-ed].ped-dirty { box-shadow: 0 0 0 2px #f59e0b; background: rgba(245, 158, 11, .10); }
+
+/* הודעת מצב צפה */
+.ped-toast {
+  position: fixed; inset-block-end: 20px; inset-inline-start: 50%; transform: translateX(50%);
+  z-index: 2147483001; padding: 10px 18px; border-radius: 12px; font-family: "Rubik", system-ui, sans-serif;
+  font-weight: 700; font-size: 13.5px; color: #fff; background: #0f2741; box-shadow: 0 10px 30px rgba(0, 0, 0, .22);
+  opacity: 0; pointer-events: none; transition: opacity .2s; max-width: 80vw; direction: rtl; text-align: center;
+}
+.ped-toast.ped-show { opacity: 1; }
+.ped-toast.ped-ok { background: #15803d; }
+.ped-toast.ped-err { background: #b91c1c; }
+
+@media print { .ped-bar, .ped-toast { display: none !important; } body.ped-on { padding-top: 0 !important; } }
