@@ -22,10 +22,9 @@
 .page-640 .mixed-card:nth-child(1) .mixed-fill,.page-640 .mixed-card:nth-child(2) .mixed-fill,.page-640 .mixed-card:nth-child(6) .mixed-fill { width:46px; min-width:46px; }
 .page-640 .mixed-card:nth-child(5) .mixed-fill { width:58px; min-width:58px; }
 .page-640 .mixed-fill.short { width:42px; min-width:42px; }
-.page-640 .radicand-card { gap:4px; }
-.page-640 .root-slot { position:relative; display:inline-flex; align-items:center; padding-inline-start:19px; }
-.page-640 .root-slot::before { content:"\221A"; position:absolute; inset-inline-start:0; top:50%; transform:translateY(-52%); font-size:31px; line-height:1; font-weight:400; color:#1f2a44; }
-.page-640 .radicand-fill { width:58px; min-width:58px; }
+.page-640 .radicand-card { gap:6px; }
+/* רדיקל קנוני יחיד (SSOT §6): .sqrt-cell מ-pythagoras.css — ללא גליף √ טקסטואלי מתחרה. */
+.page-640 .root-work-fill { width:52px; }
 .page-640 .root-value { font-size:16px; }
 .page-640 .error-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; min-width:0; min-height:0; }
 .page-640 .error-card { display:grid; grid-template-rows:minmax(0,1fr) auto; align-items:center; gap:7px; min-width:0; min-height:0; padding:8px 9px; border:1px solid var(--border-light); border-radius:8px; background:var(--bg-paper); font-size:13.5px; line-height:1.3; text-align:center; }
