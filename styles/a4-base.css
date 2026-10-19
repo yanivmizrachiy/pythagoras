@@ -40,14 +40,36 @@ html, body {
 
 /* קרדיט קבוע — חובה בכל דף עבודה. שכבת נושא רשאית לדרוס את הסגנון, לא את הנוסח. */
 .a4-page > .gz-footer {
+    position: relative;
     flex: 0 0 auto;
     margin-top: 4px;
     /* הקו הכחול נמתח לכל רוחב דף ה־A4: מבטל את padding הצד (18mm) של .a4-page */
     margin-inline: -18mm;
-    padding-top: 3px;
+    /* הקרדיט תופס את כל הרצועה שבין הקו הכחול לתחתית הדף, והמלל ממורכז אנכית בתוכה */
+    margin-bottom: -8mm;
+    min-height: 13mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     border-top: 1px solid var(--title-blue);
     text-align: center;
     line-height: 1.2;
+}
+
+/* סמל המחוז — עיגול נקי, ממורכז אנכית ברצועת הקרדיט, בצד ההתחלה (ימין ב-RTL) */
+.a4-page > .gz-footer::before {
+    content: "";
+    position: absolute;
+    inset-inline-end: 6mm;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #fff url("../district-logo.png") center / 82% no-repeat;
+    border: 1.5px solid var(--title-blue);
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
 }
 
 .a4-page > .gz-footer .f1 {
