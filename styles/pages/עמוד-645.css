@@ -30,11 +30,9 @@
 .page-645 .guided-theorem { display:grid; grid-template-rows:26px 1fr 34px; align-items:center; gap:5px; min-width:0; }
 .page-645 .theorem-title { font-size:15px; font-weight:700; color:var(--title-blue); }
 .page-645 .theorem-line { display:flex; align-items:center; justify-content:flex-start; flex-wrap:wrap; gap:5px; font-size:14px; line-height:1.35; }
-.page-645 .theorem-math { display:flex; align-items:baseline; justify-content:center; gap:7px; font-size:18px; font-weight:600; }
-.page-645 .theorem-math .term { display:inline-flex; align-items:baseline; }
-.page-645 .theorem-math .tw { unicode-bidi:isolate; }
-.page-645 .theorem-math sup { font-size:0.6em; margin-inline-start:1px; }
-.page-645 .theorem-math .op { color:var(--title-blue); font-weight:700; }
+/* הנוסחה המילולית נכתבת ב-MathJax קנוני (SSOT §6); אין <sup> גולמי. */
+.page-645 .theorem-math { display:flex; align-items:center; justify-content:center; font-size:18px; font-weight:600; }
+.page-645 .theorem-math mjx-container { margin:0 !important; }
 .page-645 .word-fit { width:72px; min-width:72px; height:25px; border-radius:5px; }
 .page-645 .word-fit.short { width:52px; min-width:52px; }
 
