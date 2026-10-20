@@ -7,10 +7,9 @@
 - manifest יחיד: `WORKBOOK_MANIFEST.json`
 - validator יחיד: `npm run validate`
 - smoke אמיתי בדפדפן + בדיקת PDF 53 עמודים + אימות live אוטומטי בכל push ל-`main`
-- GitHub Pages: https://yanivmizrachiy.github.io/pythagoras/
-- Vercel compatibility: https://aaa-pythagoras.vercel.app/
+- GitHub Pages (ערוץ הפרסום היחיד): https://yanivmizrachiy.github.io/pythagoras/
 
-השם `aaa-pythagoras` נשמר רק בכתובת Vercel לצורך תאימות לקישורים קיימים. ריפו `aaa` אינו קיים ואינו מקור תוכן.
+ריפו `aaa` אינו קיים ואינו מקור תוכן. Vercel הוסר מהפרויקט — GitHub Pages הוא ערוץ הפרסום היחיד (ראו [SOURCE_OF_TRUTH.md](SOURCE_OF_TRUTH.md) §9).
 
 ## עריכת המלל — מצב עריכה מקומי
 
