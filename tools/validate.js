@@ -91,7 +91,7 @@ for(const x of expectedCss)if(!diskCss.includes(x))fail('manifest CSS missing on
 for(const p of [
   'index.html','book-design.js','book-design.css','ui-controls.css',
   'SOURCE_OF_TRUTH.md','DESIGN.md','README.md','WORKBOOK_MANIFEST.json',
-  'pythagoras-workbook.pdf','vendor/mathjax/tex-mml-chtml.js','vercel.json','package.json',
+  'pythagoras-workbook.pdf','vendor/mathjax/tex-mml-chtml.js','package.json',
   'styles/topics/pythagoras.css','tools/normalize-pages.js'
 ]) if(!exists(p))fail('missing core file '+p);
 
@@ -125,7 +125,9 @@ for(const f of trackedTree){
 
 const runtime=['index.html','book-design.js','book-design.css','ui-controls.css'].map(read).join('\n');
 if(runtime.includes('yanivmizrachiy/aaa'))fail('runtime references deleted repo aaa');
-if(runtime.includes('https://aaa-pythagoras.vercel.app/WORKBOOK_MANIFEST.json'))fail('runtime uses Vercel URL as content source');
+// Vercel was removed (SSOT §9); GitHub Pages is the only publisher. Block any runtime
+// dependency on a *.vercel.app host so Vercel cannot creep back as a content source.
+if(/\.vercel\.app/u.test(runtime))fail('runtime references a Vercel URL; Vercel was removed (GitHub Pages is the sole publisher)');
 if(!runtime.includes("const SOURCE=new URL('./',document.baseURI).href"))fail('index is not bound to local canonical source');
 
 const featureChecks=[
@@ -246,10 +248,8 @@ const pkg=JSON.parse(read('package.json'));
 if(pkg.scripts?.validate!=='node tools/validate.js')fail('package validate script must point to the single validator');
 if(pkg.scripts?.smoke!=='node tools/smoke.js')fail('package smoke script missing');
 
-const vercel=JSON.parse(read('vercel.json'));
-const dep=vercel.git?.deploymentEnabled||{};
-if(dep['gh-pages']!==false)fail('Vercel must ignore gh-pages deployments');
-if(dep['unify/*']!==false)fail('Vercel must ignore retired unify branches');
-if(typeof vercel.ignoreCommand!=='string'||!vercel.ignoreCommand.includes('git diff --quiet HEAD^ HEAD'))fail('Vercel ignoreCommand must skip docs/CI-only deployments');
+// Vercel was removed (SSOT §9): GitHub Pages is the sole publisher. vercel.json must not
+// return unless the owner explicitly re-mandates Vercel and documents it in SSOT §9 first.
+if(exists('vercel.json'))fail('vercel.json must not exist; Vercel was removed (GitHub Pages is the sole publisher, SSOT §9)');
 
 if(!process.exitCode)console.log('PASS: canonical Pythagoras — 53/53, one SSOT, one reader-control owner, canonical roots/math/units/SVG, one loader/validator/workflow, no orphan or junk files.');

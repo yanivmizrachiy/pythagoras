@@ -97,7 +97,7 @@ jobs:
     needs: sync-pages
     runs-on: ubuntu-latest
     steps:
-      - name: Verify GitHub Pages and Vercel compatibility
+      - name: Verify GitHub Pages
         shell: bash
         run: |
           set -euo pipefail
@@ -124,7 +124,6 @@ jobs:
             return 1
           }
           check_site "https://yanivmizrachiy.github.io/pythagoras" "GitHub Pages"
-          check_site "https://aaa-pythagoras.vercel.app" "Vercel compatibility"
           curl -fsSL --max-time 60 "https://yanivmizrachiy.github.io/pythagoras/pythagoras-workbook.pdf" -o /tmp/live.pdf
           test "$(wc -c </tmp/live.pdf)" -gt 100000
           echo "PASS live PDF"
