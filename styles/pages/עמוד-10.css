@@ -6,7 +6,7 @@
 .page-10 .question-block { justify-content: space-between; gap: 0; }
 .page-10 .pyt-body { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 0; }
 .page-10 .pyt-tri-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 14px; row-gap: 8px; width: 100%; align-items: start; }
-.page-10 .problem-block { height: calc(var(--problem-block-height) - 8px); background: var(--bg-subtle); border: 1px solid var(--border-light); border-radius: 8px; padding: 6px; display: flex; flex-direction: column; gap: 6px; min-height: 0; overflow: hidden; }
+.page-10 .problem-block { height: calc(var(--problem-block-height) - 8px); background: var(--bg-subtle); padding: 6px; display: flex; flex-direction: column; gap: 6px; min-height: 0; overflow: hidden; }
 .page-10 .problem-top { display: none; }
 .page-10 .problem-answer { direction: ltr; unicode-bidi: isolate; white-space: nowrap; flex: 0 0 auto; text-align: left; padding-top: 6px; border-top: 1px solid var(--border-light); }
 .page-10 .problem-work { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 6px; }

@@ -173,8 +173,6 @@
   min-width: 0;
   min-height: 0;
   padding: 4px 5px;
-  border: 1px solid var(--border-light);
-  border-radius: 7px;
   background: var(--bg-paper);
 }
 
@@ -207,8 +205,6 @@
   min-width: 0;
   min-height: 0;
   padding: 6px 5px;
-  border: 1px solid var(--border-light);
-  border-radius: 7px;
   background: var(--bg-subtle);
   font-size: 14px;
   white-space: nowrap;
@@ -240,8 +236,6 @@
   min-width: 0;
   min-height: 0;
   padding: 6px 8px 7px;
-  border: 1px solid var(--border-light);
-  border-radius: 8px;
   background: var(--bg-paper);
 }
 

@@ -38,8 +38,6 @@
 	height: auto;
 	min-height: var(--problem-block-height);
 	background: var(--bg-subtle);
-	border: 1px solid var(--border-light);
-	border-radius: 8px;
 	padding: 6px;
 	display: flex;
 	flex-direction: column;

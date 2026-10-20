@@ -10,7 +10,7 @@
 .page-9 .question-block { justify-content: space-between; gap: 6px; }
 .page-9 .pyt-body { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 6px; }
 .page-9 .pyt-tri-grid { display: grid; grid-template-columns: 1fr 1fr; column-gap: 14px; row-gap: 10px; width: 100%; align-items: start; }
-.page-9 .problem-block { height: var(--problem-block-height); background: var(--bg-subtle); border: 1px solid var(--border-light); border-radius: 8px; padding: 6px; display: flex; flex-direction: column; gap: 6px; min-height: 0; overflow: hidden; }
+.page-9 .problem-block { height: var(--problem-block-height); background: var(--bg-subtle); padding: 6px; display: flex; flex-direction: column; gap: 6px; min-height: 0; overflow: hidden; }
 .page-9 .problem-top { display: none; }
 .page-9 .problem-answer { direction: ltr; unicode-bidi: isolate; white-space: nowrap; flex: 0 0 auto; text-align: left; padding-top: 6px; border-top: 1px solid var(--border-light); }
 .page-9 .problem-work { flex: 1; min-height: 0; display: flex; flex-direction: column; gap: 6px; }

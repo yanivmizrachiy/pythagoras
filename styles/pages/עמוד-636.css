@@ -14,7 +14,7 @@
 .page-636 .q-main { margin:0; min-height:0; }
 .page-636 .q-text { font-size:14.8px; line-height:1.28; }
 .page-636 .legs-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; min-height:0; }
-.page-636 .leg-card { min-height:0; height:100%; border:1px solid #dbe4ef; border-radius:9px; background:#fff; display:grid; grid-template-rows:minmax(0,1fr) 70px; align-items:center; padding:8px 10px; overflow:hidden; }
+.page-636 .leg-card { min-height:0; height:100%; background:#fff; display:grid; grid-template-rows:minmax(0,1fr) 70px; align-items:center; padding:8px 10px; overflow:hidden; }
 .page-636 .leg-svg,.page-636 .quick-leg-svg,.page-636 .mcq-triangle { width:100%; height:100%; display:block; shape-rendering:geometricPrecision; text-rendering:geometricPrecision; }
 .page-636 .leg-svg .edge,.page-636 .quick-leg-svg .edge,.page-636 .mcq-triangle .edge { fill:none; stroke:#111827; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; vector-effect:non-scaling-stroke; }
 .page-636 .leg-svg .mark,.page-636 .quick-leg-svg .mark,.page-636 .mcq-triangle .mark { fill:none; stroke:#111827; stroke-width:1.45; vector-effect:non-scaling-stroke; }
@@ -34,7 +34,7 @@
 .page-636 .build-canvas { min-height:0; border:1.2px dashed #94a3b8; border-radius:8px; background:#fff; }
 .page-636 .right-vertex-line { display:flex; align-items:baseline; justify-content:center; gap:6px; font-size:13.8px; white-space:nowrap; }
 /* עמודת האופציות רחבה מהשאלה — הטקסטים ארוכים ואסור שייחתכו */
-.page-636 .legs-mcq { min-height:0; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.35fr); gap:12px; padding:7px 10px; border:1px solid #dbe4ef; border-radius:9px; background:#fbfdff; overflow:hidden; }
+.page-636 .legs-mcq { min-height:0; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.35fr); gap:12px; padding:7px 10px; background:#fbfdff; overflow:hidden; }
 .page-636 .mcq-prompt { min-height:0; display:grid; grid-template-columns:minmax(0,1fr) 132px; align-items:center; gap:8px; }
 .page-636 .mcq-prompt .q-text { font-size:13.8px; line-height:1.35; }
 .page-636 .mcq-triangle { height:108px; }
