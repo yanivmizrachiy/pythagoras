@@ -32,7 +32,7 @@
 .page-646 .page15-final-task { grid-template-rows:auto auto auto; }
 
 .page-646 .equation-diagram-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); grid-template-rows:repeat(2,auto); gap:9px; min-height:0; }
-.page-646 .diagram-card { display:grid; grid-template-rows:auto 40px; align-items:center; justify-items:center; gap:6px; padding:8px; border:1px solid var(--border-light); border-radius:8px; background:var(--bg-paper); }
+.page-646 .diagram-card { display:grid; grid-template-rows:auto 40px; align-items:center; justify-items:center; gap:6px; padding:8px; background:var(--bg-paper); }
 .page-646 .diagram-card svg { width:100%; max-width:150px; height:90px; }
 .page-646 .edge { fill:none; stroke:#26374d; stroke-width:2.2; stroke-linejoin:round; }
 .page-646 .mark { fill:none; stroke:#26374d; stroke-width:1.8; }
@@ -41,12 +41,12 @@
 .page-646 .equation-slot { width:145px; min-width:145px; height:28px; border-radius:5px; }
 
 .page-646 .identify-grid { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:8px; min-height:0; }
-.page-646 .identify-card { display:grid; grid-template-rows:auto auto 32px; align-items:center; justify-items:center; gap:4px; padding:7px; border:1px solid var(--border-light); border-radius:8px; background:var(--bg-subtle); font-size:13.4px; }
+.page-646 .identify-card { display:grid; grid-template-rows:auto auto 32px; align-items:center; justify-items:center; gap:4px; padding:7px; background:var(--bg-subtle); font-size:13.4px; }
 .page-646 .identify-card > span:first-child { font-size:15px; font-weight:600; }
 .page-646 .letter-slot { width:34px; min-width:34px; height:25px; border-radius:5px; }
 
 .page-646 .mistake-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; min-height:0; }
-.page-646 .mistake-card { display:grid; grid-template-rows:auto 30px auto 32px; align-items:center; justify-items:center; gap:5px; padding:8px 10px; border:1px solid var(--border-light); border-radius:8px; background:var(--bg-paper); font-size:13px; line-height:1.2; text-align:center; }
+.page-646 .mistake-card { display:grid; grid-template-rows:auto 30px auto 32px; align-items:center; justify-items:center; gap:5px; padding:8px 10px; background:var(--bg-paper); font-size:13px; line-height:1.2; text-align:center; }
 .page-646 .mistake-card strong { font-size:16px; }
 .page-646 .correction-slot { width:145px; min-width:145px; height:27px; border-radius:5px; }
 .page-646 .final-rule { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:5px; min-height:34px; padding-top:4px; border-top:1px solid var(--border-light); font-size:13.2px; }

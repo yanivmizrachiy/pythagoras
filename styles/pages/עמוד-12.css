@@ -3,7 +3,7 @@
 
 .page-12 .question-block { justify-content: flex-start; gap: 8px; }
 .page-12 .pyt-units-note { font-weight: 500; margin-right: 10px; white-space: nowrap; }
-.page-12 .pyt-diagram-frame { display: flex; justify-content: center; align-items: center; width: 440px; padding: 8px; border: 1px solid var(--grid-line); border-radius: 6px; color: var(--accent-dark); }
+.page-12 .pyt-diagram-frame { display: flex; justify-content: center; align-items: center; width: 440px; padding: 8px; color: var(--accent-dark); }
 .page-12 .pyt-fig-svg { display: block; height: 205px; shape-rendering: geometricPrecision; }
 .page-12 .pyt-edge { fill: none; stroke: currentColor; stroke-width: 1.85; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
 .page-12 .pyt-right { fill: none; stroke: currentColor; stroke-width: 1.55; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }

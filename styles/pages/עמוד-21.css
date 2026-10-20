@@ -21,8 +21,6 @@
 	gap: 8px;
 	align-items: stretch;
 	padding: 12px 14px;
-	border: 1px solid var(--border-light);
-	border-radius: 10px;
 	background: var(--bg-paper);
 	min-height: 0;
 }

@@ -9,12 +9,10 @@
 /* שלד קבוע לכל כרטיס: הוראה (למעלה) · ריבוע (אמצע, מיושר בין הכרטיסים) · חישוב (למטה). */
 .page-643 .square-task-card {
   position:relative; min-height:0; overflow:hidden;
-  border:1px solid var(--border-light); border-radius:11px; background:var(--bg-paper);
-  padding:16px 20px;
+  padding:6px 8px;
   display:grid; grid-template-rows:3.2em 150px 1fr; gap:6px;
   justify-items:center;
 }
-.page-643 .square-task-card::after { content:""; position:absolute; inset-inline-end:0; top:0; bottom:0; width:4px; background:var(--title-blue); opacity:.7; }
 .page-643 .task-prompt { align-self:start; justify-self:stretch; font-size:17.5px; line-height:1.45; text-align:right; }
 .page-643 .task-prompt strong { font-weight:700; }
 
@@ -45,5 +43,4 @@
 
 @media print {
   .page-643 .square-task-card { break-inside:avoid; }
-  .page-643 .square-task-card::after { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
 }

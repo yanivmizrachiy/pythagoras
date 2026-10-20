@@ -36,8 +36,6 @@
 	width: var(--fig-w, 440px);
 	max-width: 100%;
 	padding: 10px;
-	border: 1px solid var(--grid-line);
-	border-radius: 6px;
 	color: var(--accent-dark);
 }
 

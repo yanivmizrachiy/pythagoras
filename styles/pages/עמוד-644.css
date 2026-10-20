@@ -38,8 +38,6 @@
 .page-644 .symbolic-panel {
   min-width: 0;
   align-self: stretch;
-  border: 1px solid var(--border-light);
-  border-radius: 8px;
   background: var(--bg-paper);
   display: flex;
   align-items: center;
@@ -62,8 +60,6 @@
 .page-644 .symbolic-result {
   min-width: 0;
   padding: 9px 8px;
-  border: 1px solid var(--border-light);
-  border-radius: 8px;
   background: var(--bg-subtle);
   box-sizing: border-box;
 }
@@ -122,8 +118,6 @@
   gap: 9px;
   min-width: 0;
   padding: 12px;
-  border: 1.3px solid var(--accent-dark);
-  border-radius: 8px;
   background: var(--bg-paper);
 }
 .page-644 .relation-equation { text-align: center; font-size: 22px; font-weight: 700; }
@@ -164,8 +158,6 @@
   gap: 8px;
   min-width: 0;
   padding: 12px;
-  border: 1.4px solid var(--accent-dark);
-  border-radius: 9px;
   background: var(--bg-subtle);
 }
 .page-644 .symbolic-result { background: var(--bg-paper); }
