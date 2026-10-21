@@ -4,6 +4,7 @@
 const fs=require('fs');
 const path=require('path');
 const puppeteer=require('puppeteer-core');
+const {PROVENANCE_FILE,computeSourceHash}=require('./pdf-provenance.js');
 
 const executablePath=process.env.CHROME_BIN;
 if(!executablePath)throw new Error('CHROME_BIN is required');
@@ -96,8 +97,17 @@ const base=process.env.PYTHAGORAS_BASE_URL||'http://127.0.0.1:8080/';
     await page.pdf({path:output,printBackground:true,preferCSSPageSize:true,margin:{top:'0',right:'0',bottom:'0',left:'0'}});
     const size=fs.statSync(output).size;
     if(size<100000)throw new Error(`generated PDF suspiciously small: ${size}`);
+    // Record the source hash this PDF was built from, so the validator can fail a stale PDF
+    // ("see == get" gate, SOURCE_OF_TRUTH §8א/§10). Deterministic: identical source → identical file.
+    const {hash:sourceSha256,inputs}=computeSourceHash(root);
+    fs.writeFileSync(path.join(root,PROVENANCE_FILE),JSON.stringify({
+      note:'Build provenance for pythagoras-workbook.pdf — do not edit by hand. Rebuild with: CHROME_BIN=<chrome> npm run pdf:build (SOURCE_OF_TRUTH §8א/§10).',
+      sourceSha256,
+      inputCount:inputs.length
+    },null,2)+'\n');
     console.log(`PASS static PDF generated from canonical reader: ${output} (${size} bytes)`);
     console.log(`PASS pre-PDF visual guards: ${qa.rootCells} roots, ${qa.unitLabels} SVG unit labels, ${qa.choiceContexts} page-20 contexts`);
+    console.log(`PASS provenance recorded: ${PROVENANCE_FILE} (sourceSha256=${sourceSha256.slice(0,12)}…, ${inputs.length} inputs)`);
     await page.close();
   }finally{await browser.close()}
 })().catch(err=>{console.error(err);process.exit(1)});

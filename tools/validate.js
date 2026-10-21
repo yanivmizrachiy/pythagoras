@@ -227,6 +227,20 @@ if(count(approximation,/<bdi dir="ltr">/g)!==7){
 const pdf=fs.statSync(path.join(root,'pythagoras-workbook.pdf'));
 if(pdf.size<100000)fail('PDF too small');
 
+// "See == get" gate: the committed static PDF must be rebuilt from the CURRENT print source.
+// Previously nothing enforced this — CI only checked the PDF's page COUNT — so the direct-URL
+// pythagoras-workbook.pdf silently drifted weeks behind the live pages. The build records a
+// deterministic source hash in pdf-provenance.json; a mismatch here means "rebuild the PDF".
+const {PROVENANCE_FILE,computeSourceHash,readProvenance}=require('./pdf-provenance.js');
+const rebuildHint='rebuild with "CHROME_BIN=<chrome> npm run pdf:build" and commit pythagoras-workbook.pdf + '+PROVENANCE_FILE;
+const prov=readProvenance(root);
+const {hash:currentSourceHash}=computeSourceHash(root);
+if(!prov||typeof prov.sourceSha256!=='string'){
+  fail(`${PROVENANCE_FILE} missing/invalid — the static PDF has no build provenance; ${rebuildHint}`);
+}else if(prov.sourceSha256!==currentSourceHash){
+  fail(`static PDF is stale — pythagoras-workbook.pdf was built from a different source than the current pages/styles (recorded=${prov.sourceSha256.slice(0,12)}…, current=${currentSourceHash.slice(0,12)}…); ${rebuildHint}`);
+}
+
 const truth=read('SOURCE_OF_TRUTH.md');
 if(!truth.includes('מקור האמת היחיד והעליון'))fail('SSOT authority statement missing');
 if(!truth.includes('yanivmizrachiy/pythagoras'))fail('canonical repo missing from SSOT');
