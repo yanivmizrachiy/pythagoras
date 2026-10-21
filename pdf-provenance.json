@@ -1,5 +1,5 @@
 {
   "note": "Build provenance for pythagoras-workbook.pdf — do not edit by hand. Rebuild with: CHROME_BIN=<chrome> npm run pdf:build (SOURCE_OF_TRUTH §8א/§10).",
-  "sourceSha256": "6f990d2c658edab6be5d15232d8eb2f07181a580fda726dd3f9180ffa24779bb",
-  "inputCount": 118
+  "sourceSha256": "18b42779d959a10762f78f4af4dc0e592de62320e7e1eba94db69e16b9dfa44f",
+  "inputCount": 146
 }
