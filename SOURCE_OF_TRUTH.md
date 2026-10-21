@@ -103,6 +103,12 @@
 
 אסור ליצור מנגנון PDF שלישי. הדפסה ו-export חייבים לכלול בדיוק 53 דפים, בסדר ה-manifest וב-A4.
 
+## 8א. שער "מה שרואים = מה שמורידים" (21.10.2026)
+- **מה שהמורה רואה בקורא חייב להיות מה שהמורה מקבל ב-`pythagoras-workbook.pdf`.** ה-PDF הקבוע נבנה תמיד מחדש מהמקור הנוכחי שקובע את מראה ההדפסה; אין לפרסם שינוי תוכן/עיצוב בלי לבנות אותו מחדש.
+- `tools/build-static-pdf.js` רושם `pdf-provenance.json` (sha256 דטרמיניסטי מעל כל `עמוד-*.html`, כל ה-CSS תחת `styles/**` ו-`vendor/fonts/**`, `WORKBOOK_MANIFEST.json`, `index.html`, `book-design.js` ומנוע MathJax). חישוב ה-hash מנרמל סופי שורה ו-BOM כך שבנייה ב-Windows ובדיקת CI ב-Linux נותנות אותו ערך. הקובץ אינו SSOT/manifest מקביל אלא ראיית בנייה בלבד; אין לערוך אותו ידנית.
+- `tools/validate.js` מחשב מחדש את ה-hash ונכשל אם `pdf-provenance.json` חסר או אינו תואם — כלומר ה-PDF הקבוע התיישן. ריבוי-chrome בקורא (`ui-controls.css`, `book-design.css`) מוחרג במפורש כי `@media print` מסתיר אותו ואינו מגיע לדף המודפס.
+- לכן שינוי בכל דף/CSS/קורא שלא לווה בבנייה מחדש של ה-PDF נכשל ב-validate ואינו נחשב גמור (תואם §6 ו-§10).
+
 ## 9. פרסום
 - **GitHub Pages הוא ערוץ הפרסום היחיד:** `https://yanivmizrachiy.github.io/pythagoras/`, נפרס אוטומטית מ-`main` דרך `gh-pages` (SHA זהה, §1).
 - **Vercel הוסר (20.10.2026).** אין תלות פרסום, CI או runtime ב-Vercel. אסור להחזיר `vercel.json`, פרויקט Vercel או כתובת `*.vercel.app` — **אלא אם הדבר ממש חובה ובאישור מפורש של הבעלים**, ואז יש לתעד זאת כאן תחילה.
