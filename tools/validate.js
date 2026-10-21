@@ -162,6 +162,13 @@ for(const mode of ['scroll','single','spread']){
 }
 if(/data-reader-view-button/u.test(index))fail('index.html defines a duplicate reader view segment');
 
+// The reader Download serves the canonical static vector PDF (SSOT §8/§8א) and must not
+// regress to a client-only raster render; the html2canvas path stays as an automatic fallback.
+if(!index.includes('async function downloadStaticPdf'))fail('reader Download must serve the static PDF via downloadStaticPdf()');
+if(!index.includes("fetch(absolute('pythagoras-workbook.pdf')"))fail('downloadStaticPdf must fetch the canonical pythagoras-workbook.pdf');
+if(!index.includes('downloadMain.onclick=()=>downloadStaticPdf()'))fail('Download button must call downloadStaticPdf (static vector PDF)');
+if(!index.includes("return downloadPdf('color')"))fail('client-side render fallback for Download must be preserved');
+
 // Known page-20 ambiguity is guarded explicitly: each operator choice must identify the hypotenuse.
 const p20=read('עמוד-650.html');
 if(count(p20,/class=["']choice-card["']/gu)!==4)fail('עמוד-650.html: expected four +/− choice cards');
