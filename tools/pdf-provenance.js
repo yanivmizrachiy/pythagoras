@@ -35,6 +35,16 @@ function listInputs(root) {
       if (f.endsWith('.css')) inputs.push(dir + '/' + f);
     }
   }
+  // The actual glyph binaries that determine printed letterforms. The font CSS only POINTS at these,
+  // so hashing the CSS alone let a re-subset / corrupt / in-place-renamed woff2 drift the committed
+  // PDF away from the live pages without ever tripping the gate.
+  for (const dir of ['vendor/fonts/rubik', 'vendor/mathjax/tex-font/chtml/woff2']) {
+    const abs = path.join(root, dir);
+    if (!fs.existsSync(abs)) continue;
+    for (const f of fs.readdirSync(abs)) {
+      if (/\.woff2?$/u.test(f)) inputs.push(dir + '/' + f);
+    }
+  }
   // Page order/identity, the reader that assembles the print host, and the math engine.
   for (const f of ['WORKBOOK_MANIFEST.json', 'index.html', 'book-design.js', 'vendor/mathjax/tex-mml-chtml.js']) {
     if (fs.existsSync(path.join(root, f))) inputs.push(f);
@@ -58,7 +68,10 @@ function computeSourceHash(root) {
   for (const rel of inputs) {
     h.update(rel, 'utf8');
     h.update('\0');
-    h.update(normalize(fs.readFileSync(path.join(root, rel))), 'utf8');
+    const raw = fs.readFileSync(path.join(root, rel));
+    // Text inputs are newline/BOM-normalized for Windows↔CI parity; binary font files are hashed by
+    // their raw bytes (normalize() decodes as UTF-8 + strips CRs, which would corrupt binary content).
+    h.update(/\.(?:woff2?|ttf|otf)$/u.test(rel) ? raw : Buffer.from(normalize(raw), 'utf8'));
     h.update('\0');
   }
   return { hash: h.digest('hex'), inputs };

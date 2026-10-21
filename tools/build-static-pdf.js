@@ -19,7 +19,14 @@ const base=process.env.PYTHAGORAS_BASE_URL||'http://127.0.0.1:8080/';
     const page=await browser.newPage();
     await page.setViewport({width:1280,height:900,deviceScaleFactor:1});
     const browserProblems=[];
-    page.on('pageerror',error=>{browserProblems.push('pageerror: '+error.message);console.error('PDF pageerror:',error.message)});
+    // Fatal fidelity guards: a page error, or a same-origin asset (woff2/css/svg/js) that fails to
+    // load, means the captured PDF would ship fallback/tofu glyphs instead of what the teacher sees.
+    const pageErrors=[];
+    const assetFailures=[];
+    const isLocalAsset=u=>/127\.0\.0\.1|localhost/u.test(u)&&/\.(?:woff2?|css|js|svg|json|html|png|jpe?g)(?:[?#]|$)/iu.test(u);
+    page.on('requestfailed',req=>{const u=req.url();if(isLocalAsset(u))assetFailures.push('requestfailed '+((req.failure()&&req.failure().errorText)||'')+' '+u)});
+    page.on('response',res=>{const u=res.url();if(isLocalAsset(u)&&res.status()>=400)assetFailures.push('http '+res.status()+' '+u)});
+    page.on('pageerror',error=>{pageErrors.push(error.message);browserProblems.push('pageerror: '+error.message);console.error('PDF pageerror:',error.message)});
     page.on('console',message=>{if(message.type()==='error'||message.type()==='warning'){browserProblems.push('console '+message.type()+': '+message.text());console.error('PDF console:',message.text())}});
     page.on('dialog',async dialog=>{const msg=dialog.message();browserProblems.push('dialog: '+msg);console.error('PDF dialog:',msg);await dialog.dismiss()});
 
@@ -94,6 +101,8 @@ const base=process.env.PYTHAGORAS_BASE_URL||'http://127.0.0.1:8080/';
       }).length};
     });
     if(printable.cells!==qa.rootCells||printable.invalid)throw new Error('print-media radicals failed: '+JSON.stringify(printable));
+    if(assetFailures.length)throw new Error('asset load failures during print render (PDF would ship fallback/tofu glyphs): '+JSON.stringify([...new Set(assetFailures)].slice(0,12)));
+    if(pageErrors.length)throw new Error('page errors during print render: '+JSON.stringify(pageErrors.slice(0,8)));
     await page.pdf({path:output,printBackground:true,preferCSSPageSize:true,margin:{top:'0',right:'0',bottom:'0',left:'0'}});
     const size=fs.statSync(output).size;
     if(size<100000)throw new Error(`generated PDF suspiciously small: ${size}`);
