@@ -22,15 +22,26 @@ jobs:
         with:
           node-version: "20"
       - run: npm run validate
-      - name: Validate static PDF is exactly 53 pages
+      - name: Validate static PDF (53 pages, A4 geometry, per-page content)
         run: |
           python -m pip install --disable-pip-version-check -q pypdf
           python - <<'PY'
           from pypdf import PdfReader
-          p="pythagoras-workbook.pdf"
-          r=PdfReader(p)
+          r=PdfReader("pythagoras-workbook.pdf")
           assert len(r.pages)==53, f"expected 53 PDF pages, got {len(r.pages)}"
-          print("PASS PDF: 53 pages")
+          # Every page must be A4 (preferCSSPageSize + @page size:A4 → ~595.3 x 841.9 pt).
+          for i,pg in enumerate(r.pages,1):
+              w=float(pg.mediabox.width); h=float(pg.mediabox.height)
+              assert abs(w-595.3)<=3 and abs(h-841.9)<=3, f"page {i} is not A4: {w:.1f}x{h:.1f}pt"
+          # No blank/degraded page: each must extract a floor of real text (measured min ~242).
+          lens=[len((pg.extract_text() or '').strip()) for pg in r.pages]
+          weak=[i+1 for i,L in enumerate(lens) if L<40]
+          assert not weak, f"pages with <40 chars of extractable text (blank/degraded?): {weak}"
+          # Invariant Hebrew anchors must survive into the downloaded PDF (content fidelity).
+          alltext="\n".join((pg.extract_text() or '') for pg in r.pages)
+          for a in ["משפט","פיתגורס","היתר","ניצב"]:
+              assert a in alltext, f"anchor missing from PDF text: {a}"
+          print(f"PASS PDF: 53 pages, all A4, min per-page text {min(lens)} chars, anchors present")
           PY
       - name: Browser smoke
         run: |
@@ -62,7 +73,13 @@ jobs:
           from pypdf import PdfReader
           r=PdfReader("pythagoras-workbook.pdf")
           assert len(r.pages)==53, f"reconstructed PDF should contain 53 pages; got {len(r.pages)}"
-          print("PASS reconstructed PDF: 53 pages")
+          for i,pg in enumerate(r.pages,1):
+              w=float(pg.mediabox.width); h=float(pg.mediabox.height)
+              assert abs(w-595.3)<=3 and abs(h-841.9)<=3, f"reconstructed page {i} is not A4: {w:.1f}x{h:.1f}pt"
+          lens=[len((pg.extract_text() or '').strip()) for pg in r.pages]
+          weak=[i+1 for i,L in enumerate(lens) if L<40]
+          assert not weak, f"reconstructed PDF pages with <40 chars (blank/degraded?): {weak}"
+          print(f"PASS reconstructed PDF: 53 pages, all A4, min per-page text {min(lens)} chars")
           PY
       - name: Preserve rebuilt PDF for human comparison, not production
         if: github.event_name == 'pull_request'
