@@ -118,8 +118,8 @@ const cases=[
         await deep.waitForFunction(()=>{
           const c=document.querySelector('#counter')?.textContent||'';
           const sheet=document.querySelector('.scroll-sheet[data-index="18"]');
-          return /19\s*\/\s*53/.test(c)&&!!sheet?.querySelector('.a4-page');
-        },{timeout:60000});
+          return /19\s*\/\s*53/.test(c)&&!!sheet?.querySelector('.a4-page')
+            &&sheet.getAttribute('aria-busy')==='false'&&!sheet.classList.contains('is-placeholder');  },{timeout:60000});
         const result=await deep.evaluate(()=>{
           const header=document.querySelector('body>.top')?.getBoundingClientRect();
           const sheet=document.querySelector('.scroll-sheet[data-index="18"]')?.getBoundingClientRect();
