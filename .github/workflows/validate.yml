@@ -96,8 +96,13 @@ jobs:
   pr-browser-evidence:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
+    # Temporary PR #24-only writeback. Remove after the verified PDF is committed.
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
@@ -143,6 +148,23 @@ jobs:
           CHROME_BIN="$(command -v google-chrome || command -v chromium || command -v chromium-browser)"
           test -n "$CHROME_BIN"
           CHROME_BIN="$CHROME_BIN" npm run smoke
+      - name: Commit verified PDF and provenance to PR #24 branch only
+        if: github.event.pull_request.number == 24 && github.event.pull_request.head.repo.full_name == github.repository && github.event.pull_request.head.ref == 'fix/math-readiness-fail-closed-20261114'
+        run: |
+          set -euo pipefail
+          # The checkout must be the exact reviewed source, not a synthetic merge SHA.
+          test "$(git rev-parse HEAD)" = "${{ github.event.pull_request.head.sha }}"
+          test -s pythagoras-workbook.pdf
+          test -s pdf-provenance.json
+          # The only two allowed tracked outputs; no changes to source or main.
+          git add -- pythagoras-workbook.pdf pdf-provenance.json
+          if git diff --cached --quiet; then
+            echo 'Verified PDF artifacts already tracked'; exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "build(pythagoras): sync verified canonical PDF and provenance"
+          git push origin "HEAD:refs/heads/${{ github.event.pull_request.head.ref }}"
       - name: Preserve regenerated PDF and provenance for PR review, never publish
         if: always()
         uses: actions/upload-artifact@v4
