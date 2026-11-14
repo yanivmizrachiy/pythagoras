@@ -298,5 +298,50 @@ const cases=[
       await page.close();
       console.log('PASS smoke: SVG mixed unit labels');
     }
+
+    // Real Chromium regression: a vendor engine with a broken typesetter must
+    // never mark the first sheet ready or open a malformed 53-page print job.
+    {
+      const page=await browser.newPage();
+      try{
+        await page.setViewport({width:1100,height:900,deviceScaleFactor:1});
+        await page.setRequestInterception(true);
+        page.on('request',request=>{
+          if(request.url().includes('/vendor/mathjax/tex-mml-chtml.js')){
+            return request.respond({
+              status:200,
+              contentType:'application/javascript',
+              body:"window.MathJax={startup:{promise:Promise.resolve()},typesetPromise:async()=>{throw new Error('forced-typeset-failure')},typesetClear:()=>{}};"
+            });
+          }
+          return request.continue();
+        });
+        await page.goto('http://127.0.0.1:8080/',{waitUntil:'domcontentloaded',timeout:60000});
+        await page.waitForFunction(()=>document.querySelector('#app')?.classList.contains('err'),{timeout:15000});
+        const state=await page.evaluate(()=>{
+          const first=document.querySelector('.scroll-sheet[data-index="0"]');
+          return {
+            ready:!!first&&!first.classList.contains('is-placeholder'),
+            rawVisible:!!first&&getComputedStyle(first.querySelector('.preview-fit')||first).visibility==='visible'&&/\\\(/.test(first.textContent||''),
+            status:document.getElementById('syncStatus')?.textContent||'',
+            error:document.getElementById('app')?.textContent||''
+          };
+        });
+        if(state.ready||state.rawVisible||!/טעינה נכשלה/.test(state.status)||!/עיבוד נוסחאות מתמטיות נכשל/.test(state.error)){
+          throw new Error('fail-closed page readiness regression: '+JSON.stringify(state));
+        }
+        const print=await page.evaluate(async()=>{
+          let printed=false;
+          window.print=()=>{printed=true};
+          window.alert=()=>{};
+          await window.PythagorasWorkbookInternal.printOriginal();
+          return {printed,status:document.getElementById('syncStatus')?.textContent||''};
+        });
+        if(print.printed||print.status!=='הדפסה נכשלה'){
+          throw new Error('print must fail closed when MathJax fails: '+JSON.stringify(print));
+        }
+        console.log('PASS smoke: failed typeset blocks loaded state and 53-page print');
+      }finally{await page.close()}
+    }
   }finally{await browser.close()}
 })().catch(e=>{console.error(e);process.exit(1)});
