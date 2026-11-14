@@ -90,6 +90,70 @@ jobs:
           retention-days: 7
           if-no-files-found: error
 
+  # Keep the tracked-PDF provenance gate above strict: it must stay RED until
+  # the rebuilt PDF and its provenance are committed. Run independent browser
+  # evidence even while that deliberate gate is red, so real failures are seen.
+  pr-browser-evidence:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install browser harness
+        run: npm install --no-save --package-lock=false puppeteer-core
+      - name: Rebuild canonical PDF candidate from this exact PR head
+        run: |
+          set -euo pipefail
+          node tools/dev-server.js >/tmp/pythagoras-evidence-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          for i in {1..60}; do
+            curl -fsS http://127.0.0.1:8080/ >/dev/null && break
+            sleep 0.5
+          done
+          CHROME_BIN="$(command -v google-chrome || command -v chromium || command -v chromium-browser)"
+          test -n "$CHROME_BIN"
+          CHROME_BIN="$CHROME_BIN" npm run pdf:build
+      - name: Validate rebuilt candidate and exact source provenance
+        run: |
+          npm run validate
+          python -m pip install --disable-pip-version-check -q pypdf
+          python - <<'PY'
+          from pypdf import PdfReader
+          r=PdfReader("pythagoras-workbook.pdf")
+          assert len(r.pages)==53, f"expected 53 PDF pages, got {len(r.pages)}"
+          for i,p in enumerate(r.pages,1):
+              w,h=float(p.mediabox.width),float(p.mediabox.height)
+              assert abs(w-595.3)<=3 and abs(h-841.9)<=3, f"page {i}: not A4 {w}x{h}"
+              assert len((p.extract_text() or "").strip())>=40, f"page {i}: weak text"
+          print("PASS PR candidate: 53 A4 PDF pages")
+          PY
+      - name: Browser smoke with real MathJax and failure injection
+        run: |
+          set -euo pipefail
+          node tools/dev-server.js >/tmp/pythagoras-smoke-server.log 2>&1 &
+          SERVER_PID=$!
+          trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
+          for i in {1..60}; do
+            curl -fsS http://127.0.0.1:8080/ >/dev/null && break
+            sleep 0.5
+          done
+          CHROME_BIN="$(command -v google-chrome || command -v chromium || command -v chromium-browser)"
+          test -n "$CHROME_BIN"
+          CHROME_BIN="$CHROME_BIN" npm run smoke
+      - name: Preserve regenerated PDF and provenance for PR review, never publish
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pythagoras-pr24-candidate-evidence
+          path: |
+            pythagoras-workbook.pdf
+            pdf-provenance.json
+          retention-days: 7
+          if-no-files-found: warn
+
   sync-pages:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: validate
