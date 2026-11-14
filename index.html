@@ -66,16 +66,19 @@ function ensureLink(key,href,force=false){
   const pending=new Promise((resolve,reject)=>{
     const l=document.createElement('link');
     l.rel='stylesheet';l.href=href;l.dataset.liveStyle=key;
-    l.onload=()=>{
+    let settled=false;
+    const complete=error=>{
+      if(settled)return;
+      settled=true;clearTimeout(timeout);
       l.onload=null;l.onerror=null;
+      if(error){l.remove();reject(error);return}
       styleLinks.set(key,l);
       if(previous&&previous!==l)previous.remove();
       resolve(l);
     };
-    l.onerror=()=>{
-      l.onload=null;l.onerror=null;l.remove();
-      reject(new Error('CSS נכשל: '+key));
-    };
+    const timeout=setTimeout(()=>complete(new Error('תם זמן טעינת CSS: '+key)),20000);
+    l.onload=()=>complete(null);
+    l.onerror=()=>complete(new Error('CSS נכשל: '+key));
     document.head.append(l);
   });
   stylePending.set(key,{href,promise:pending});
