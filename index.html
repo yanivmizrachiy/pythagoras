@@ -47,20 +47,25 @@ const SOURCE=new URL('./',document.baseURI).href;
 const app=document.getElementById('app'),counter=document.getElementById('counter'),prev=document.getElementById('prev'),next=document.getElementById('next'),syncStatus=document.getElementById('syncStatus'),printHost=document.getElementById('printHost');
 const printOptionsBtn=document.getElementById('printOptionsBtn'),printOptions=document.getElementById('printOptions'),downloadMain=document.getElementById('downloadMain'),printColor=document.getElementById('printColor'),printMono=document.getElementById('printMono'),downloadColor=document.getElementById('downloadColor'),downloadMono=document.getElementById('downloadMono');
 const actionButtons=[printOptionsBtn,downloadMain,printColor,printMono,downloadColor,downloadMono];
-let manifest=null,pages=[],idx=0,currentObserver=null,lazyObserver=null;const pageCache=new Map(),pagePromises=new Map(),styleLinks=new Map(),scriptPromises=new Map(),loadedPages=new Set();
+let manifest=null,pages=[],idx=0,currentObserver=null,lazyObserver=null;const pageCache=new Map(),pagePromises=new Map(),styleLinks=new Map(),stylePending=new Map(),scriptPromises=new Map(),loadedPages=new Set();
 const absolute=p=>new URL(p,SOURCE).href;const liveUrl=p=>{const u=new URL(p,SOURCE);u.searchParams.set('_live',Date.now());return u.href};
 async function fetchText(path,fresh=false){const r=await fetch(fresh?liveUrl(path):absolute(path),{cache:fresh?'no-store':'default'});if(!r.ok)throw new Error(path+' — HTTP '+r.status);return r.text()}
 async function fetchJson(path,fresh=false){return JSON.parse(await fetchText(path,fresh))}
 function hashText(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return(h>>>0).toString(16)}
 function cssPath(meta){return 'styles/pages/'+meta.file.replace(/\.html$/i,'.css')}
 function ensureLink(key,href,force=false){
-  return new Promise((resolve,reject)=>{
-    const previous=styleLinks.get(key);
-    if(previous&&!force)return resolve(previous);
+  const inFlight=stylePending.get(key);
+  if(inFlight){
+    // Share identical requests. A distinct forced update waits for the
+    // existing request so an older response cannot overwrite newer CSS.
+    if(!force||inFlight.href===href)return inFlight.promise;
+    return inFlight.promise.then(()=>ensureLink(key,href,true));
+  }
+  const previous=styleLinks.get(key);
+  if(previous&&!force)return Promise.resolve(previous);
+  const pending=new Promise((resolve,reject)=>{
     const l=document.createElement('link');
     l.rel='stylesheet';l.href=href;l.dataset.liveStyle=key;
-    // Keep the old styling active until the new stylesheet has loaded.
-    // On a transient CSS error, preserve the working link for retry.
     l.onload=()=>{
       l.onload=null;l.onerror=null;
       styleLinks.set(key,l);
@@ -73,6 +78,11 @@ function ensureLink(key,href,force=false){
     };
     document.head.append(l);
   });
+  stylePending.set(key,{href,promise:pending});
+  pending.finally(()=>{
+    if(stylePending.get(key)?.promise===pending)stylePending.delete(key);
+  }).catch(()=>{});
+  return pending;
 }
 const sharedStylesPromise=Promise.all(['vendor/fonts/rubik.css','styles/a4-base.css','styles/topics/pythagoras.css','styles/pythagoras-workbook.css'].map(p=>ensureLink('shared:'+p,absolute(p))));
 async function loadPageStyle(meta,force=false){return ensureLink('page:'+meta.file,(force?liveUrl(cssPath(meta)):absolute(cssPath(meta))),force)}
