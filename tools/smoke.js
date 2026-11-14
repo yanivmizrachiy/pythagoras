@@ -343,5 +343,74 @@ const cases=[
         console.log('PASS smoke: failed typeset blocks loaded state and 53-page print');
       }finally{await page.close()}
     }
+
+    // A CSS-only release must refresh the current sheet without changing HTML.
+    // The previous stylesheet must stay active while its replacement is pending.
+    {
+      const page=await browser.newPage();
+      let permitCss, markCssSeen;
+      const permit=new Promise(resolve=>{permitCss=resolve});
+      const cssSeen=new Promise(resolve=>{markCssSeen=resolve});
+      const originalCss=require('node:fs').readFileSync(
+        require('node:path').join(__dirname,'..','styles','pages','עמוד-634.css'),'utf8'
+      );
+      try{
+        await page.setViewport({width:1100,height:900,deviceScaleFactor:1});
+        await page.evaluateOnNewDocument(()=>{
+          const original=window.setInterval;
+          window.setInterval=function(callback,ms,...args){
+            if(ms===120000){window.__pythTestSync=()=>callback(...args);return 999999}
+            return original(callback,ms,...args)
+          };
+        });
+        await page.setRequestInterception(true);
+        page.on('request',request=>{
+          const url=new URL(request.url());
+          if(url.searchParams.has('_live')&&
+             decodeURIComponent(url.pathname).endsWith('/styles/pages/עמוד-634.css')){
+            markCssSeen();
+            permit.then(()=>request.respond({
+              status:200,contentType:'text/css',
+              body:originalCss+'\n:root{--pyt-live-css-probe:loaded}\n'
+            })).catch(e=>console.error('CSS probe response',e));
+            return;
+          }
+          return request.continue();
+        });
+        await page.goto('http://127.0.0.1:8080/',{waitUntil:'domcontentloaded',timeout:60000});
+        await page.waitForFunction(()=>
+          typeof window.__pythTestSync==='function'&&
+          !!document.querySelector('link[data-live-style="page:עמוד-634.html"]')&&
+          !!document.querySelector('#app .scroll-sheet[data-index="0"]:not(.is-placeholder)')
+        ,{timeout:60000});
+        const original=await page.evaluate(()=>
+          document.querySelector('link[data-live-style="page:עמוד-634.html"]').href
+        );
+        await page.evaluate(()=>window.__pythTestSync());
+        await Promise.race([cssSeen,new Promise((_,reject)=>setTimeout(
+          ()=>reject(new Error('CSS-only update never requested the fresh stylesheet')),15000
+        ))]);
+        const during=await page.evaluate(href=>({
+          count:document.querySelectorAll('link[data-live-style="page:עמוד-634.html"]').length,
+          oldActive:!![...document.querySelectorAll('link[data-live-style="page:עמוד-634.html"]')]
+            .find(link=>link.href===href&&link.isConnected)
+        }),original);
+        if(!during.oldActive||during.count!==2){
+          throw new Error('CSS-only refresh replaced active styling prematurely: '+JSON.stringify(during));
+        }
+        permitCss();
+        await page.waitForFunction(()=>
+          getComputedStyle(document.documentElement).getPropertyValue('--pyt-live-css-probe').trim()==='loaded'
+        ,{timeout:15000});
+        const after=await page.evaluate(href=>({
+          links:[...document.querySelectorAll('link[data-live-style="page:עמוד-634.html"]')].map(link=>link.href),
+          stillReady:!!document.querySelector('#app .scroll-sheet[data-index="0"]:not(.is-placeholder)')
+        }),original);
+        if(after.links.length!==1||after.links[0]===original||!after.stillReady){
+          throw new Error('CSS-only refresh did not atomically complete: '+JSON.stringify(after));
+        }
+        console.log('PASS smoke: CSS-only live stylesheet swap preserves ready A4 page');
+      }finally{permitCss?.();await page.close()}
+    }
   }finally{await browser.close()}
 })().catch(e=>{console.error(e);process.exit(1)});
