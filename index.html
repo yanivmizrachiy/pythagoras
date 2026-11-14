@@ -53,7 +53,27 @@ async function fetchText(path,fresh=false){const r=await fetch(fresh?liveUrl(pat
 async function fetchJson(path,fresh=false){return JSON.parse(await fetchText(path,fresh))}
 function hashText(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return(h>>>0).toString(16)}
 function cssPath(meta){return 'styles/pages/'+meta.file.replace(/\.html$/i,'.css')}
-function ensureLink(key,href,force=false){return new Promise((resolve,reject)=>{if(force&&styleLinks.has(key)){styleLinks.get(key).remove();styleLinks.delete(key)}if(styleLinks.has(key))return resolve(styleLinks.get(key));const l=document.createElement('link');l.rel='stylesheet';l.href=href;l.dataset.liveStyle=key;l.onload=()=>{styleLinks.set(key,l);resolve(l)};l.onerror=()=>{l.remove();reject(new Error('CSS נכשל: '+key))};document.head.append(l)})}
+function ensureLink(key,href,force=false){
+  return new Promise((resolve,reject)=>{
+    const previous=styleLinks.get(key);
+    if(previous&&!force)return resolve(previous);
+    const l=document.createElement('link');
+    l.rel='stylesheet';l.href=href;l.dataset.liveStyle=key;
+    // Keep the old styling active until the new stylesheet has loaded.
+    // On a transient CSS error, preserve the working link for retry.
+    l.onload=()=>{
+      l.onload=null;l.onerror=null;
+      styleLinks.set(key,l);
+      if(previous&&previous!==l)previous.remove();
+      resolve(l);
+    };
+    l.onerror=()=>{
+      l.onload=null;l.onerror=null;l.remove();
+      reject(new Error('CSS נכשל: '+key));
+    };
+    document.head.append(l);
+  });
+}
 const sharedStylesPromise=Promise.all(['vendor/fonts/rubik.css','styles/a4-base.css','styles/topics/pythagoras.css','styles/pythagoras-workbook.css'].map(p=>ensureLink('shared:'+p,absolute(p))));
 async function loadPageStyle(meta,force=false){return ensureLink('page:'+meta.file,(force?liveUrl(cssPath(meta)):absolute(cssPath(meta))),force)}
 function loadScriptOnce(src,key){if(scriptPromises.has(key))return scriptPromises.get(key);const p=new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=src;s.async=true;s.dataset.pdfLib=key;s.onload=resolve;s.onerror=()=>{s.remove();scriptPromises.delete(key);reject(new Error('טעינת מנוע PDF נכשלה: '+key))};document.head.append(s)});scriptPromises.set(key,p);return p}
@@ -168,7 +188,20 @@ function scrollToPage(i){
   if(sheet)sheet.scrollIntoView({behavior:'instant',block:'start'});
   loadPage(target).catch(err=>console.error('Page '+(target+1)+' failed',err));
 }
-async function refreshCurrentIfChanged(){const meta=pages[idx],old=pageCache.get(meta.file)?.hash,current=await fetchText(meta.file,true),h=hashText(current);if(old&&h===old)return false;await loadPage(idx,true);return true}
+async function refreshCurrentIfChanged(){
+  const meta=pages[idx];
+  const old=pageCache.get(meta.file)?.hash;
+  const current=await fetchText(meta.file,true),h=hashText(current);
+  if(old&&h===old){
+    // CSS-only releases must reach the active page even when its HTML is unchanged.
+    // Swap styles only AFTER the new link has loaded, with no flash of raw styling.
+    await loadPageStyle(meta,true);
+    requestAnimationFrame(()=>fitLoaded());
+    return false;
+  }
+  await loadPage(idx,true);
+  return true;
+}
 async function prepareWorkbook(theme){
   syncStatus.textContent='מכין את כל '+pages.length+' הדפים…';
   setActionsDisabled(true);
