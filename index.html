@@ -59,7 +59,7 @@ function ensureLink(key,href,force=false){
     // Share identical requests. A distinct forced update waits for the
     // existing request so an older response cannot overwrite newer CSS.
     if(!force||inFlight.href===href)return inFlight.promise;
-    return inFlight.promise.then(()=>ensureLink(key,href,true));
+    return inFlight.promise.catch(()=>{}).then(()=>ensureLink(key,href,true));
   }
   const previous=styleLinks.get(key);
   if(previous&&!force)return Promise.resolve(previous);
