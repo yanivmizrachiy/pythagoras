@@ -10,7 +10,7 @@
 <script src="book-design.js?v=18"></script>
 <style>
 :root{font-family:Rubik,Arial,sans-serif;color:#17223b;background:#eef2f7;--navy:#102b46;--navy2:#173f63;--ink:#172033;--muted:#718096;--line:#dfe5ec;--surface:#fff;--shadow:0 12px 36px rgba(15,39,65,.10)}
-*{box-sizing:border-box}html{scroll-behavior:auto;-webkit-text-size-adjust:100%;text-size-adjust:100%}body{margin:0;min-width:0;background:#eef2f7;color:#17223b;overflow-x:clip;-webkit-font-smoothing:antialiased}.top{position:sticky;top:0;z-index:9999;padding:calc(8px + env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) 8px max(8px,env(safe-area-inset-left));background:rgba(248,250,252,.92);border-bottom:1px solid rgba(211,219,229,.82);backdrop-filter:blur(18px) saturate(145%);-webkit-backdrop-filter:blur(18px) saturate(145%)}.toolbar-shell{width:min(1100px,100%);margin:auto;background:rgba(255,255,255,.97);border:1px solid rgba(210,219,230,.92);border-radius:20px;box-shadow:var(--shadow);padding:10px 12px}.toolbar-head{display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0}.toolbar-brand{display:flex;flex-direction:column;gap:2px;min-width:0}.toolbar-kicker{font-size:11px;font-weight:800;letter-spacing:.04em;color:#6d7b8e}.toolbar-title{font-size:15px;font-weight:850;color:var(--navy);white-space:nowrap}.sync{font-size:11px;color:#78869a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:340px}.nav-group{display:flex;align-items:center;gap:6px;background:#f5f7fa;border:1px solid #e4e9ef;border-radius:13px;padding:4px;flex:0 0 auto}.nav-button{appearance:none;width:38px;height:36px;padding:0;border:1px solid transparent;background:transparent;border-radius:10px;display:grid;place-items:center;color:var(--ink);cursor:pointer;transition:background .16s ease,border-color .16s ease,box-shadow .16s ease;touch-action:manipulation}.nav-button:hover:not(:disabled){background:#fff;border-color:#dbe3eb;box-shadow:0 4px 12px rgba(15,39,65,.08)}.nav-button:disabled{opacity:.35;cursor:default}.nav-button svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}.counter{min-width:86px;text-align:center;font-size:12px;font-weight:800;color:#445166;padding:0 4px;white-space:nowrap}.mode-area{margin-top:10px;padding-top:10px;border-top:1px solid #edf0f4}.nav-button:focus-visible{outline:3px solid rgba(50,102,149,.22);outline-offset:2px}.stage{padding:18px max(4px,env(safe-area-inset-right)) calc(42px + env(safe-area-inset-bottom)) max(4px,env(safe-area-inset-left))}.paper{width:100%;margin:0;background:transparent;overflow:visible}.loading{display:grid;place-items:center;min-height:72vh;text-align:center;padding:30px}.err{color:#9c1c1c;white-space:pre-wrap}.scroll-stack{display:flex;flex-direction:column;gap:20px;align-items:center;width:100%}.scroll-sheet{width:min(210mm,calc(100vw - max(16px,env(safe-area-inset-left)) - max(16px,env(safe-area-inset-right))));max-width:100%;background:#fff;box-shadow:0 12px 35px rgba(38,53,77,.14);overflow:hidden;position:relative;scroll-margin-top:205px;content-visibility:auto;contain-intrinsic-size:794px 1123px}.scroll-sheet.is-current{box-shadow:0 15px 42px rgba(27,63,99,.18)}.scroll-sheet.is-placeholder{aspect-ratio:210/297;min-height:min(297mm,141.43vw);background:linear-gradient(105deg,#fff 20%,#f4f7fa 40%,#fff 60%);background-size:220% 100%;animation:skeleton 1.4s linear infinite}.scroll-sheet.is-placeholder::after{content:attr(data-label);position:absolute;inset:0;display:grid;place-items:center;color:#9aa6b5;font-size:12px;font-weight:700}.fallback{padding:0!important;margin:0!important;font-size:inherit!important;line-height:normal!important}.fallback .a4-page{margin:0!important;box-shadow:none!important}.preview-fit{position:relative;margin:auto;overflow:visible}@keyframes skeleton{to{background-position:-220% 0}}@keyframes menuIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}#printHost{display:none}#printHost.pdf-rendering{display:block!important;position:fixed!important;left:-12000px!important;top:0!important;width:210mm!important;background:#fff!important;z-index:-1!important;visibility:visible!important}.pdf-rendering .print-page{width:210mm!important;height:297mm!important;min-height:297mm!important;margin:0!important;padding:0!important;background:#fff!important;overflow:hidden!important}.pdf-rendering .fallback,.pdf-rendering .a4-page{margin:0!important}
+*{box-sizing:border-box}html{scroll-behavior:auto;-webkit-text-size-adjust:100%;text-size-adjust:100%}body{margin:0;min-width:0;background:#eef2f7;color:#17223b;overflow-x:clip;-webkit-font-smoothing:antialiased}.top{position:sticky;top:0;z-index:9999;padding:calc(8px + env(safe-area-inset-top)) max(8px,env(safe-area-inset-right)) 8px max(8px,env(safe-area-inset-left));background:rgba(248,250,252,.92);border-bottom:1px solid rgba(211,219,229,.82);backdrop-filter:blur(18px) saturate(145%);-webkit-backdrop-filter:blur(18px) saturate(145%)}.toolbar-shell{width:min(1100px,100%);margin:auto;background:rgba(255,255,255,.97);border:1px solid rgba(210,219,230,.92);border-radius:20px;box-shadow:var(--shadow);padding:10px 12px}.toolbar-head{display:flex;align-items:center;justify-content:space-between;gap:12px;min-width:0}.toolbar-brand{display:flex;flex-direction:column;gap:2px;min-width:0}.toolbar-kicker{font-size:11px;font-weight:800;letter-spacing:.04em;color:#6d7b8e}.toolbar-title{font-size:15px;font-weight:850;color:var(--navy);white-space:nowrap}.sync{font-size:11px;color:#78869a;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:340px}.nav-group{display:flex;align-items:center;gap:6px;background:#f5f7fa;border:1px solid #e4e9ef;border-radius:13px;padding:4px;flex:0 0 auto}.nav-button{appearance:none;width:38px;height:36px;padding:0;border:1px solid transparent;background:transparent;border-radius:10px;display:grid;place-items:center;color:var(--ink);cursor:pointer;transition:background .16s ease,border-color .16s ease,box-shadow .16s ease;touch-action:manipulation}.nav-button:hover:not(:disabled){background:#fff;border-color:#dbe3eb;box-shadow:0 4px 12px rgba(15,39,65,.08)}.nav-button:disabled{opacity:.35;cursor:default}.nav-button svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}.counter{min-width:86px;text-align:center;font-size:12px;font-weight:800;color:#445166;padding:0 4px;white-space:nowrap}.mode-area{margin-top:10px;padding-top:10px;border-top:1px solid #edf0f4}.nav-button:focus-visible{outline:3px solid rgba(50,102,149,.22);outline-offset:2px}.stage{padding:18px max(4px,env(safe-area-inset-right)) calc(42px + env(safe-area-inset-bottom)) max(4px,env(safe-area-inset-left))}.paper{width:100%;margin:0;background:transparent;overflow:visible}.loading{display:grid;place-items:center;min-height:72vh;text-align:center;padding:30px}.err{color:#9c1c1c;white-space:pre-wrap}.scroll-stack{display:flex;flex-direction:column;gap:20px;align-items:center;width:100%}.scroll-sheet{width:min(210mm,calc(100vw - max(16px,env(safe-area-inset-left)) - max(16px,env(safe-area-inset-right))));max-width:100%;background:#fff;box-shadow:0 12px 35px rgba(38,53,77,.14);overflow:hidden;position:relative;scroll-margin-top:205px;content-visibility:auto;contain-intrinsic-size:794px 1123px}.scroll-sheet.is-current{box-shadow:0 15px 42px rgba(27,63,99,.18)}.scroll-sheet.is-placeholder{aspect-ratio:210/297;min-height:min(297mm,141.43vw);background:linear-gradient(105deg,#fff 20%,#f4f7fa 40%,#fff 60%);background-size:220% 100%;animation:skeleton 1.4s linear infinite}.scroll-sheet.is-placeholder .preview-fit{visibility:hidden}.scroll-sheet.is-placeholder::after{content:attr(data-label);position:absolute;inset:0;display:grid;place-items:center;color:#9aa6b5;font-size:12px;font-weight:700}.fallback{padding:0!important;margin:0!important;font-size:inherit!important;line-height:normal!important}.fallback .a4-page{margin:0!important;box-shadow:none!important}.preview-fit{position:relative;margin:auto;overflow:visible}@keyframes skeleton{to{background-position:-220% 0}}@keyframes menuIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}#printHost{display:none}#printHost.pdf-rendering{display:block!important;position:fixed!important;left:-12000px!important;top:0!important;width:210mm!important;background:#fff!important;z-index:-1!important;visibility:visible!important}.pdf-rendering .print-page{width:210mm!important;height:297mm!important;min-height:297mm!important;margin:0!important;padding:0!important;background:#fff!important;overflow:hidden!important}.pdf-rendering .fallback,.pdf-rendering .a4-page{margin:0!important}
 @media(max-width:760px){.top{padding-top:calc(6px + env(safe-area-inset-top));padding-bottom:6px}.toolbar-shell{border-radius:16px;padding:8px}.toolbar-head{gap:7px}.toolbar-title{font-size:14px}.toolbar-kicker{font-size:10px}.sync{max-width:44vw;font-size:10px}.nav-group{gap:3px}.nav-button{width:42px;height:42px}.counter{min-width:64px;font-size:11px}.mode-area{margin-top:7px;padding-top:7px}.stage{padding-top:8px}.scroll-stack{gap:12px}.scroll-sheet{width:100%;scroll-margin-top:225px;contain-intrinsic-size:100vw 141.43vw}.scroll-sheet.is-placeholder{min-height:141.43vw}}
 @media(max-width:430px){.toolbar-brand{max-width:44vw}.toolbar-title{white-space:normal;line-height:1.12}.sync{max-width:42vw}}
 @media(max-width:340px){.toolbar-shell{padding:7px}.toolbar-brand{max-width:36vw}.toolbar-kicker,.sync{display:none}.toolbar-title{font-size:13px}.nav-button{width:38px;height:38px}.counter{min-width:54px;font-size:10px}.scroll-sheet{scroll-margin-top:250px}}
@@ -47,13 +47,46 @@ const SOURCE=new URL('./',document.baseURI).href;
 const app=document.getElementById('app'),counter=document.getElementById('counter'),prev=document.getElementById('prev'),next=document.getElementById('next'),syncStatus=document.getElementById('syncStatus'),printHost=document.getElementById('printHost');
 const printOptionsBtn=document.getElementById('printOptionsBtn'),printOptions=document.getElementById('printOptions'),downloadMain=document.getElementById('downloadMain'),printColor=document.getElementById('printColor'),printMono=document.getElementById('printMono'),downloadColor=document.getElementById('downloadColor'),downloadMono=document.getElementById('downloadMono');
 const actionButtons=[printOptionsBtn,downloadMain,printColor,printMono,downloadColor,downloadMono];
-let manifest=null,pages=[],idx=0,currentObserver=null,lazyObserver=null;const pageCache=new Map(),pagePromises=new Map(),styleLinks=new Map(),scriptPromises=new Map(),loadedPages=new Set();
+let manifest=null,pages=[],idx=0,currentObserver=null,lazyObserver=null,readerReady=false;const pageCache=new Map(),pagePromises=new Map(),styleLinks=new Map(),stylePending=new Map(),scriptPromises=new Map(),loadedPages=new Set();
 const absolute=p=>new URL(p,SOURCE).href;const liveUrl=p=>{const u=new URL(p,SOURCE);u.searchParams.set('_live',Date.now());return u.href};
 async function fetchText(path,fresh=false){const r=await fetch(fresh?liveUrl(path):absolute(path),{cache:fresh?'no-store':'default'});if(!r.ok)throw new Error(path+' — HTTP '+r.status);return r.text()}
 async function fetchJson(path,fresh=false){return JSON.parse(await fetchText(path,fresh))}
 function hashText(s){let h=2166136261;for(let i=0;i<s.length;i++){h^=s.charCodeAt(i);h=Math.imul(h,16777619)}return(h>>>0).toString(16)}
 function cssPath(meta){return 'styles/pages/'+meta.file.replace(/\.html$/i,'.css')}
-function ensureLink(key,href,force=false){return new Promise((resolve,reject)=>{if(force&&styleLinks.has(key)){styleLinks.get(key).remove();styleLinks.delete(key)}if(styleLinks.has(key))return resolve(styleLinks.get(key));const l=document.createElement('link');l.rel='stylesheet';l.href=href;l.dataset.liveStyle=key;l.onload=()=>{styleLinks.set(key,l);resolve(l)};l.onerror=()=>{l.remove();reject(new Error('CSS נכשל: '+key))};document.head.append(l)})}
+function ensureLink(key,href,force=false){
+  const inFlight=stylePending.get(key);
+  if(inFlight){
+    // Share identical requests. A distinct forced update waits for the
+    // existing request so an older response cannot overwrite newer CSS.
+    if(!force||inFlight.href===href)return inFlight.promise;
+    return inFlight.promise.catch(()=>{}).then(()=>ensureLink(key,href,true));
+  }
+  const previous=styleLinks.get(key);
+  if(previous&&!force)return Promise.resolve(previous);
+  const pending=new Promise((resolve,reject)=>{
+    const l=document.createElement('link');
+    l.rel='stylesheet';l.href=href;l.dataset.liveStyle=key;
+    let settled=false;
+    const complete=error=>{
+      if(settled)return;
+      settled=true;clearTimeout(timeout);
+      l.onload=null;l.onerror=null;
+      if(error){l.remove();reject(error);return}
+      styleLinks.set(key,l);
+      if(previous&&previous!==l)previous.remove();
+      resolve(l);
+    };
+    const timeout=setTimeout(()=>complete(new Error('תם זמן טעינת CSS: '+key)),20000);
+    l.onload=()=>complete(null);
+    l.onerror=()=>complete(new Error('CSS נכשל: '+key));
+    document.head.append(l);
+  });
+  stylePending.set(key,{href,promise:pending});
+  pending.finally(()=>{
+    if(stylePending.get(key)?.promise===pending)stylePending.delete(key);
+  }).catch(()=>{});
+  return pending;
+}
 const sharedStylesPromise=Promise.all(['vendor/fonts/rubik.css','styles/a4-base.css','styles/topics/pythagoras.css','styles/pythagoras-workbook.css'].map(p=>ensureLink('shared:'+p,absolute(p))));
 async function loadPageStyle(meta,force=false){return ensureLink('page:'+meta.file,(force?liveUrl(cssPath(meta)):absolute(cssPath(meta))),force)}
 function loadScriptOnce(src,key){if(scriptPromises.has(key))return scriptPromises.get(key);const p=new Promise((resolve,reject)=>{const s=document.createElement('script');s.src=src;s.async=true;s.dataset.pdfLib=key;s.onload=resolve;s.onerror=()=>{s.remove();scriptPromises.delete(key);reject(new Error('טעינת מנוע PDF נכשלה: '+key))};document.head.append(s)});scriptPromises.set(key,p);return p}
@@ -71,15 +104,94 @@ let mjResolve;const mjEngineReady=new Promise(r=>{mjResolve=r});
 addEventListener('load',()=>setTimeout(()=>{if(!window.MathJax?.typesetPromise)window.__mjFallback?.()},400),{once:true});
 const mathReady=ms=>ms?Promise.race([mjEngineReady,new Promise(r=>setTimeout(()=>r(null),ms))]):mjEngineReady;
 let mjQueue=Promise.resolve();const mjSeen=new WeakSet();
-function typeset(scope){const run=mjQueue.then(async()=>{const M=await mjEngineReady;try{if(M.typesetClear&&mjSeen.has(scope))M.typesetClear([scope]);mjSeen.add(scope);await M.typesetPromise([scope])}catch(e){console.warn('MathJax',e);try{await M.typesetPromise([scope])}catch(e2){console.warn('MathJax retry',e2)}}});mjQueue=run.catch(()=>{});return run}
-function typesetSheet(sheet){return typeset(sheet).then(()=>{if(sheet.isConnected&&/\\\(|\\\[/.test(sheet.textContent||'')&&!sheet.dataset.mjRepaired){sheet.dataset.mjRepaired='1';return typeset(sheet)}})}
-function sweepMath(){app.querySelectorAll('.scroll-sheet:not(.is-placeholder)').forEach(s=>{if(/\\\(|\\\[/.test(s.textContent||''))typesetSheet(s)})}
-mjEngineReady.then(()=>{setTimeout(sweepMath,80)});
+function typeset(scope){
+  const run=mjQueue.then(async()=>{
+    const M=await mathReady(20000);
+    if(!M||typeof M.typesetPromise!=='function')throw new Error('מנוע MathJax לא נטען בזמן');
+    if(M.startup?.promise)await M.startup.promise;
+    if(M.typesetClear&&mjSeen.has(scope))M.typesetClear([scope]);
+    mjSeen.add(scope);
+    try{await M.typesetPromise([scope])}
+    catch(first){
+      console.warn('MathJax first attempt',first);
+      try{await M.typesetPromise([scope])}
+      catch(second){
+        console.error('MathJax second attempt failed',second);
+        throw new Error('עיבוד נוסחאות מתמטיות נכשל גם בניסיון חוזר');
+      }
+    }
+  });
+  // Keep later sheets usable without silently marking this failed sheet ready.
+  mjQueue=run.catch(()=>{});
+  return run;
+}
+
+function typesetSheet(sheet){
+  return typeset(sheet).then(async()=>{
+    const hasRaw=()=>/\\\(|\\\[/.test(sheet.textContent||'');
+    if(hasRaw()&&!sheet.dataset.mjRepaired){
+      sheet.dataset.mjRepaired='1';
+      await typeset(sheet);
+    }
+    if(hasRaw())throw new Error('נשארו נוסחאות TeX שלא עובדו');
+  });
+}
+
+function sweepMath(){
+  app.querySelectorAll('.scroll-sheet:not(.is-placeholder)').forEach(sheet=>{
+    if(!/\\\(|\\\[/.test(sheet.textContent||''))return;
+    delete sheet.dataset.mjRepaired;
+    typesetSheet(sheet).catch(error=>{
+      const n=Number(sheet.dataset.index);
+      if(Number.isInteger(n))loadedPages.delete(n);
+      sheet.replaceChildren();
+      sheet.classList.add('is-placeholder');
+      sheet.dataset.label='עמוד '+(n+1);
+      sheet.setAttribute('aria-busy','true');
+      syncStatus.textContent='עימוד מתמטי נכשל בעמוד '+(n+1);
+      console.error('Pythagoras math sweep',error);
+    });
+  });
+}
+
 function fitSheet(sheet){const wrap=sheet.querySelector('.preview-fit'),page=wrap?.querySelector('.a4-page');if(!wrap||!page)return;page.style.transform='';page.style.position='';page.style.left='';page.style.top='';wrap.style.width='';wrap.style.height='';const w=page.offsetWidth,h=page.offsetHeight,available=sheet.clientWidth;if(!w||!h)return;const scale=Math.min(1,available/w);wrap.style.width=(w*scale)+'px';wrap.style.height=(h*scale)+'px';if(scale<.999){page.style.position='absolute';page.style.left='0';page.style.top='0';page.style.transformOrigin='top left';page.style.transform='scale('+scale+')'}}
 function fitLoaded(){app.querySelectorAll('.scroll-sheet:not(.is-placeholder)').forEach(fitSheet)}
 function buildShells(){app.className='scroll-stack book-theme-color';app.innerHTML=pages.map((_,i)=>'<article class="scroll-sheet is-placeholder" data-index="'+i+'" data-label="עמוד '+(i+1)+'" id="workbook-page-'+(i+1)+'" aria-busy="true"></article>').join('')}
-async function loadPage(i,force=false){if(i<0||i>=pages.length)return;if(!force&&loadedPages.has(i))return;if(!force&&pagePromises.has(i))return pagePromises.get(i);const task=(async()=>{const meta=pages[i];const [,data]=await Promise.all([loadPageStyle(meta,force),getPage(i,force),sharedStylesPromise]);const sheet=app.querySelector('.scroll-sheet[data-index="'+i+'"]');if(!sheet)return;delete sheet.dataset.mjRepaired;sheet.innerHTML='<div class="preview-fit">'+data.markup+'</div>';sheet.classList.remove('is-placeholder');sheet.removeAttribute('data-label');sheet.setAttribute('aria-busy','false');loadedPages.add(i);applyDesign(sheet);requestAnimationFrame(()=>fitSheet(sheet));typesetSheet(sheet).then(()=>requestAnimationFrame(()=>fitSheet(sheet)));})();pagePromises.set(i,task);try{await task}finally{pagePromises.delete(i)}}
-function updateCurrent(i,replaceHash=true){idx=Math.max(0,Math.min(pages.length-1,i));counter.textContent='עמוד '+(idx+1)+' / '+pages.length;prev.disabled=idx===0;next.disabled=idx===pages.length-1;app.querySelectorAll('.scroll-sheet.is-current').forEach(e=>e.classList.remove('is-current'));app.querySelector('.scroll-sheet[data-index="'+idx+'"]')?.classList.add('is-current');if(replaceHash)history.replaceState(null,'',location.pathname+location.search+'#page='+(idx+1));warmAround(idx)}
+async function loadPage(i,force=false){
+  if(i<0||i>=pages.length)return;
+  if(!force&&loadedPages.has(i))return;
+  if(!force&&pagePromises.has(i))return pagePromises.get(i);
+  const task=(async()=>{
+    const meta=pages[i];
+    const [,data]=await Promise.all([loadPageStyle(meta,force),getPage(i,force),sharedStylesPromise]);
+    const sheet=app.querySelector('.scroll-sheet[data-index="'+i+'"]');
+    if(!sheet)return;
+    delete sheet.dataset.mjRepaired;
+    sheet.innerHTML='<div class="preview-fit">'+data.markup+'</div>';
+    applyDesign(sheet);
+    try{
+      // Both markup and real MathJax must finish before the user sees "ready".
+      await typesetSheet(sheet);
+    }catch(error){
+      sheet.replaceChildren();
+      sheet.classList.add('is-placeholder');
+      sheet.dataset.label='עמוד '+(i+1);
+      sheet.setAttribute('aria-busy','true');
+      loadedPages.delete(i);
+      syncStatus.textContent='שגיאה בעימוד נוסחאות בעמוד '+(i+1);
+      throw error;
+    }
+    sheet.classList.remove('is-placeholder');
+    sheet.removeAttribute('data-label');
+    sheet.setAttribute('aria-busy','false');
+    loadedPages.add(i);
+    requestAnimationFrame(()=>fitSheet(sheet));
+  })();
+  pagePromises.set(i,task);
+  try{await task}finally{pagePromises.delete(i)}
+}
+
+function updateCurrent(i,replaceHash=true){idx=Math.max(0,Math.min(pages.length-1,i));counter.textContent='עמוד '+(idx+1)+' / '+pages.length;prev.disabled=idx===0;next.disabled=idx===pages.length-1;app.querySelectorAll('.scroll-sheet.is-current').forEach(e=>e.classList.remove('is-current'));app.querySelector('.scroll-sheet[data-index="'+idx+'"]')?.classList.add('is-current');if(replaceHash)history.replaceState(null,'',location.pathname+location.search+'#page='+(idx+1));if(readerReady)warmAround(idx)}
 function warmAround(i){const conn=navigator.connection||navigator.mozConnection||navigator.webkitConnection;const ahead=conn?.saveData?1:/2g/.test(conn?.effectiveType||'')?1:3;const targets=[];for(let d=1;d<=ahead;d++){targets.push(i+d);if(d===1)targets.push(i-d)}const run=()=>targets.filter(x=>x>=0&&x<pages.length).forEach(x=>loadPage(x).catch(()=>{}));if('requestIdleCallback'in window)requestIdleCallback(run,{timeout:900});else setTimeout(run,120)}
 function setupObservers(){currentObserver?.disconnect();lazyObserver?.disconnect();if(!('IntersectionObserver'in window)){for(let i=0;i<Math.min(4,pages.length);i++)loadPage(i).catch(()=>{});return}currentObserver=new IntersectionObserver(entries=>{if(document.body.dataset.readerView&&document.body.dataset.readerView!=='scroll')return;const v=entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio);if(v.length){const i=Number(v[0].target.dataset.index);if(Number.isFinite(i)&&i!==idx)updateCurrent(i,true)}},{rootMargin:'-22% 0px -48% 0px',threshold:[0,.25,.5,.75]});lazyObserver=new IntersectionObserver(entries=>entries.forEach(e=>{if(e.isIntersecting){const i=Number(e.target.dataset.index);loadPage(i).catch(err=>console.error(err))}}),{rootMargin:'1600px 0px 1600px 0px',threshold:0});app.querySelectorAll('.scroll-sheet').forEach(e=>{currentObserver.observe(e);lazyObserver.observe(e)})}
 function scrollToPage(i){
@@ -89,9 +201,49 @@ function scrollToPage(i){
   if(sheet)sheet.scrollIntoView({behavior:'instant',block:'start'});
   loadPage(target).catch(err=>console.error('Page '+(target+1)+' failed',err));
 }
-async function refreshCurrentIfChanged(){const meta=pages[idx],old=pageCache.get(meta.file)?.hash,current=await fetchText(meta.file,true),h=hashText(current);if(old&&h===old)return false;await loadPage(idx,true);return true}
-async function prepareWorkbook(theme){syncStatus.textContent='מכין את כל '+pages.length+' הדפים…';setActionsDisabled(true);closeMenus();await sharedStylesPromise;await Promise.all(pages.map(p=>loadPageStyle(p)));const fresh=new Array(pages.length),queue=pages.map((_,i)=>i);let done=0;const workers=Array.from({length:6},async()=>{while(queue.length){const i=queue.shift();fresh[i]=(await getPage(i,true)).markup;done++;if(done%4===0)syncStatus.textContent='מכין '+done+' / '+pages.length}});await Promise.all(workers);printHost.className=theme==='mono'?'book-theme-mono':theme==='color'?'book-theme-color':'book-theme-original';printHost.innerHTML=fresh.map(m=>'<article class="print-page">'+m+'</article>').join('');applyDesign(printHost);const mjEngine=await mathReady(20000);if(mjEngine){await typeset(printHost);if(/\\\(|\\\[/.test(printHost.textContent||''))await typeset(printHost)}else{console.warn('MathJax engine unavailable — continuing without typeset')}syncStatus.textContent='מוכן · '+pages.length+' דפים'}
-async function printWorkbook(theme){try{await prepareWorkbook(theme);requestAnimationFrame(()=>requestAnimationFrame(()=>window.print()))}catch(e){alert('שגיאה בהכנת החוברת: '+e.message);console.error(e)}finally{setActionsDisabled(false)}}
+async function refreshCurrentIfChanged(){
+  const meta=pages[idx];
+  const old=pageCache.get(meta.file)?.hash;
+  const current=await fetchText(meta.file,true),h=hashText(current);
+  if(old&&h===old){
+    // CSS-only releases must reach the active page even when its HTML is unchanged.
+    // Swap styles only AFTER the new link has loaded, with no flash of raw styling.
+    await loadPageStyle(meta,true);
+    requestAnimationFrame(()=>fitLoaded());
+    return false;
+  }
+  await loadPage(idx,true);
+  return true;
+}
+async function prepareWorkbook(theme){
+  syncStatus.textContent='מכין את כל '+pages.length+' הדפים…';
+  setActionsDisabled(true);
+  closeMenus();
+  await sharedStylesPromise;
+  await Promise.all(pages.map(p=>loadPageStyle(p)));
+  const fresh=new Array(pages.length),queue=pages.map((_,i)=>i);
+  let done=0;
+  const workers=Array.from({length:6},async()=>{
+    while(queue.length){
+      const i=queue.shift();
+      fresh[i]=(await getPage(i,true)).markup;
+      done++;
+      if(done%4===0)syncStatus.textContent='מכין '+done+' / '+pages.length;
+    }
+  });
+  await Promise.all(workers);
+  printHost.className=theme==='mono'?'book-theme-mono':theme==='color'?'book-theme-color':'book-theme-original';
+  printHost.innerHTML=fresh.map(m=>'<article class="print-page">'+m+'</article>').join('');
+  delete printHost.dataset.mjRepaired;
+  applyDesign(printHost);
+  if(!await mathReady(20000))throw new Error('MathJax אינו זמין להדפסה');
+  await typesetSheet(printHost);
+  await document.fonts.ready;
+  if(/\\\(|\\\[/.test(printHost.textContent||''))throw new Error('ההדפסה מכילה נוסחאות לא מעובדות');
+  syncStatus.textContent='מוכן · '+pages.length+' דפים';
+}
+
+async function printWorkbook(theme){try{await prepareWorkbook(theme);requestAnimationFrame(()=>requestAnimationFrame(()=>window.print()))}catch(e){syncStatus.textContent='הדפסה נכשלה';printHost.replaceChildren();printHost.className='';alert('שגיאה בהכנת החוברת: '+e.message);console.error(e)}finally{setActionsDisabled(false)}}
 function pdfFilename(theme){return 'משפט-פיתגורס-'+(theme==='mono'?'שחור-לבן':theme==='color'?'צבע':'מקורי')+'.pdf'}
 // The Download button serves the canonical static PDF: vector, crisp text, instant, and
 // guaranteed identical to the pages on screen (SOURCE_OF_TRUTH §8א gate keeps it in sync).
@@ -103,7 +255,14 @@ async function boot(){
   if('scrollRestoration' in history)history.scrollRestoration='manual';
   window.scrollTo({top:0,behavior:'instant'});
   manifest=await fetchJson('WORKBOOK_MANIFEST.json',true);pages=Array.isArray(manifest.pages)?manifest.pages:[];if(!pages.length)throw new Error('המניפסט אינו מכיל דפים');if(Number(manifest.totalPages)&&Number(manifest.totalPages)!==pages.length)throw new Error('מספר הדפים במניפסט אינו תואם');const direct=location.hash.match(/^#(?:page=)?([1-9]\d*)$/);
-idx=Math.max(0,Math.min(pages.length-1,(direct?Number(direct[1]):1)-1));buildShells();updateCurrent(idx,false);syncStatus.textContent='טוען את העמוד הראשון…';await loadPage(idx);syncStatus.textContent='מוכן · שאר הדפים נטענים לפי הגלילה';if(idx>0){await new Promise(resolve=>requestAnimationFrame(resolve));app.querySelector('.scroll-sheet[data-index="'+idx+'"]')?.scrollIntoView({behavior:'instant',block:'start'})}setupObservers();warmAround(idx);
+idx=Math.max(0,Math.min(pages.length-1,(direct?Number(direct[1]):1)-1));buildShells();updateCurrent(idx,false);syncStatus.textContent='טוען את העמוד הראשון…';
+if(idx>0){
+  // Position the deep-link placeholder immediately. MathJax may need extra
+  // time to typeset; that must not leave the viewer at page 1 meanwhile.
+  await new Promise(resolve=>requestAnimationFrame(resolve));
+  app.querySelector('.scroll-sheet[data-index="'+idx+'"]')?.scrollIntoView({behavior:'instant',block:'start'});
+}
+await loadPage(idx);syncStatus.textContent='מוכן · שאר הדפים נטענים לפי הגלילה';if(idx>0){await new Promise(resolve=>requestAnimationFrame(resolve));app.querySelector('.scroll-sheet[data-index="'+idx+'"]')?.scrollIntoView({behavior:'instant',block:'start'})}setupObservers();readerReady=true;warmAround(idx);
 const printMode=new URL(location.href).searchParams.get('printMode');
 if(printMode==='color'||printMode==='mono'){
   const url=new URL(location.href);url.searchParams.delete('printMode');
