@@ -253,6 +253,16 @@ if(!prov||typeof prov.sourceSha256!=='string'){
   fail(`static PDF is stale — pythagoras-workbook.pdf was built from a different source than the current pages/styles (recorded=${prov.sourceSha256.slice(0,12)}…, current=${currentSourceHash.slice(0,12)}…); ${rebuildHint}`);
 }
 
+// Consumer signature: hosts verify the downloaded bytes against pdfSha256 and refuse a mismatch
+// (jerusalem2 PythagorasNative; SOURCE_OF_TRUTH §8א). It must describe the committed file exactly.
+if(prov&&!(process.env.PYTHAGORAS_PDF_REBUILD_PENDING==='1'&&prov.sourceSha256!==currentSourceHash)){
+  const pdfBytes=fs.readFileSync(path.join(root,'pythagoras-workbook.pdf'));
+  const actualPdfSha=require('crypto').createHash('sha256').update(pdfBytes).digest('hex');
+  if(typeof prov.pdfSha256!=='string')fail(`${PROVENANCE_FILE} has no pdfSha256 — consumers cannot verify the download; ${rebuildHint}`);
+  else if(prov.pdfSha256!==actualPdfSha)fail(`${PROVENANCE_FILE} pdfSha256 does not match pythagoras-workbook.pdf (recorded=${prov.pdfSha256.slice(0,12)}…, actual=${actualPdfSha.slice(0,12)}…); ${rebuildHint}`);
+  if(prov.pageCount!==53)fail(`${PROVENANCE_FILE} pageCount must be 53`);
+}
+
 const truth=read('SOURCE_OF_TRUTH.md');
 if(!truth.includes('מקור האמת היחיד והעליון'))fail('SSOT authority statement missing');
 if(!truth.includes('yanivmizrachiy/pythagoras'))fail('canonical repo missing from SSOT');

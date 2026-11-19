@@ -112,7 +112,10 @@ const base=process.env.PYTHAGORAS_BASE_URL||'http://127.0.0.1:8080/';
     fs.writeFileSync(path.join(root,PROVENANCE_FILE),JSON.stringify({
       note:'Build provenance for pythagoras-workbook.pdf — do not edit by hand. Rebuild with: CHROME_BIN=<chrome> npm run pdf:build (SOURCE_OF_TRUTH §8א/§10).',
       sourceSha256,
-      inputCount:inputs.length
+      inputCount:inputs.length,
+      // Consumers (jerusalem2's PythagorasNative) refuse a download whose bytes do not hash to this.
+      pdfSha256:require('crypto').createHash('sha256').update(fs.readFileSync(output)).digest('hex'),
+      pageCount:53
     },null,2)+'\n');
     console.log(`PASS static PDF generated from canonical reader: ${output} (${size} bytes)`);
     console.log(`PASS pre-PDF visual guards: ${qa.rootCells} roots, ${qa.unitLabels} SVG unit labels, ${qa.choiceContexts} page-20 contexts`);
