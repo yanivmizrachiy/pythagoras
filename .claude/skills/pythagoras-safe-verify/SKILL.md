@@ -43,7 +43,7 @@ CHROME_BIN=/path/to/installed/chrome npm run smoke
 
 `tools/smoke.js` targets `http://127.0.0.1:8080/` and needs an actual locally installed Chromium/Chrome executable; choose the **real** executable path for the environment, not the placeholder above. On Windows PowerShell, set `$env:CHROME_BIN` to the actual installed `chrome.exe` path and run `npm run smoke`. Do not mistake a browserless static parse for a passing browser test. On mobile/host changes verify one reader toolbar and no horizontal overflow.
 
-**Page content / typography / CSS / font / PDF-affecting changes:** the committed `pythagoras-workbook.pdf` must be rebuilt from the real sources with `npm run pdf:build` in an environment where the required browser exists. Re-run `npm run validate`; check provenance, exactly 53 A4 pages, preserved Hebrew text and the generated PDF visually. Do not hand-edit `pdf-provenance.json` or commit a stale PDF. Avoid costly PDF rebuilding on a documentation-only change.
+**Page content / typography / CSS / font / PDF-affecting changes:** CI rebuilds the committed `pythagoras-workbook.pdf` from the real sources and commits it to `main` automatically before publishing (SSOT §8א). Locally `npm run validate` still reports the stale PDF; you may rebuild it with `npm run pdf:build` (needs a real browser) or leave it to CI. Check the rebuilt PDF (provenance, exactly 53 A4 pages, preserved Hebrew text) in the PR artifact. Do not hand-edit `pdf-provenance.json` or commit a stale PDF. Avoid costly PDF rebuilding on a documentation-only change.
 
 Always prefer a few focused tests first, then broader CI only if impacted. Do not add redundant libraries, parallel validators or speculative dependency upgrades.
 
