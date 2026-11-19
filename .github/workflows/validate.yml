@@ -16,12 +16,24 @@ concurrency:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    outputs:
+      pdf_stale: ${{ steps.pdf-state.outputs.stale }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
+      # A page/style edit never waits for a manual PDF rebuild: a stale static PDF is only a
+      # warning here, because the steps below rebuild it and re-run validate strictly before
+      # anything is published (SOURCE_OF_TRUTH §8א/§9).
       - run: npm run validate
+        env:
+          PYTHAGORAS_PDF_REBUILD_PENDING: "1"
+      - name: Is the committed static PDF stale?
+        id: pdf-state
+        run: |
+          node -e "const p=require('./tools/pdf-provenance.js');const r=p.readProvenance('.');const s=!r||r.sourceSha256!==p.computeSourceHash('.').hash;console.log('stale='+s)" >> "$GITHUB_OUTPUT"
+          cat "$GITHUB_OUTPUT"
       - name: Validate static PDF (53 pages, A4 geometry, per-page content)
         run: |
           python -m pip install --disable-pip-version-check -q pypdf
@@ -56,8 +68,8 @@ jobs:
           CHROME_BIN="$(command -v google-chrome || command -v chromium || command -v chromium-browser)"
           test -n "$CHROME_BIN"
           CHROME_BIN="$CHROME_BIN" npm run smoke
-      - name: Rebuild canonical PDF in CI without publishing
-        if: github.event_name == 'pull_request'
+      - name: Rebuild canonical PDF from the current pages
+        if: github.event_name == 'pull_request' || steps.pdf-state.outputs.stale == 'true'
         run: |
           node tools/dev-server.js >/tmp/pythagoras-pdf-server.log 2>&1 &
           SERVER_PID=$!
@@ -79,8 +91,23 @@ jobs:
           lens=[len((pg.extract_text() or '').strip()) for pg in r.pages]
           weak=[i+1 for i,L in enumerate(lens) if L<40]
           assert not weak, f"reconstructed PDF pages with <40 chars (blank/degraded?): {weak}"
-          print(f"PASS reconstructed PDF: 53 pages, all A4, min per-page text {min(lens)} chars")
+          alltext="\n".join((pg.extract_text() or '') for pg in r.pages)
+          for a in ["משפט","פיתגורס","היתר","ניצב"]:
+              assert a in alltext, f"anchor missing from reconstructed PDF text: {a}"
+          print(f"PASS reconstructed PDF: 53 pages, all A4, min per-page text {min(lens)} chars, anchors present")
           PY
+          # Strict again: the rebuilt PDF must now match the current source exactly.
+          npm run validate
+      - name: Hand the rebuilt PDF to the publishing job
+        if: github.event_name == 'push' && steps.pdf-state.outputs.stale == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: pythagoras-published-pdf
+          path: |
+            pythagoras-workbook.pdf
+            pdf-provenance.json
+          retention-days: 7
+          if-no-files-found: error
       - name: Preserve rebuilt PDF for human comparison, not production
         if: github.event_name == 'pull_request'
         uses: actions/upload-artifact@v4
@@ -96,18 +123,38 @@ jobs:
     permissions:
       contents: write
     runs-on: ubuntu-latest
+    outputs:
+      sha: ${{ steps.publish.outputs.sha }}
+      pdf_sha256: ${{ steps.publish.outputs.pdf_sha256 }}
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-      - run: |
+      - name: Take the PDF rebuilt from this commit's pages
+        if: needs.validate.outputs.pdf_stale == 'true'
+        uses: actions/download-artifact@v4
+        with:
+          name: pythagoras-published-pdf
+          path: /tmp/pythagoras-published-pdf
+      - id: publish
+        run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ "${{ needs.validate.outputs.pdf_stale }}" = "true" ]; then
+            cp /tmp/pythagoras-published-pdf/pythagoras-workbook.pdf /tmp/pythagoras-published-pdf/pdf-provenance.json .
+            npm run validate
+            git add pythagoras-workbook.pdf pdf-provenance.json
+            git commit -m "chore(pdf): rebuild static PDF from ${GITHUB_SHA::7} pages (automatic)"
+            # Fast-forward only. If main moved meanwhile, the newer push has its own run.
+            git push origin HEAD:main
+          fi
           git push origin HEAD:gh-pages --force
           MAIN_SHA="$(git rev-parse HEAD)"
           PAGES_SHA="$(git ls-remote origin refs/heads/gh-pages | cut -f1)"
           test "$MAIN_SHA" = "$PAGES_SHA"
           echo "PASS refs: main == gh-pages == $MAIN_SHA"
+          echo "sha=$MAIN_SHA" >> "$GITHUB_OUTPUT"
+          echo "pdf_sha256=$(sha256sum pythagoras-workbook.pdf | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
 
   verify-live:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
@@ -116,6 +163,9 @@ jobs:
     steps:
       - name: Verify GitHub Pages
         shell: bash
+        env:
+          PUBLISHED_SHA: ${{ needs.sync-pages.outputs.sha }}
+          PUBLISHED_PDF_SHA256: ${{ needs.sync-pages.outputs.pdf_sha256 }}
         run: |
           set -euo pipefail
           check_site() {
@@ -141,6 +191,13 @@ jobs:
             return 1
           }
           check_site "https://yanivmizrachiy.github.io/pythagoras" "GitHub Pages"
-          curl -fsSL --max-time 60 "https://yanivmizrachiy.github.io/pythagoras/pythagoras-workbook.pdf" -o /tmp/live.pdf
+          # The live PDF must be byte-identical to the one just published (cache-busted per commit).
+          for i in {1..60}; do
+            curl -fsSL --max-time 60 "https://yanivmizrachiy.github.io/pythagoras/pythagoras-workbook.pdf?v=$PUBLISHED_SHA" -o /tmp/live.pdf || true
+            LIVE_PDF_SHA256="$(sha256sum /tmp/live.pdf 2>/dev/null | cut -d' ' -f1 || true)"
+            [ "$LIVE_PDF_SHA256" = "$PUBLISHED_PDF_SHA256" ] && break
+            sleep 10
+          done
+          test "$LIVE_PDF_SHA256" = "$PUBLISHED_PDF_SHA256"
           test "$(wc -c </tmp/live.pdf)" -gt 100000
-          echo "PASS live PDF"
+          echo "PASS live PDF == published PDF ($PUBLISHED_PDF_SHA256)"

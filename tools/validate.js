@@ -244,6 +244,11 @@ const prov=readProvenance(root);
 const {hash:currentSourceHash}=computeSourceHash(root);
 if(!prov||typeof prov.sourceSha256!=='string'){
   fail(`${PROVENANCE_FILE} missing/invalid — the static PDF has no build provenance; ${rebuildHint}`);
+}else if(prov.sourceSha256!==currentSourceHash&&process.env.PYTHAGORAS_PDF_REBUILD_PENDING==='1'){
+  // CI only: the workflow rebuilds the PDF right after this run and re-runs validate strictly
+  // before anything is published (SOURCE_OF_TRUTH §8א/§9). A page edit must not wait for a
+  // manual PDF rebuild, and the published PDF is still never stale.
+  console.warn(`WARN: static PDF is stale (recorded=${prov.sourceSha256.slice(0,12)}…, current=${currentSourceHash.slice(0,12)}…) — CI rebuilds it before publishing`);
 }else if(prov.sourceSha256!==currentSourceHash){
   fail(`static PDF is stale — pythagoras-workbook.pdf was built from a different source than the current pages/styles (recorded=${prov.sourceSha256.slice(0,12)}…, current=${currentSourceHash.slice(0,12)}…); ${rebuildHint}`);
 }
